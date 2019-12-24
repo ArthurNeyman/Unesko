@@ -194,7 +194,6 @@ public class JournalController {
 
         CertificationReportDto result = journalManager.CertificationReportDto(start, end);
 
-
         JournalDTO journal2 = journalDataService.getForMonth(lessonId, -1, null, semester, year);
 
         int mustBeCount=0;//сколько всего пар
