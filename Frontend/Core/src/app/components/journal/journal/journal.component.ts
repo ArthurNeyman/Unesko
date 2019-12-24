@@ -1,0 +1,41 @@
+import {Component, Injectable, Input, OnInit} from '@angular/core';
+import {Lesson} from "../../../models/shedule/lesson";
+import {SemesterNumberYear} from "../../../models/semesterNumberYear.model";
+
+import {MenuItem} from 'primeng/api';
+
+@Component({
+    selector: 'journal',
+    templateUrl: './journal.component.html',
+    styleUrls: ['./journal.component.css']
+})
+
+@Injectable()
+export class JournalComponent implements OnInit {
+
+    @Input() lesson: Lesson;
+    @Input() subgroupType: number = 0;
+    @Input() semesterNumberYear: SemesterNumberYear;
+    
+    private items: MenuItem[];
+    activeItem: MenuItem;
+
+    ngOnInit(): void {
+    
+        this.items = [{
+            label: 'Журнал',
+            command: (event) => {
+                this.activeItem=this.items[0];
+            }        
+        },{
+            label: 'Аттестация',
+            command: (event) => {
+                this.activeItem=this.items[1];
+            }
+        }]
+
+        this.activeItem = this.items[0];
+        
+    }
+
+}

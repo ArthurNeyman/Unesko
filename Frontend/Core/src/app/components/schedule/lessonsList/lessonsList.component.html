@@ -1,0 +1,38 @@
+<div *ngIf="lessons?.length > 0" class="container lesson-container">
+    <div *ngFor="let lesson of lessons; let i = index">
+        <div *ngIf="i % 4 == 0" class="flex-row row">
+            <div class="col-md-3">
+                <lesson-details
+                    style="height: 100%"
+                    [lesson]="lesson"
+                    (clickOnLesson)="onClick($event)">
+                </lesson-details>
+            </div>
+            <div class="col-md-3">
+                <lesson-details
+                        style="height: 100%"
+                        [lesson]="lessons[i+1]"
+                        (clickOnLesson)="onClick($event)">
+                </lesson-details>
+            </div>
+            <div class="col-md-3">
+                <lesson-details
+                        style="height: 100%"
+                        [lesson]="lessons[i+2]"
+                        (clickOnLesson)="onClick($event)">
+                </lesson-details>
+            </div>
+            <div class="col-md-3">
+                <lesson-details
+                        style="height: 100%"
+                        [lesson]="lessons[i+3]"
+                        (clickOnLesson)="onClick($event)">
+                </lesson-details>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!lessons || lessons?.length == 0" class="pairs-not-found">
+    <h1>Расписание не заполнено.</h1>
+</div>

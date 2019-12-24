@@ -1,0 +1,50 @@
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.user-info .user-img img{
+  height: 100%;
+  flex: auto;
+}
+.user-img
+{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  float: left;
+  height: 3em;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.user-desc
+{
+  padding-left: 10px;
+}
+
+.user-desc p
+{
+  font-family: Franklin-Gothic-Bold !important;
+  font-size: 13px;
+  margin: 0;
+}
+
+.user-desc .user-desc-name
+{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-desc .user-desc-role
+{
+  color: #8B8B8B;
+}
+
+.container-block{
+  margin-top: 2em;
+}
+
+

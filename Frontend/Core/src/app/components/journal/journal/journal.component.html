@@ -1,0 +1,14 @@
+<p-tabMenu [model]="items" [activeItem]="items[0]"></p-tabMenu>
+
+<!-- Компонент заполнения журнала -->
+<journal-fill *ngIf="this.activeItem==this.items[0]"
+            [lesson]="this.lesson" 
+            [subgroupType]="this.subgroupType"
+            [semesterNumberYear]="this.semesterNumberYear">
+</journal-fill>
+
+<!-- Компонент формирования и отображения аттестации -->
+<journal-certification *ngIf="this.activeItem==this.items[1]"
+                        [lesson]="this.lesson" 
+                        [semesterNumberYear]="this.semesterNumberYear">
+</journal-certification>

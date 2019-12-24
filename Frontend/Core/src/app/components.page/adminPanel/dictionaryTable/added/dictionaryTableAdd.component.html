@@ -1,0 +1,66 @@
+﻿<div *ngFor="let column of columnsName">
+    <div class="form-group row">
+
+        <div [ngSwitch]="column">
+
+            <div *ngSwitchCase="'id'">
+            </div>
+
+            <div *ngSwitchCase="'fieldOfKnowledge'">
+               <label for="{{column}}" class="col-sm-offset-2 col-sm-2 col-form-label">{{column | translate}}</label>
+               <div class="col-sm-6" id="{{column}}">
+                  <select #fileOfKnowlage="ngModel" required  [(ngModel)]="model[column].id" class="form-control">
+                     <option disabled value="0">Выбор раздела знаний</option>
+                     <option *ngFor="let item of fieldOfKnowledges" value="{{item.id}}">{{item.name}}</option>
+                  </select>
+               </div>
+            </div>
+
+            <div *ngSwitchCase="'department'">
+                <label for="{{column}}" class="col-sm-offset-2 col-sm-2 col-form-label">{{column | translate}}</label>
+                <div class="col-sm-6" id="{{column}}">
+                    <select #institute="ngModel" required  [(ngModel)]="model[column].id" class="form-control">
+                        <option disabled value="0">Выбор кафедры</option>
+                        <option *ngFor="let item of departments" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'institute'">
+                  <label for="{{column}}" class="col-sm-offset-2 col-sm-2 col-form-label">{{column | translate}}</label>
+                  <div class="col-sm-6" id="{{column}}">
+                      <select #institute="ngModel" required  [(ngModel)]="model[column].id" class="form-control">
+                          <option disabled value="0">Выбор института</option>
+                          <option *ngFor="let item of institutes" value="{{item.id}}">{{item.name}}</option>
+                      </select>
+                  </div>
+              </div>
+
+            <div *ngSwitchCase="'speciality'">
+                <label for="{{column}}" class="col-sm-offset-2 col-sm-2 col-form-label">{{column | translate}}</label>
+                <div class="col-sm-6" id="{{column}}">
+                    <select #institute="ngModel" required  [(ngModel)]="model[column].id" class="form-control">
+                        <option disabled value="0">Выбор направления</option>
+                        <option *ngFor="let item of speciality" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div *ngSwitchDefault>
+               <label for="{{column}}" class="col-sm-offset-2 col-sm-2 col-form-label">{{column | translate}}</label>
+               <div class="col-sm-6">
+                  <input required [(ngModel)]="model[column]"  type="text" class="form-control">
+               </div>
+            </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-10 text-right">
+        <input *ngIf="!editMode" (click)="AddOrUpdate()" type="button" class="btn btn-success" value="Добавить">
+        <input *ngIf="editMode" (click)="AddOrUpdate()" type="button" class="btn btn-success" value="Сохранить">
+        <input *ngIf="editMode" (click)="Cancel()" type="button" class="btn btn-danger" value="Отмена">
+    </div>
+</div>

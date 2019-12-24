@@ -1,0 +1,26 @@
+.pair-details {
+    display: inline-block;
+    border: 1px solid #ddd;
+    padding: 1em 2em;
+    border-radius: 5px;
+    background: white;
+    transition: 0.2s all;
+}
+
+.close-button {
+    display: inline;
+    position: absolute;
+    top: -7px;
+    right: -8px;
+    border: 1px solid #ddd;
+    background: white;
+    padding: 1px 6px;
+    border-radius: 20%;
+    cursor: pointer;
+    font-size: 10px;
+    transition: .5s;
+}
+
+.close-button:hover {
+    border: 1px solid #3d3d3d
+}

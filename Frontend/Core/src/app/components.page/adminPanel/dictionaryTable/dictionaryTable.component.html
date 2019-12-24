@@ -1,0 +1,36 @@
+﻿<div class="main-header col-md-12 text-center">
+   <h1>{{Dictionary[type] | translate}}</h1>
+</div>
+
+<div class="main-header col-md-12">
+   <details *ngIf="type != Dictionary.users" class="panel panel-default panel-inverse">
+      <summary class="panel-heading">
+         <h3 *ngIf="!editMode">Добавить</h3>
+         <h3 *ngIf="editMode">Редактировать</h3>
+      </summary>
+      <div class="panel-body">
+         <dictionary-table-add
+            [type]="type"
+            (updateTable)="updateTable()"
+            (canelEditable)="canelEditableModel()"
+            [model]="model"
+            [editMode]="editMode"
+            [deleteMode]="deleteMode">
+         </dictionary-table-add>
+      </div>
+   </details>
+   <div class="panel panel-default panel-inverse">
+      <div class="panel-heading">
+         <h3>Список</h3>
+      </div>
+      <div class="panel-body">
+         <dictionary-table [editable]="true"
+                           [updateTable]="updateTableTrigger"
+                           (tableUpdated)="tableUpdated()"
+                           (clickOnEdit)="edit($event)"
+                           (clickOnDelete)="delete($event)"
+                           [type]="type">
+         </dictionary-table>
+      </div>
+   </div>
+</div>

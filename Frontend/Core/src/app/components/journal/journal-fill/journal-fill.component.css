@@ -1,0 +1,105 @@
+.journal {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.displayNo {
+  display: none;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+input:hover,input:focus {
+  border: none;
+  outline: none;
+}
+
+.td-header {
+  text-align: center;
+  background: #2a2b2d;
+  color: white;
+}
+
+td input {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+td input:focus {
+  border-bottom: 1px solid #2a2b2d;
+}
+
+.whiteZero {
+  color: #d6d6d6;
+}
+
+.header-panel-body {
+  width: 100%;
+  height: 25px;
+  margin: 14px 0;
+  margin-bottom: 2em ;
+  text-align: center;
+  font-size: 17px;
+  position: relative;
+}
+
+.header-panel-body:after {
+  content: '';
+  width: 100%;
+  border-bottom: dashed 2px lightgrey;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: 1;
+}
+
+.header-panel-body h3 {
+  background-color: white;
+  width: auto;
+  display: inline-block;
+  z-index: 3;
+  color: lightslategrey;
+  padding: 0 1em 0 1em;
+  position: relative;
+  margin: 0;
+}
+.nav-button {
+  border: 2px solid white;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  border: 2px solid #006b6b78;
+  background: #ffffff;
+  color: #003535;
+}
+
+.students-not-found h1 {
+  color: inherit;
+}
+
+.students-not-found {
+  text-align: center;
+  padding: 8em 0;
+  font-style: italic;
+  color: #7d7d7d;
+}
+
+.coloredRow {
+  background: #e2f5ff !important;
+}
+
+.wasChanged {
+  background: #d1ffd2 !important
+}
+
+.disableCell {
+  background: #bdbdbd !important
+}

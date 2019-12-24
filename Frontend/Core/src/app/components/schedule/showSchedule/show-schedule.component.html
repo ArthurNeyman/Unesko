@@ -1,0 +1,134 @@
+<div class="main-header col-md-12">
+    <div class="panel panel-default panel-inverse">
+        <div class="panel-heading">
+            <h3><i class="fa fa-calendar" aria-hidden="true"></i> Просмотр расписания</h3>
+        </div>
+        <div class="panel-body">
+
+            <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item active">
+                    <a (click)="changeToogle('professor')" class="nav-link active" data-toggle="tab" role="tab"><h4>
+                        Преподаватель</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="changeToogle('group')" class="nav-link" data-toggle="tab" role="tab"><h4>Группа</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="changeToogle('department')" class="nav-link" data-toggle="tab" role="tab"><h4>
+                        Кафедра</h4></a>
+                </li>
+            </ul>
+
+            <div [ngSwitch]="menuToggle" class="tab-panel">
+
+                <div *ngSwitchCase="'professor'">
+                    <div class="row">
+                        <div class="col-md-8 text-left">
+                            <p-autoComplete [size]="40"
+                                            id="professor"
+                                            [(ngModel)]="currentProfessor"
+                                            [dropdown]="true"
+                                            (onSelect)="GetProfessors($event)"
+                                            [suggestions]="profs"
+                                            (ngModelChange)="getProfessorPair()"
+                                            [placeholder]="'Начните вводить имя'"
+                                            (completeMethod)="GetProfessors($event)"
+                                            [multiple]="false" field="user.userFIO"
+                                            [emptyMessage]="'Ничего не найдено.'"
+                                            [forceSelection]="true"></p-autoComplete>
+
+                            <semester-picker style="display: inline-block" (ngModelChange)="getProfessorPair()"
+                                             [semesterNumberYear]="semesterNumberYear"></semester-picker>
+
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <h3 *ngIf="currentProfessor"><span [userCard]="currentProfessor.user">{{currentProfessor.user.userFIO}}</span>
+                            </h3>
+                        </div>
+                    </div>
+                    <schedule-week *ngIf="pairList"
+                                   (updatePair)="update()"
+                                   [editable]="editable"
+                                   [templatePair]="templatePair"
+                                   [semesterNumberYear]="semesterNumberYear"
+                                   [pairs]="pairList"></schedule-week>
+                    <div *ngIf="!pairList" class="select-item">
+                        <data-loader [show]="showLoader"></data-loader>
+                        <h1 *ngIf="!showLoader">Укажите преподавателя для просмотра расписания</h1>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'group'">
+                    <div class="row">
+                        <div class="col-md-8 text-left">
+                            <p-autoComplete [size]="40"
+                                            id="groups"
+                                            [(ngModel)]="currentGroup"
+                                            [dropdown]="true"
+                                            (onSelect)="GetGroups($event)"
+                                            [suggestions]="groups"
+                                            (ngModelChange)="getGroupPair()"
+                                            [placeholder]="'Начните вводить название'"
+                                            (completeMethod)="GetGroups($event)"
+                                            [multiple]="false"
+                                            field="name"
+                                            [emptyMessage]="'Ничего не найдено.'"
+                                            [forceSelection]="true"></p-autoComplete>
+
+                            <semester-picker style="display: inline-block" (ngModelChange)="getProfessorPair()"
+                                             [semesterNumberYear]="semesterNumberYear"></semester-picker>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <h3 *ngIf="currentGroup">{{currentGroup.name}}</h3>
+                        </div>
+                    </div>
+                    <schedule-week *ngIf="pairList"
+                                   (updatePair)="update()"
+                                   [editable]="editable"
+                                   [templatePair]="templatePair"
+                                   [semesterNumberYear]="semesterNumberYear"
+                                   [pairs]="pairList"></schedule-week>
+                    <div *ngIf="!pairList" class="select-item">
+                        <data-loader [show]="showLoader"></data-loader>
+                        <h1 *ngIf="!showLoader">Укажите группу для просмотра расписания</h1>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="'department'">
+                    <div class="row">
+                        <div class="col-md-8 text-left">
+                            <p-autoComplete [size]="40"
+                                            id="department"
+                                            [(ngModel)]="currentDepartment"
+                                            [dropdown]="true"
+                                            (onSelect)="GetDepartments($event)"
+                                            [suggestions]="departments"
+                                            (ngModelChange)="getDepartmentPair()"
+                                            [placeholder]="'Начните вводить название'"
+                                            (completeMethod)="GetDepartments($event)"
+                                            [multiple]="false"
+                                            field="name"
+                                            [emptyMessage]="'Ничего не найдено.'"
+                                            [forceSelection]="true"></p-autoComplete>
+
+                            <semester-picker style="display: inline-block" (ngModelChange)="getProfessorPair()"
+                                             [semesterNumberYear]="semesterNumberYear"></semester-picker>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <h3 *ngIf="currentDepartment">{{currentDepartment.name}}</h3>
+                        </div>
+                    </div>
+                    <schedule-department *ngIf="departmentSchedule"
+                                         [showDetailOnHover]="true"
+                                         [semesterNumberYear]="semesterNumberYear"
+                                         [schedule]="departmentSchedule"></schedule-department>
+                    <div *ngIf="!departmentSchedule" class="select-item">
+                        <data-loader [show]="showLoader"></data-loader>
+                        <h1 *ngIf="!showLoader">Укажите кафедру для просмотра расписания</h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

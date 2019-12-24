@@ -1,0 +1,11 @@
+/Frontend/Core/package-lock.json
+/Frontend/Core/.idea/**
+/Frontend/Core/src/app/aot/**
+/Frontend/Core/wwwroot/js/**
+classes
+public
+node_modules
+.idea
+.rpt2_cache
+/LastBuild
+/js
