@@ -192,7 +192,6 @@ public class JournalController {
         JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
         journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
 
-        //certification
         CertificationReportDto result = journalManager.CertificationReportDto(start, end);
 
         JournalDTO journal2 = journalDataService.getForMonth(lessonId, -1, null, semester, year);
