@@ -248,4 +248,5 @@ public class JournalDataService implements IJournalDataService {
         }
 
     }
+
 }

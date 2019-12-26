@@ -5,7 +5,7 @@ export class CertificationReport {
     lesson: Lesson;
     studentCertification: Array<CertificationStudent>;
     allHours: number;
-
+    
     constructor() {
         this.lesson = new Lesson();
         this.studentCertification = [];
@@ -25,6 +25,8 @@ export class CertificationStudent {
     missingHours: number;
     /* События */
     eventValue: Array<CertificationEvent>;
+    /* Атестация */
+    certificationValue: number;
 
     constructor() {
         this.student = new Student();
@@ -32,6 +34,7 @@ export class CertificationStudent {
         this.visitationValue = 0;
         this.missingHours = 0;
         this.eventValue = [];
+        this.certificationValue=0;
     }
 }
 

@@ -198,10 +198,12 @@ public class JournalController {
 
         int mustBeCount=0;//сколько всего пар
         int beCount=0;
+        int maxValue=lessonEventDataService.getSumMaxValueBetweenDates(lessonId,start,end);
 
         for(StudentJournalDTO studentJournalDTO: journal2.getStudents()) {
             mustBeCount=0;
             beCount=0;
+            //Сколько часов у студента по расписанию в указанный период
             for (ComparisonDTO comparisonDTO : journal2.getComparison()) {
                 for (ComparisonPointDTO comparisonPointDTO : comparisonDTO.getPoints()) {
                     if((studentJournalDTO.getSubgroup()==comparisonPointDTO.getPair().getSubgroup() || comparisonPointDTO.getPair().getSubgroup()==0)
@@ -210,16 +212,17 @@ public class JournalController {
                     }
                 }
             }
+            //На сколки парах студент был
             for(PointDTO pointDTO:journal2.getJournalCell()){
                     if( pointDTO.getDate().after(start)  && pointDTO.getDate().before(end) && pointDTO.getStudentId()==studentJournalDTO.getStudent().getId() && pointDTO.getType().getName().equals("Посещение"))
                         beCount++;
             }
-            System.out.println(studentJournalDTO.getStudent().getUser().getUserFIO()+" " + beCount+"/"+mustBeCount);
-
+            //Перезапись данных
             for(CertificationStudentDto certificationStudentDto: result.getStudentCertification()) {
                 if(certificationStudentDto.getStudent().getId()==studentJournalDTO.getStudent().getId()){
                     certificationStudentDto.setMissingHours((mustBeCount-beCount)*2);
                     certificationStudentDto.setVisitationValue(beCount*2);
+                    certificationStudentDto.setCertificationValueByMaxValue(maxValue);
                 }
             }
             //пересчитать eventValue

@@ -49,7 +49,7 @@ export class JournalCertificationComponent implements OnInit {
             this.journalService.GetJournalCertificationReport(this.lesson.id, start, end, this.lesson.semesterNumberYear).subscribe(
                 result => {
                     this.certificationReport = result.data;
-                    console.log(this.certificationReport)
+                    console.log(result.data)
                 }, error => {
                 }
             );
