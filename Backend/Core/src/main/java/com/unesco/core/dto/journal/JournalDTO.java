@@ -15,6 +15,14 @@ public class JournalDTO
    private List<StudentJournalDTO> students;
    private List<ComparisonDTO> comparison;
    private List<PointDTO> journalCell;
+   private Integer maxValue;
+
+   public void setMaxValue(Integer maxValue) {
+      this.maxValue = maxValue;
+   }
+   public Integer getMaxValue() {
+      return maxValue;
+   }
 
    public JournalDTO()
    {

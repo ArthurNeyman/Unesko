@@ -95,6 +95,6 @@ public class JournalControllerWeb {
                                                     @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
                                                     @RequestParam int semester,
                                                     @RequestParam int year) {
-        return journalController.getCertificationReport2(id, start, end, semester, year);
+        return journalController.getCertificationReport(id, start, end, semester, year);
     }
 }

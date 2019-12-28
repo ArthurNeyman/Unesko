@@ -171,7 +171,7 @@ public class JournalController {
         return new ResponseStatusDTO(StatusTypes.OK, visitationConfig);
     }
 
-    public ResponseStatusDTO getCertificationReport(long lessonId, Date start, Date end, int semester, int year) {
+    public ResponseStatusDTO getCertificationReportOrig(long lessonId, Date start, Date end, int semester, int year) {
 
         JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
 
@@ -187,48 +187,12 @@ public class JournalController {
         return new ResponseStatusDTO(StatusTypes.OK, result);
     }
 
-    public ResponseStatusDTO getCertificationReport2(long lessonId, Date start, Date end, int semester, int year) {
+    public ResponseStatusDTO getCertificationReport(long lessonId, Date start, Date end, int semester, int year) {
 
         JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
+        journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonId,start,end));
         journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
-
         CertificationReportDto result = journalManager.CertificationReportDto(start, end);
-
-        JournalDTO journal2 = journalDataService.getForMonth(lessonId, -1, null, semester, year);
-
-        int mustBeCount=0;//сколько всего пар
-        int beCount=0;
-        int maxValue=lessonEventDataService.getSumMaxValueBetweenDates(lessonId,start,end);
-
-        for(StudentJournalDTO studentJournalDTO: journal2.getStudents()) {
-            mustBeCount=0;
-            beCount=0;
-            //Сколько часов у студента по расписанию в указанный период
-            for (ComparisonDTO comparisonDTO : journal2.getComparison()) {
-                for (ComparisonPointDTO comparisonPointDTO : comparisonDTO.getPoints()) {
-                    if((studentJournalDTO.getSubgroup()==comparisonPointDTO.getPair().getSubgroup() || comparisonPointDTO.getPair().getSubgroup()==0)
-                    && (comparisonDTO.getDate().after(start) && comparisonDTO.getDate().before(end) ) ){
-                        mustBeCount++;
-                    }
-                }
-            }
-            //На сколки парах студент был
-            for(PointDTO pointDTO:journal2.getJournalCell()){
-                    if( pointDTO.getDate().after(start)  && pointDTO.getDate().before(end) && pointDTO.getStudentId()==studentJournalDTO.getStudent().getId() && pointDTO.getType().getName().equals("Посещение"))
-                        beCount++;
-            }
-            //Перезапись данных
-            for(CertificationStudentDto certificationStudentDto: result.getStudentCertification()) {
-                if(certificationStudentDto.getStudent().getId()==studentJournalDTO.getStudent().getId()){
-                    certificationStudentDto.setMissingHours((mustBeCount-beCount)*2);
-                    certificationStudentDto.setVisitationValue(beCount*2);
-                    certificationStudentDto.setCertificationValueByMaxValue(maxValue);
-                }
-            }
-            //пересчитать eventValue
-        }
-
-        result.setAllHours(mustBeCount*2);
 
         return new ResponseStatusDTO(StatusTypes.OK, result);
     }
