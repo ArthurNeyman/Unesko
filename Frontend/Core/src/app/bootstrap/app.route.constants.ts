@@ -3,6 +3,9 @@
 export const BaseApiUrl = appSettings.BaseApiUrl;
 
 export const RouteConstants = {
+    Student: {
+        Performance: "Performance"
+    },
     Home: "news",
     News: {
         All: "news",

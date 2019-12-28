@@ -58,6 +58,7 @@ import {FileService} from "../services/file.service";
 // guards
 import {AuthGuard} from "../guards/auth.guard";
 // components
+import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
 import {AppComponent} from "./app.component";
 import {SingleNewsComponent} from "../components/news/single-news/single-news.component";
 import {EditorSingleNewsComponent} from "../components/news/editor-single-news/editor-single-news.component";
@@ -155,6 +156,7 @@ registerLocaleData(localeRu);
         ProfileComponent
     ],
     declarations: [
+        StudentProgressComponent,                       // Компонент просмотров баллов
         AppComponent,
         AccountComponent,
         NewsDispatcherComponent,
