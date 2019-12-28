@@ -249,4 +249,15 @@ public class JournalDataService implements IJournalDataService {
 
     }
 
+    public  JournalDTO getJournalByProfessorId(long professorId,int semester, int year){
+        JournalDTO model = new JournalDTO();
+        model.setComparison(new ArrayList<>());
+
+
+        model.setLesson(lessonDataService.getByProfessorId(professorId,semester,year).get(0));
+        //model.setStudents(students);
+        //model.setJournalCell(points);
+
+        return new JournalDTO();
+    }
 }

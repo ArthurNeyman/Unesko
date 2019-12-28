@@ -1,13 +1,8 @@
 package com.unesco.core.dto.journal;
 
-import com.unesco.core.dto.account.StudentDTO;
 import com.unesco.core.dto.shedule.LessonDTO;
-import com.unesco.core.dto.shedule.PairDTO;
 
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.List;
-import java.util.Map;
 
 public class JournalDTO
 {

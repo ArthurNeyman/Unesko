@@ -4,6 +4,7 @@ import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.PointTypes;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.*;
+import com.unesco.core.dto.report.ReportAcademicPerformanceDto;
 import com.unesco.core.dto.shedule.PairDTO;
 import com.unesco.core.managers.journal.journalManager.interfaces.journal.IJournalManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEventList.ILessonEventListManager;
@@ -283,4 +284,8 @@ public class JournalManager implements IJournalManager {
         return result;
     }
 
+    public ReportAcademicPerformanceDto ReportAcademicPerfomanceDto(long professorId, int semester, int year){
+
+        return new ReportAcademicPerformanceDto();
+    }
 }

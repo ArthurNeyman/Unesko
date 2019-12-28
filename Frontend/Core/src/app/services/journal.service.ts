@@ -143,4 +143,17 @@ export class JournalService {
                 catchError(e => this.handleError.handle(e))
             );
     }
+
+    public getAcademiPerformanceReport(){
+        let params = new HttpParams();
+        params = params.set("semester", "1");
+        params = params.set("year", "2018");
+
+        return this.http.get(ApiRouteConstants.Report.ReportAcademicPerfomance
+            .replace(":professorId", "8"), {params: params})
+            .pipe(
+                map((res: ResponseStatus) => {res;console.log(res)}),
+                catchError(e => this.handleError.handle(e))
+            );
+    }
 }
