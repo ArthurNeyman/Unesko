@@ -19,13 +19,11 @@ import com.unesco.core.services.dataService.journal.lessonEvent.ILessonEventData
 import com.unesco.core.services.dataService.journal.visitation.IVisitationConfigDataService;
 import com.unesco.core.services.dataService.plan.educationPeriodService.EducationPeriodService;
 import com.unesco.core.services.dataService.schedule.lessonService.ILessonDataService;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -218,15 +216,15 @@ public class JournalController {
 
     public ResponseStatusDTO getReportAcademicPerformance(long user_id,int semester, int year){
 
-        SemesterNumberYear semesterNumberYear=new SemesterNumberYear();
-        semesterNumberYear.setSemester(semester);
-        semesterNumberYear.setYear(year);
+//        SemesterNumberYear semesterNumberYear=new SemesterNumberYear();
+//        semesterNumberYear.setSemester(semester);
+//        semesterNumberYear.setYear(year);
 
         ReportAcademicPerformanceDto reportAcademicPerformanceDto=new ReportAcademicPerformanceDto();
-        reportAcademicPerformanceDto.setSemesterNumberYear(semesterNumberYear);
+//        reportAcademicPerformanceDto.setSemesterNumberYear(semesterNumberYear);
         reportAcademicPerformanceDto.setProfessor(professorDataService.getByUser(user_id));
 
-        Map<LessonDTO,CertificationReportDto> lessonList=new HashMap<>();
+        List<CertificationReportDto>lessonList=new ArrayList<CertificationReportDto>();
 
         Date today=new Date();
 
@@ -235,7 +233,8 @@ public class JournalController {
             journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
             journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
             CertificationReportDto result = journalManager.CertificationReportDto(educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today);
-            lessonList.put(lessonDTO,result);
+            result.setLesson(lessonDTO);
+            lessonList.add(result);
         }
 
         reportAcademicPerformanceDto.setLessonList(lessonList);

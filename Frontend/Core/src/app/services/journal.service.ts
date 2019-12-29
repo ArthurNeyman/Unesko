@@ -144,15 +144,15 @@ export class JournalService {
             );
     }
 
-    public getAcademiPerformanceReport(){
+    public getAcademiPerformanceReport(semesterNumberYear:SemesterNumberYear){
         let params = new HttpParams();
-        params = params.set("semester", "1");
-        params = params.set("year", "2018");
+        params = params.set("semester", semesterNumberYear.semester.toString());
+        params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Report.ReportAcademicPerfomance
             .replace(":professorId", "8"), {params: params})
             .pipe(
-                map((res: ResponseStatus) => {res;console.log(res)}),
+                map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
             );
     }
