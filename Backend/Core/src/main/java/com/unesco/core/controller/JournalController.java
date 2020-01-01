@@ -216,18 +216,13 @@ public class JournalController {
 
     public ResponseStatusDTO getReportAcademicPerformance(long user_id,int semester, int year){
 
-//        SemesterNumberYear semesterNumberYear=new SemesterNumberYear();
-//        semesterNumberYear.setSemester(semester);
-//        semesterNumberYear.setYear(year);
-
         ReportAcademicPerformanceDto reportAcademicPerformanceDto=new ReportAcademicPerformanceDto();
-//        reportAcademicPerformanceDto.setSemesterNumberYear(semesterNumberYear);
         reportAcademicPerformanceDto.setProfessor(professorDataService.getByUser(user_id));
 
         List<CertificationReportDto>lessonList=new ArrayList<CertificationReportDto>();
 
         Date today=new Date();
-
+        //что бы добавить временное ограничение нужно просто фильровать по датам котрольные точки
         for(LessonDTO lessonDTO : lessonDataService.getByProfessorId(reportAcademicPerformanceDto.getProfessor().getId(),semester,year)){
             JournalDTO journal = journalDataService.get(lessonDTO.getId(), null, semester, year);
             journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));

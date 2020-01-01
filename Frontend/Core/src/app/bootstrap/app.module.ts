@@ -114,6 +114,7 @@ import {AcademicPerformanceReportComponent} from "../components/academiPerforman
 
 import {TabMenuModule} from 'primeng/tabmenu';
 import {CardModule} from 'primeng/card';
+import { ExcelService } from '../services/excelService.service';
 
 
 registerLocaleData(localeRu);
@@ -153,7 +154,7 @@ registerLocaleData(localeRu);
         ngFileUploadModule,
         TabMenuModule,
         CardModule
-    ],
+        ],
     entryComponents: [
         ProfileComponent
     ],
@@ -232,7 +233,8 @@ registerLocaleData(localeRu);
         Globals,
         ScheduleService,
         PluginService,
-        FileService
+        FileService,
+        ExcelService
     ],
     bootstrap: [
         AppComponent

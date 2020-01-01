@@ -34,7 +34,7 @@
                class="list-group-item">Настройка занятий</a>
             <a style="cursor: pointer;" (click)="menuToole('settings-page')"
                class="list-group-item">Профиль</a>
-            <a style="cursor: pointer;" (click)="menuToole('academicPerformanceReport-component')"
+            <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('academicPerformanceReport-component')"
                class="list-group-item">Отчет по успеваемости</a>
           </div>
         </div>
