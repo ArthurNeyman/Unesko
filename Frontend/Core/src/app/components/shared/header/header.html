@@ -15,6 +15,7 @@
             <ul class="nav navbar-nav">
                 <li id="nav-manu-main"><a [routerLink]="['/']"><i class="fa fa-home" aria-hidden="true"></i> Главная</a></li>
                 <li id="nav-manu-schedule"><a [routerLink]="['/schedule']"><i class="fa fa-calendar" aria-hidden="true"></i> Расписание</a></li>
+                <li id="nav-manu-atestation" *hasRole="[Roles.Student]"><a [routerLink]="['/Performance']"><i class="fa fa-calendar" aria-hidden="true"></i>Успеваемость</a></li>
             </ul>
 
             <form *hasRole="[Roles.Anonim]" class="navbar-form navbar-right" role="search">
@@ -29,7 +30,7 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a [routerLink]="[RouteConstants.Account.Lk]"><i class="fa fa-address-card-o" aria-hidden="true"></i> Личный кабинет</a></li>
+                            <li><a [routerLink]="[RouteConstants.Account.Lk]" (click)="consoleLog()"><i class="fa fa-address-card-o" aria-hidden="true"></i> Личный кабинет</a></li>
                             <li *hasRole="[Roles.Administrator]"><a [routerLink]="[RouteConstants.Admin.All]"><i class="fa fa-lock" aria-hidden="true"></i> Админ. меню</a></li>
                             <li><a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Выход</a></li>
                         </ul>

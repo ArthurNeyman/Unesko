@@ -1,0 +1,98 @@
+.select-block {
+  display: flex;
+}
+
+.row-block {
+  width: 100%;
+}
+
+.row-block:not(:first-of-type) {
+  margin-left: 10px;
+}
+
+.row-block-date {
+  width: 50%;
+  margin-left: 10px;
+}
+
+.tabs-block {
+  display: flex;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+
+}
+
+
+.table-block {
+  font-size: 12px;
+}
+
+
+.tab-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  background-color: #f6f6f6;
+  padding: 10px;
+}
+
+.tab-form:not(:last-child) {
+  box-shadow: 10px 0px 0px -9px #cccccc;
+}
+
+.name-discipline {
+  z-index: 5;
+}
+
+.current-points {
+  z-index: 4;
+}
+
+.attestation-points {
+  z-index: 3;
+}
+
+.finish-points {
+  z-index: 2;
+}
+
+.appraisal {
+  z-index: 1;
+}
+
+.col1 {
+  width: 35%;
+}
+
+.col2,
+.col3,
+.col4 {
+  width: 15%;
+}
+
+.col5 {
+  width: 20%;
+}
+
+.row-table {
+  display: flex;
+}
+
+.tr-form {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.row-table:hover {
+  background-color: #b3b3b3;
+}
+
+.content-table {
+  border-radius: 4px;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
