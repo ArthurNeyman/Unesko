@@ -2,19 +2,28 @@ package com.unesco.core.controller;
 
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
-import com.unesco.core.dto.journal.*;
+import com.unesco.core.dto.journal.CertificationReportDto;
+import com.unesco.core.dto.journal.JournalDTO;
+import com.unesco.core.dto.journal.LessonEventDTO;
+import com.unesco.core.dto.journal.VisitationConfigDTO;
+import com.unesco.core.dto.plan.SemesterNumberYear;
+import com.unesco.core.dto.report.ReportAcademicPerformanceDto;
+import com.unesco.core.dto.shedule.LessonDTO;
 import com.unesco.core.managers.journal.VisitationConfigManager.interfaces.IVisitationConfigManager;
 import com.unesco.core.managers.journal.journalManager.interfaces.journal.IJournalManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEvent.ILessonEventManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEventList.ILessonEventListManager;
+import com.unesco.core.services.dataService.account.professorService.ProfessorDataService;
 import com.unesco.core.services.dataService.journal.journal.IJournalDataService;
 import com.unesco.core.services.dataService.journal.lessonEvent.ILessonEventDataService;
 import com.unesco.core.services.dataService.journal.visitation.IVisitationConfigDataService;
+import com.unesco.core.services.dataService.plan.educationPeriodService.EducationPeriodService;
+import com.unesco.core.services.dataService.schedule.lessonService.ILessonDataService;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +43,14 @@ public class JournalController {
     private ILessonEventDataService lessonEventDataService;
     @Autowired
     private IVisitationConfigManager visitationConfigManager;
+
+    @Autowired
+    private ILessonDataService lessonDataService;
+    @Autowired
+    private ProfessorDataService professorDataService;
+    @Autowired
+    private EducationPeriodService educationPeriodService;
+
 
     public ResponseStatusDTO getJournal(long lessonId, int month, Date forDate, int semester, int year) {
 
@@ -171,7 +188,7 @@ public class JournalController {
         return new ResponseStatusDTO(StatusTypes.OK, visitationConfig);
     }
 
-    public ResponseStatusDTO getCertificationReport(long lessonId, Date start, Date end, int semester, int year) {
+    public ResponseStatusDTO getCertificationReportOrig(long lessonId, Date start, Date end, int semester, int year) {
 
         JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
 
@@ -187,47 +204,36 @@ public class JournalController {
         return new ResponseStatusDTO(StatusTypes.OK, result);
     }
 
-    public ResponseStatusDTO getCertificationReport2(long lessonId, Date start, Date end, int semester, int year) {
+    public ResponseStatusDTO getCertificationReport(long lessonId, Date start, Date end, int semester, int year) {
 
         JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
+        journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonId,start,end));
         journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
-
         CertificationReportDto result = journalManager.CertificationReportDto(start, end);
-
-        JournalDTO journal2 = journalDataService.getForMonth(lessonId, -1, null, semester, year);
-
-        int mustBeCount=0;//сколько всего пар
-        int beCount=0;
-
-        for(StudentJournalDTO studentJournalDTO: journal2.getStudents()) {
-            mustBeCount=0;
-            beCount=0;
-            for (ComparisonDTO comparisonDTO : journal2.getComparison()) {
-                for (ComparisonPointDTO comparisonPointDTO : comparisonDTO.getPoints()) {
-                    if((studentJournalDTO.getSubgroup()==comparisonPointDTO.getPair().getSubgroup() || comparisonPointDTO.getPair().getSubgroup()==0)
-                    && (comparisonDTO.getDate().after(start) && comparisonDTO.getDate().before(end) ) ){
-                        mustBeCount++;
-                    }
-                }
-            }
-            for(PointDTO pointDTO:journal2.getJournalCell()){
-                    if( pointDTO.getDate().after(start)  && pointDTO.getDate().before(end) && pointDTO.getStudentId()==studentJournalDTO.getStudent().getId() && pointDTO.getType().getName().equals("Посещение"))
-                        beCount++;
-            }
-            System.out.println(studentJournalDTO.getStudent().getUser().getUserFIO()+" " + beCount+"/"+mustBeCount);
-
-            for(CertificationStudentDto certificationStudentDto: result.getStudentCertification()) {
-                if(certificationStudentDto.getStudent().getId()==studentJournalDTO.getStudent().getId()){
-                    certificationStudentDto.setMissingHours((mustBeCount-beCount)*2);
-                    certificationStudentDto.setVisitationValue(beCount*2);
-                }
-            }
-            //пересчитать eventValue
-        }
-
-        result.setAllHours(mustBeCount*2);
 
         return new ResponseStatusDTO(StatusTypes.OK, result);
     }
 
+    public ResponseStatusDTO getReportAcademicPerformance(long user_id,int semester, int year){
+
+        ReportAcademicPerformanceDto reportAcademicPerformanceDto=new ReportAcademicPerformanceDto();
+        reportAcademicPerformanceDto.setProfessor(professorDataService.getByUser(user_id));
+
+        List<CertificationReportDto>lessonList=new ArrayList<CertificationReportDto>();
+
+        Date today=new Date();
+        //что бы добавить временное ограничение нужно просто фильровать по датам котрольные точки
+        for(LessonDTO lessonDTO : lessonDataService.getByProfessorId(reportAcademicPerformanceDto.getProfessor().getId(),semester,year)){
+            JournalDTO journal = journalDataService.get(lessonDTO.getId(), null, semester, year);
+            journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
+            journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
+            CertificationReportDto result = journalManager.CertificationReportDto(educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today);
+            result.setLesson(lessonDTO);
+            lessonList.add(result);
+        }
+
+        reportAcademicPerformanceDto.setLessonList(lessonList);
+
+        return new ResponseStatusDTO(StatusTypes.OK, reportAcademicPerformanceDto);
+    }
 }

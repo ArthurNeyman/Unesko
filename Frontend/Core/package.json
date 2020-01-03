@@ -50,9 +50,11 @@
     "@angular/router": "6.1.0",
     "angular-l10n": "3.5.2",
     "angular-table-sticky-header": "^0.8.0",
+    "angular2-csv": "^0.2.9",
     "bootstrap": "3.3.7",
     "core-js": "2.4.1",
     "expose-loader": "^0.7.4",
+    "file-saver": "^2.0.2",
     "gulp-rename": "^1.4.0",
     "jquery": "3.1.1",
     "linqts": "1.7.4",
@@ -67,6 +69,7 @@
     "sticky-table-headers": "^0.1.24",
     "stringformat": "0.0.5",
     "systemjs": "0.21.4",
+    "xlsx": "^0.15.4",
     "zone.js": "0.8.5"
   }
 }

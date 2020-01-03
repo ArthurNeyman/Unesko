@@ -34,6 +34,8 @@
                class="list-group-item">Настройка занятий</a>
             <a style="cursor: pointer;" (click)="menuToole('settings-page')"
                class="list-group-item">Профиль</a>
+            <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('academicPerformanceReport-component')"
+               class="list-group-item">Отчет по успеваемости</a>
           </div>
         </div>
       </div>
@@ -49,6 +51,7 @@
             <journal-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'academic-performance'"></journal-page>
             <lesson-configurator-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'lesson-configurator'"></lesson-configurator-page>
             <settings-page *ngSwitchCase="'settings-page'"></settings-page>
+            <academicPerformanceReport-component *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
           </div>
         </div>
       </div>

@@ -90,11 +90,18 @@ public class JournalControllerWeb {
     }
 
     @RequestMapping("/report/certification/{id}")
-    public ResponseStatusDTO getCertificationReport2(@PathVariable("id") long id,
+    public ResponseStatusDTO getCertificationReport(@PathVariable("id") long id,
                                                     @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
                                                     @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
                                                     @RequestParam int semester,
                                                     @RequestParam int year) {
         return journalController.getCertificationReport(id, start, end, semester, year);
+    }
+
+    @RequestMapping("report/onProgress/{professorId}")
+    public ResponseStatusDTO getReportAcademicPerfomance(@PathVariable("professorId") long professorId,
+                                                 @RequestParam int semester,
+                                                 @RequestParam int year){
+            return journalController.getReportAcademicPerformance(professorId,semester,year);
     }
 }

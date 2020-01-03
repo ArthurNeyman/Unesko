@@ -164,5 +164,8 @@ export const ApiRouteConstants = {
         Download: "file/download/",
         GetFileForObject: "file/getFileForObject/:objectTypeId/:objectId",
         AddFileForObject: "file/addFileForObject/:objectTypeId/:objectId"
+    },
+    Report:{
+       ReportAcademicPerfomance:"journal/report/onProgress/:professorId"
     }
 };

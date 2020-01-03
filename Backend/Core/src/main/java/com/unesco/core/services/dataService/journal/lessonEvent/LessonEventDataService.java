@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class LessonEventDataService implements ILessonEventDataService {
@@ -89,4 +86,7 @@ public class LessonEventDataService implements ILessonEventDataService {
         return result;
     }
 
+    public int getSumMaxValueBetweenDates(long lessonId, Date start, Date end){
+        return (lessonEventRepository.getMaxPointValue(lessonId,start,end)!=null)?lessonEventRepository.getMaxPointValue(lessonId,start,end):0;
+    }
 }

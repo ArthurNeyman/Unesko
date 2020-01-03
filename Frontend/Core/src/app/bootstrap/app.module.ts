@@ -110,8 +110,12 @@ import {SemesterPickerComponent} from "../components/shared/semesterPicker/semes
 import {JournalFillComponent} from "../components/journal/journal-fill/journal-fill.component";
 import {JournalCertificationComponent} from "../components/journal/journal-certification/journal-certification.component";
 
+import {AcademicPerformanceReportComponent} from "../components/academiPerformanceReport/academicPerformanceReport.component";
+
+
 import {TabMenuModule} from 'primeng/tabmenu';
 import {CardModule} from 'primeng/card';
+import { ExcelService } from '../services/excelService.service';
 
 
 registerLocaleData(localeRu);
@@ -151,7 +155,7 @@ registerLocaleData(localeRu);
         ngFileUploadModule,
         TabMenuModule,
         CardModule
-    ],
+        ],
     entryComponents: [
         ProfileComponent
     ],
@@ -206,7 +210,8 @@ registerLocaleData(localeRu);
         DetailTaskComponent,
         SemesterPickerComponent,
         JournalFillComponent,
-        JournalCertificationComponent
+        JournalCertificationComponent,
+        AcademicPerformanceReportComponent
     ],
     providers: [
         {provide: RequestOptions, useClass: GlobalHttpOptions},
@@ -230,7 +235,8 @@ registerLocaleData(localeRu);
         Globals,
         ScheduleService,
         PluginService,
-        FileService
+        FileService,
+        ExcelService
     ],
     bootstrap: [
         AppComponent

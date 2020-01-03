@@ -47,11 +47,12 @@ export class SemesterPickerComponent implements OnInit {
     }
 
     back() {
-        if (this.semesterNumberYear.semester == 1) {
-            this.semesterNumberYear.semester++;
+        if (this.semesterNumberYear.semester == 2) {
+            this.semesterNumberYear.semester--;
             this.semesterNumberYear.year--;
         } else {
-            this.semesterNumberYear.semester--;
+            this.semesterNumberYear.semester++;
+            
         }
         this.onSemesterNumberYearChanged(this.semesterNumberYear);
     }
@@ -63,11 +64,11 @@ export class SemesterPickerComponent implements OnInit {
     }
 
     next() {
-        if (this.semesterNumberYear.semester == 1) {
-            this.semesterNumberYear.semester++;
-        } else {
+        if (this.semesterNumberYear.semester == 2) {
             this.semesterNumberYear.semester--;
+        } else {
             this.semesterNumberYear.year++;
+            this.semesterNumberYear.semester++;
         }
         this.onSemesterNumberYearChanged(this.semesterNumberYear);
     }

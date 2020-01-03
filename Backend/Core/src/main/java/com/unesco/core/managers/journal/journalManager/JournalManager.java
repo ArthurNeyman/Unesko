@@ -4,6 +4,7 @@ import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.PointTypes;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.*;
+import com.unesco.core.dto.report.ReportAcademicPerformanceDto;
 import com.unesco.core.dto.shedule.PairDTO;
 import com.unesco.core.managers.journal.journalManager.interfaces.journal.IJournalManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEventList.ILessonEventListManager;
@@ -139,9 +140,7 @@ public class JournalManager implements IJournalManager {
         return "";
     }
 
-    public CertificationReportDto CertificationReportDto(Date start, Date end) {
-
-
+    public CertificationReportDto CertificationReportDtoOrig(Date start, Date end) {
 
         CertificationReportDto result = new CertificationReportDto();
 
@@ -201,4 +200,92 @@ public class JournalManager implements IJournalManager {
         return result;
     }
 
+    public CertificationReportDto CertificationReportDto(Date start, Date end) {
+
+        CertificationReportDto result = new CertificationReportDto();
+
+        List<CertificationStudentDto> studentCertification = new ArrayList<>();
+        for (StudentJournalDTO student : this.journal.getStudents()) {
+            List<PointDTO> cells = this.journal.getJournalCell().stream().filter(
+                    x -> x.getStudentId() == student.getStudent().getId()
+                            && x.getDate().compareTo(DateHelper.getZeroTimeDate(start)) >= 0
+                            && x.getDate().compareTo(DateHelper.getZeroTimeDate(end)) <= 0).collect(Collectors.toList());
+
+            CertificationStudentDto certificationStudentDto = new CertificationStudentDto();
+            double visitedHours = 0;
+            double visitedValue = 0;
+            List<CertificationEventDTO> certEvents = new ArrayList<>();
+
+            for (PointDTO cell : cells) {
+                if(cell.getValue() > 0 && cell.getType().getName().equals(PointTypes.Visitation.toString())) {
+                    visitedHours += 2;
+                    visitedValue += cell.getValue();
+                } else {
+                    CertificationEventDTO certEvent = new CertificationEventDTO();
+                    certEvent.setEvent(cell.getType().getName());
+                    certEvent.setValue(cell.getValue());
+
+                    if(certEvents.stream().anyMatch(x -> x.getEvent().equals(certEvent.getEvent()))) {
+                        CertificationEventDTO certificationEventDTO = certEvents.stream().filter(x -> x.getEvent() == certEvent.getEvent()).collect(Collectors.toList()).get(0);
+                        certificationEventDTO.setValue(certificationEventDTO.getValue() + cell.getValue());
+                    } else {
+                        certEvents.add(certEvent);
+                    }
+                }
+            }
+
+            certificationStudentDto.setMissingHours(result.getAllHours() - visitedHours);
+            certificationStudentDto.setStudent(student.getStudent());
+            certificationStudentDto.setVisitationValue(visitedValue);
+            certificationStudentDto.setEventValue(certEvents);
+
+            int resultCertificationValue = 0;
+            if(visitedHours > result.getAllHours() / 3) resultCertificationValue = 1;
+            if(visitedHours > ((result.getAllHours() / 3) * 2)) resultCertificationValue = 2;
+
+            certificationStudentDto.setValue(resultCertificationValue);
+            studentCertification.add(certificationStudentDto);
+        }
+
+        result.setStudentCertification(studentCertification);
+
+        int mustBeCount=0;//сколько всего пар
+        int beCount=0;
+
+        for(StudentJournalDTO studentJournalDTO: journal.getStudents()) {
+            mustBeCount=0;
+            beCount=0;
+            //Сколько часов у студента по расписанию в указанный период
+            for (ComparisonDTO comparisonDTO : journal.getComparison()) {
+                for (ComparisonPointDTO comparisonPointDTO : comparisonDTO.getPoints()) {
+                    if((studentJournalDTO.getSubgroup()==comparisonPointDTO.getPair().getSubgroup() || comparisonPointDTO.getPair().getSubgroup()==0)
+                            && (comparisonDTO.getDate().after(start) && comparisonDTO.getDate().before(end) ) ){
+                        mustBeCount++;
+                    }
+                }
+            }
+            //На сколки парах студент был
+            for(PointDTO pointDTO:journal.getJournalCell()){
+                if( pointDTO.getDate().after(start)  && pointDTO.getDate().before(end) && pointDTO.getStudentId()==studentJournalDTO.getStudent().getId() && pointDTO.getType().getName().equals("Посещение"))
+                    beCount++;
+            }
+            //Перезапись данных
+            for(CertificationStudentDto certificationStudentDto: result.getStudentCertification()) {
+                if(certificationStudentDto.getStudent().getId()==studentJournalDTO.getStudent().getId()){
+                    certificationStudentDto.setMissingHours((mustBeCount-beCount)*2);
+                    certificationStudentDto.setVisitationValue(beCount*2);
+                    certificationStudentDto.setCertificationValueByMaxValue(journal.getMaxValue());
+                }
+            }
+        }
+
+        result.setAllHours(mustBeCount*2);
+
+        return result;
+    }
+
+    public ReportAcademicPerformanceDto ReportAcademicPerfomanceDto(long professorId, int semester, int year){
+
+        return new ReportAcademicPerformanceDto();
+    }
 }

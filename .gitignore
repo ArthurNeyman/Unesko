@@ -9,3 +9,4 @@ node_modules
 .rpt2_cache
 /LastBuild
 /js
+/Backend/Core/src/main/resources/application.development.yml
