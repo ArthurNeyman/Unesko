@@ -23,4 +23,8 @@ public interface LessonRepository extends CrudRepository<LessonEntity, Long>, Cr
     @Query("SELECT p FROM LessonEntity p where p.group.id = :groupId and p.educationPeriod.id = :periodId")
     List<LessonEntity> findByGroupId(@Param("groupId") long groupId, @Param("periodId") long periodId);
 
+
+    List<LessonEntity> findByGroupId(long groupId);
+
+
 }

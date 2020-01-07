@@ -9,6 +9,5 @@ public interface ILessonDataService extends IDataService<LessonDTO> {
     LessonDTO getDisciplineIdAndGroupIdAndProfessorIdAndPeriodId(long disciplineId, long groupId, long professorId, long longPeriodId);
     List<LessonDTO> getByProfessorId(long professorId, int semester, int year);
     List<LessonDTO> getByGroupId(long groupId, int semester, int year);
-
-
+    List<LessonDTO> getByGroupId(long groupId);
 }

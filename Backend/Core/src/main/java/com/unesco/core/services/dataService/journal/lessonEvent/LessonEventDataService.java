@@ -89,4 +89,8 @@ public class LessonEventDataService implements ILessonEventDataService {
     public int getSumMaxValueBetweenDates(long lessonId, Date start, Date end){
         return (lessonEventRepository.getMaxPointValue(lessonId,start,end)!=null)?lessonEventRepository.getMaxPointValue(lessonId,start,end):0;
     }
+
+    public int getSumMaxValue(long lessonId){
+        return (lessonEventRepository.getMaxPointValue(lessonId)!=null)?lessonEventRepository.getMaxPointValue(lessonId):0;
+    }
 }

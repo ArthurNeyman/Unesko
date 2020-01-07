@@ -64,4 +64,7 @@ public interface IPointDataService extends IDataService<PointDTO> {
      */
     PointDTO getEqualPoint(long studentId, Date date, long typeId, long pairId, Date dateOfCreate);
 
+
+    int getByStudentAndPair(long studentId, long pairId);
+
 }

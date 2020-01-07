@@ -99,6 +99,17 @@ public class LessonDataService implements ILessonDataService {
         return modelList;
     }
 
+    public List<LessonDTO> getByGroupId(long groupId)
+    {
+        List<LessonDTO> modelList = new ArrayList<>();
+        List<LessonEntity> entityList = lessonRepository.findByGroupId(groupId);
+        for (LessonEntity item: entityList) {
+            LessonDTO model = (LessonDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+        return modelList;
+    }
+
     public ResponseStatusDTO<LessonDTO> delete(long id)
     {
         ResponseStatusDTO<LessonDTO> result = new ResponseStatusDTO<>(StatusTypes.OK);

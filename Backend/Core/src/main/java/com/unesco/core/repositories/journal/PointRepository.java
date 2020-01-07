@@ -25,4 +25,8 @@ public interface PointRepository extends CrudRepository<PointEntity, Long> {
                                                          @Param("typeId") long typeId,
                                                          @Param("pairId") long pairId,
                                                          @Param("dateOfCreate") Date dateOfCreate);
+    @Query("SELECT sum(p.value) FROM PointEntity p where p.student.id = :studentId AND" +
+            " p.pair.id = :pairId")
+    Integer findByStudentIdAndPairId(@Param("studentId") long studentId,
+                                               @Param("pairId") long pairId);
 }

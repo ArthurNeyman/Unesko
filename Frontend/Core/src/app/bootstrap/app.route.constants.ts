@@ -1,4 +1,4 @@
-﻿import {appSettings} from './app.environment';
+import {appSettings} from './app.environment';
 
 export const BaseApiUrl = appSettings.BaseApiUrl;
 
