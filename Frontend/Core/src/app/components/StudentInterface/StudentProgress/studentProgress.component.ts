@@ -46,8 +46,7 @@ export class StudentProgressComponent implements OnInit {
     this.JournalService.GetStudentPerformance(this.user.id).subscribe(res => {
       this.gotList = res.data;
       this.yearsStudy = [];
-      this.setList(res.data)
-
+      this.setList(res.data);
     });
   }
 
@@ -85,10 +84,9 @@ export class StudentProgressComponent implements OnInit {
 
   filterByYear(numberYear) {
     this.setList(this.gotList);
-    console.log(numberYear)
-    if (numberYear == 0)  {
-    this.setList(this.gotList);
-    return;
+    if (numberYear == 0) {
+      this.setList(this.gotList);
+      return;
     }
     this.listLessons = this.listLessons.filter(item => {
       return item.year == numberYear;
