@@ -104,4 +104,5 @@ public class JournalControllerWeb {
                                                  @RequestParam int year){
             return journalController.getReportAcademicPerformance(professorId,semester,year);
     }
+
 }

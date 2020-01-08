@@ -228,6 +228,7 @@ public class JournalController {
             journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
             journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
             CertificationReportDto result = journalManager.CertificationReportDto(educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today);
+            result.setAllEventValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
             result.setLesson(lessonDTO);
             lessonList.add(result);
         }

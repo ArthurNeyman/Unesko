@@ -1,52 +1,102 @@
-<div >
-    Отчет за
-    <semester-picker style="display: inline-block"
-        (ngModelChange)="load()"
-        [semesterNumberYear]="semesterNumberYear"></semester-picker>
-        <p-button *ngIf="show && data.lessonList.length>0" label="Скачать все" (onClick)="exportAsXLSX(data.lessonList)"></p-button>
-</div>
+<div class="head" [ngSwitch]="field">
+    
+    <div *ngSwitchCase="'report-choose'">
 
-<data-loader [show]="!show" [margin]="9"></data-loader>
-
-<!-- <div style="margin-top: 5%;" *ngIf="show" class="ui-g">
-    <p-card *ngFor="let lesson of data.lessonList" class="ui-g-4" [style]="{height: '150px'}">                
-        <div class="ui-g" style="justify-content:center;font-size:20px;">
-            {{lesson.lesson.group.name}}
-        </div>   
+        <div >
+            Отчет за
+            <semester-picker style="display: inline-block"
+                (ngModelChange)="load()"
+                [semesterNumberYear]="semesterNumberYear"></semester-picker>
+             
+                <p-button  *ngIf="show && data.lessonList.length>0" label="Сформировать отчет" (onClick)="changeField('create-online-report')"></p-button>
+             
+        </div>
         
-        <div class="ui-g" style="justify-content:center;font-size:15px;padding: 5%;">
-            <p style="text-align: center;">
-                {{lesson.lesson.discipline.name}}  
-            </p>                              
-        </div>
-
-        <div class="ui-g"  style="justify-content:center;">
-            <p-button label="Скачать" (onClick)="exportAsXLSX([lesson])"></p-button>
-        </div>
-    </p-card> 
-
-</div> -->
-
-<div style="margin-top: 2%;" *ngIf="show" class="ui-g">
-    <div class="ui-g-12 ui-card" *ngFor="let lesson of data.lessonList" style="height:70px;margin:0.2%;">
-        <div class="ui-g">
-            <div class="ui-g-2" style="text-align:center; font-size:20px;">
-                {{lesson.lesson.group.name}}
-            </div>
-            <div class="ui-g-8" style="font-size:20px;">
-                {{lesson.lesson.discipline.name}}  
-            </div>
-            <div class="ui-g-2" >
-                <div class="ui-g" >
-                    <div class="ui-g-12" style="text-align:right;">
-                        <p-button  label="Скачать" (onClick)="exportAsXLSX([lesson])"></p-button>
+        <data-loader [show]="!show" [margin]="9"></data-loader>
+        
+        <div style="margin-top: 2%;" *ngIf="show" class="ui-g" >
+            <div class="ui-g-12 ui-card" style="height:70px;margin:0.2%;background: #FFFAFA;" *ngIf="data.lessonList.length>0" >
+                <div class="ui-g">
+                    <div class="ui-g-2" style="text-align:center; font-size:20px;">
+                        Группа
                     </div>
-                </div>
+                    <div class="ui-g-8" style="font-size:20px;">
+                        Дисциплина 
+                    </div>
+                    <div class="ui-g-2" >
+                        <div class="ui-g" >
+                            <p-button class="ui-g-6" icon="pi pi-check" (click)="chooseAll(true)"></p-button>
+                            <div class="ui-g-6" style="text-align: right;">
+                                <p-button  icon="pi pi-times" (click)="chooseAll(false)"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
             </div>
-        </div>  
+        
+            <div class="ui-g-12 ui-card" *ngFor="let lesson of data.lessonList;let i=index" style="height:70px;margin:0.2%;">
+                <div class="ui-g">
+                    <div class="ui-g-2" style="text-align:center; font-size:20px;">
+                        {{lesson.lesson.group.name}}
+                    </div>
+                    <div class="ui-g-8" style="font-size:20px;">
+                        {{lesson.lesson.discipline.name}}  
+                    </div>
+                    <div class="ui-g-2" >
+                        <div class="ui-g" >
+                            <div class="ui-g-12" style="text-align:right;">
+                                <p-toggleButton onLabel="Выбран" offLabel="Не выбран" onIcon="pi pi-check" [(ngModel)]="selectedLessons[i]" offIcon="pi pi-times"></p-toggleButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        
+        <div *ngIf="show && data.lessonList.length==0" style="text-align: center;">
+            <h1 style="margin-top: 10%;margin-bottom: 10%;">Расписание не заполнено</h1>
+        </div>
+
     </div>
+
+    <div *ngSwitchCase="'create-online-report'" >
+        
+        <p-button   style="margin:1rem;"  label="Назад"                 (onClick)="changeField('report-choose')"> </p-button>
+        <p-button   style="margin:1rem;"  label="Экспортировать все"    (onClick)="exportAsXLSX()">               </p-button>
+        
+        <p-accordion [multiple]="true">
+                <div  *ngFor="let lesson of data.lessonList;let i=index" style="margin-top:1%;" >
+                           
+                    <p-accordionTab   *ngIf="selectedLessons[i]" header="{{lesson.lesson.group.name}} {{lesson.lesson.discipline.name}}">
+                       
+                        <p-table  scrollHeight="320px" [scrollable]="true" [value]="lesson.studentCertification">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Студент</th>
+                                    <th>Посещено занятий</th>
+                                    <th>Получено балло</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-cert>
+                                <tr>
+                                    <td>{{cert.student.user.userFIO}}</td>
+                                    <td>{{cert.visitationValue/2}} из {{(cert.missingHours+cert.visitationValue)/2}}</td>
+                                    <td>{{getSumValue(cert)}} из {{lesson.allEventValue}}</td> 
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        
+                        <div style="margin-top:2rem;">
+                            <button   pButton (click)="exportOneAsXLSX([lesson])" type="button" icon="pi pi-download" label="Экспорт в xlsx" class="ui-button-success"></button>
+                        </div>
+
+                    </p-accordionTab> 
+
+                </div>
+
+        </p-accordion>
+     
+    </div>
+
 </div>
 
-<div *ngIf="data.lessonList.length==0 && show" style="text-align: center;">
-<h1 style="margin-top: 10%;margin-bottom: 10%;">Расписание не заполнено</h1>
-</div>

@@ -144,13 +144,13 @@ export class JournalService {
             );
     }
 
-    public getAcademiPerformanceReport(semesterNumberYear:SemesterNumberYear){
+    public getAcademiPerformanceReport(semesterNumberYear:SemesterNumberYear,professorId:string){
         let params = new HttpParams();
         params = params.set("semester", semesterNumberYear.semester.toString());
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Report.ReportAcademicPerfomance
-            .replace(":professorId", "8"), {params: params})
+            .replace(":professorId", professorId), {params: params})
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
