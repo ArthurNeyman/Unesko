@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
                 private http: HttpClient,
                 private globals: Globals,
                 private authService: AuthenticationService) { }
+                
 
     ngOnInit() {
         if (this.authService.getToken() && this.authService.getToken() != "") {
@@ -67,6 +68,10 @@ export class HeaderComponent implements OnInit {
 
     logout() {
         this.authService.logout();
+    }
+
+    consoleLog() {
+        console.log('Roles = ', this.Roles )
     }
 
 }

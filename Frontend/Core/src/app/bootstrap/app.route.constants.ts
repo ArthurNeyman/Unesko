@@ -3,6 +3,9 @@
 export const BaseApiUrl = appSettings.BaseApiUrl;
 
 export const RouteConstants = {
+    Student: {
+        Performance: "Performance"
+    },
     Home: "news",
     News: {
         All: "news",
@@ -47,6 +50,12 @@ export const RouteConstants = {
 };
 
 export const ApiRouteConstants = {
+    
+    Student: {
+        Performance: "Performance"
+    },
+    
+    
     Account: {
         FindUsersByFIO: "account/FindUsersByFIO/:req",
         FindUsersByRoleName: "account/FindUsersByRoleName/:req",

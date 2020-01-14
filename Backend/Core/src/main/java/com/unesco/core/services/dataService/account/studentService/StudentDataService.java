@@ -7,6 +7,7 @@ import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.StudentJournalDTO;
 import com.unesco.core.dto.shedule.LessonDTO;
+import com.unesco.core.dto.shedule.StudentLessonsDTO;
 import com.unesco.core.entities.account.StudentEntity;
 import com.unesco.core.entities.account.UserEntity;
 import com.unesco.core.entities.schedule.LessonEntity;
@@ -176,6 +177,19 @@ public class StudentDataService implements IStudentDataService {
         result.addMessage("Подгруппы сохранены");
 
         return result;
+    }
+
+    public List<StudentLessonsDTO> findByStudentId(long studentId) {
+        List<StudentLessonsDTO> modelList = new ArrayList<>();
+
+        List<StudentLessonSubgroupEntity> entity = studentLessonSubgroupRepository.findByStudentId(studentId);
+        for (StudentLessonSubgroupEntity item: entity) {
+            System.out.println("item" +  item);
+            StudentLessonsDTO model = (StudentLessonsDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+
+        return modelList;
     }
 
 }

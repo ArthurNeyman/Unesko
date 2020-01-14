@@ -1,5 +1,6 @@
 package com.unesco.core.repositories.schedule;
 
+import com.unesco.core.dto.shedule.StudentLessonsDTO;
 import com.unesco.core.entities.schedule.StudentLessonSubgroupEntity;
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,6 +11,8 @@ public interface StudentLessonSubgroupRepository extends CrudRepository<StudentL
     List<StudentLessonSubgroupEntity> findByLessonId(long lessonId);
 
     StudentLessonSubgroupEntity findByStudentIdAndLessonId(long studentId, long lessonId);
+
+    List<StudentLessonSubgroupEntity> findByStudentId(long studentId);
 
 }
 

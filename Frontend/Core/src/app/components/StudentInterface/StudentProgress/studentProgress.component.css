@@ -1,0 +1,102 @@
+.select-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.row-block {
+  width: 100%;
+}
+
+.row-block:not(:first-of-type) {
+  margin-left: 10px;
+}
+
+.row-block-date {
+  width: 100px;
+  margin-left: 10px;
+}
+
+.tabs-block {
+  display: flex;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+
+}
+
+
+.table-block {
+  font-size: 12px;
+}
+
+
+.tab-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  background-color: #f6f6f6;
+  padding: 10px;
+}
+
+.tab-form:not(:last-child) {
+  box-shadow: 10px 0px 0px -9px #cccccc;
+}
+
+.name-discipline {
+  z-index: 5;
+}
+
+.current-points {
+  z-index: 4;
+}
+
+.percent-points {
+  z-index: 3;
+}
+
+.year {
+  z-index: 2;
+}
+
+.semestr {
+  z-index: 1;
+}
+
+.col1 {
+  width: 40%;
+}
+
+.col2,
+.col3,
+.col4,
+.col5 {
+  width: 15%;
+}
+
+.row-table {
+  display: flex;
+}
+
+.tr-form {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  justify-content: center;
+}
+
+.name-discipline-tr {
+  justify-content: left;
+}
+
+.row-table:hover {
+  background-color: #f6f6f6;
+}
+
+.content-table {
+  border-radius: 4px;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}

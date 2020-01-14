@@ -216,4 +216,15 @@ public class PairDataService implements IPairDataService {
         result.setData((PairDTO) mapperService.toDto(entity));
         return result;
     }
+
+    public List<PairDTO> getAllByLesson(long lessonId) {
+
+        List<PairDTO> modelList = new ArrayList<>();
+        Iterable<PairEntity> entityList = pairRepository.findPairsByLessonId(lessonId);
+        for (PairEntity item : entityList) {
+            PairDTO model = (PairDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+        return modelList;
+    }
 }

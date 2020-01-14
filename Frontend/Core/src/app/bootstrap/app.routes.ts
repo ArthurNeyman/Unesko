@@ -2,6 +2,9 @@
 import {RouterModule, Routes} from "@angular/router";
 import {RouteConstants} from "./app.route.constants";
 
+
+import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
+
 import {AuthGuard} from "../guards/auth.guard";
 import {ListNewsComponent} from "../components/news/list-news/list-news.component";
 import {EditorListNewsComponent} from "../components/news/editor-list-news/editor-list-news.component";
@@ -14,6 +17,14 @@ import {AccountComponent} from "../components.page/account/account.component";
 import {ScheduleComponent} from "../components.page/schedule/schedule.component";
 
 export const routes: Routes = [
+   
+
+   {
+      path: RouteConstants.Student.Performance,
+      component: StudentProgressComponent,
+      data: {title: "Успеваемость"}
+   },
+
    {
       path: "",
       component: ListNewsComponent,

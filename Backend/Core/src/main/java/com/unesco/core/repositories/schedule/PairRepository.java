@@ -23,6 +23,9 @@ public interface PairRepository extends CrudRepository<PairEntity, Long>, CrudPa
     @Query("SELECT p FROM PairEntity p where p.lesson.id = :lessonId and p.lesson.educationPeriod.id = :periodId")
     List<PairEntity> findPairsByLessonId(@Param("lessonId") long lessonId, @Param("periodId") long periodId);
 
+    @Query("SELECT p FROM PairEntity p where p.lesson.id = :lessonId")
+    List<PairEntity> findPairsByLessonId(@Param("lessonId") long lessonId);
+
     @Query("SELECT p FROM PairEntity p where  p.lesson.educationPeriod.id = :periodId")
     List<PairEntity> findPairsByPeriodId(@Param("periodId") long periodId);
 }
