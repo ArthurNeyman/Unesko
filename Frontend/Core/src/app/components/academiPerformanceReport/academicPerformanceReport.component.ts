@@ -76,8 +76,10 @@ export class AcademicPerformanceReportComponent implements OnInit{
             {
                 ar.push({
                     "Студент":lesson[k].studentCertification[i].student.user.userFIO,
-                    "Посещено занятий": lesson[k].studentCertification[i].visitationValue/2 +" из "+ (lesson[k].studentCertification[i].missingHours+lesson[k].studentCertification[i].visitationValue)/2,
-                    "Получено баллов":this.getSumValue(lesson[k].studentCertification[i]) +" из " + lesson[k].allEventValue
+                    "Посещено занятий": lesson[k].studentCertification[i].visitationValue/2,
+                    "Макс. занятий":(lesson[k].studentCertification[i].missingHours+lesson[k].studentCertification[i].visitationValue)/2,
+                    "Получено баллов":this.getSumValue(lesson[k].studentCertification[i]),
+                    "Макс. баллов":lesson[k].allEventValue
                 })
             }
             list[lesson[k].lesson.group.name+'_'+lesson[k].lesson.discipline.name]=ar
