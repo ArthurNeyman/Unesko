@@ -3,7 +3,9 @@ package com.unesco.core.services.dataService.journal.point;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.PointDTO;
+import com.unesco.core.dto.shedule.PairDTO;
 import com.unesco.core.entities.journal.PointEntity;
+import com.unesco.core.entities.schedule.PairEntity;
 import com.unesco.core.repositories.journal.PointRepository;
 import com.unesco.core.services.mapperService.IMapperService;
 import com.unesco.core.utils.DateHelper;
@@ -162,6 +164,11 @@ public class PointDataService implements IPointDataService {
                 DateHelper.getZeroTimeDate(x.getDateOfCreate()).compareTo(DateHelper.getZeroTimeDate(date)) <= 0).collect(Collectors.toList());
         List<PointEntity> result = getLastPoint(points);
         return result;
+    }
+
+    public int getByStudentAndPair(long studentId, long pairId)
+    {
+        return (pointRepository.findByStudentIdAndPairId(studentId, pairId)!=null)?pointRepository.findByStudentIdAndPairId(studentId, pairId):0;
     }
 
 }

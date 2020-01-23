@@ -16,6 +16,7 @@ public interface IJournalManager extends IValidateManager {
     void CreateJournal();
     List<Date> GetDates();
     CertificationReportDto CertificationReportDto(Date start, Date end);
+    CertificationReportDto CertificationReportDtoOrig(Date start, Date end);
 
     JournalDTO get();
 }

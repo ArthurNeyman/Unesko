@@ -1,5 +1,8 @@
 .select-block {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 .row-block {
@@ -11,7 +14,7 @@
 }
 
 .row-block-date {
-  width: 50%;
+  width: 100px;
   margin-left: 10px;
 }
 
@@ -49,30 +52,27 @@
   z-index: 4;
 }
 
-.attestation-points {
+.percent-points {
   z-index: 3;
 }
 
-.finish-points {
+.year {
   z-index: 2;
 }
 
-.appraisal {
+.semestr {
   z-index: 1;
 }
 
 .col1 {
-  width: 35%;
+  width: 40%;
 }
 
 .col2,
 .col3,
-.col4 {
-  width: 15%;
-}
-
+.col4,
 .col5 {
-  width: 20%;
+  width: 15%;
 }
 
 .row-table {
@@ -83,11 +83,15 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  cursor: pointer;
+  justify-content: center;
+}
+
+.name-discipline-tr {
+  justify-content: left;
 }
 
 .row-table:hover {
-  background-color: #b3b3b3;
+  background-color: #f6f6f6;
 }
 
 .content-table {

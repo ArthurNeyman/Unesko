@@ -14,6 +14,7 @@ public interface IPairDataService extends IDataService<PairDTO> {
     List<PairDTO> getAllByDepartament(long departmentId, int semester, int year);
     List<PairDTO> getAllByGroup(long groupId, int semester, int year);
     List<PairDTO> getAllByLesson(long lessonId, int semester, int year);
+    List<PairDTO> getAllByLesson(long lessonId);
     EducationPeriodEntity getEducationPeriodForYearAndSemester(int semester, int year);
     List<PairDTO> getAllWhereYearAndSemesterFit(long lessonId, long periodId);
     ResponseStatusDTO<PairDTO> save(PairDTO pair, EducationPeriodDTO period, LessonDTO findLesson);

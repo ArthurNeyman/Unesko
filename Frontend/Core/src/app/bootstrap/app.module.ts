@@ -116,6 +116,9 @@ import {AcademicPerformanceReportComponent} from "../components/academiPerforman
 import {TabMenuModule} from 'primeng/tabmenu';
 import {CardModule} from 'primeng/card';
 import { ExcelService } from '../services/excelService.service';
+import {ToastModule} from 'primeng/toast';
+import {PanelModule} from 'primeng/panel';
+import {AccordionModule} from 'primeng/accordion';
 
 
 registerLocaleData(localeRu);
@@ -154,7 +157,10 @@ registerLocaleData(localeRu);
         FileUploadModule,
         ngFileUploadModule,
         TabMenuModule,
-        CardModule
+        CardModule,
+        ToastModule,
+        PanelModule,
+        AccordionModule
         ],
     entryComponents: [
         ProfileComponent

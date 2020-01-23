@@ -1,11 +1,9 @@
 package com.unesco.core.controller;
 
+import com.unesco.core.dto.account.ProfessorDTO;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
-import com.unesco.core.dto.journal.CertificationReportDto;
-import com.unesco.core.dto.journal.JournalDTO;
-import com.unesco.core.dto.journal.LessonEventDTO;
-import com.unesco.core.dto.journal.VisitationConfigDTO;
+import com.unesco.core.dto.journal.*;
 import com.unesco.core.dto.plan.SemesterNumberYear;
 import com.unesco.core.dto.report.ReportAcademicPerformanceDto;
 import com.unesco.core.dto.shedule.LessonDTO;
@@ -50,6 +48,8 @@ public class JournalController {
     private ProfessorDataService professorDataService;
     @Autowired
     private EducationPeriodService educationPeriodService;
+
+    private ProfessorDTO professor;
 
 
     public ResponseStatusDTO getJournal(long lessonId, int month, Date forDate, int semester, int year) {
@@ -228,6 +228,7 @@ public class JournalController {
             journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
             journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
             CertificationReportDto result = journalManager.CertificationReportDto(educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today);
+            result.setAllEventValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
             result.setLesson(lessonDTO);
             lessonList.add(result);
         }
@@ -236,4 +237,5 @@ public class JournalController {
 
         return new ResponseStatusDTO(StatusTypes.OK, reportAcademicPerformanceDto);
     }
+
 }

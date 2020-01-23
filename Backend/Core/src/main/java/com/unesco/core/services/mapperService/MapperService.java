@@ -211,7 +211,22 @@ public class MapperService implements IMapperService {
         if (entity instanceof EducationPeriodEntity)
             return educationPeriodToDto((EducationPeriodEntity) entity);
 
+        if (entity instanceof StudentLessonSubgroupEntity)
+            return studentLessonsToDto((StudentLessonSubgroupEntity) entity);
+
+
         return new Exception("Not found " + entity.getClass().toString() + " entity class");
+    }
+
+    public StudentLessonsDTO studentLessonsToDto(StudentLessonSubgroupEntity Entity) {
+        if (Entity == null) return null;
+        StudentLessonsDTO Dto = new StudentLessonsDTO();
+        Dto.setId((int) Entity.getId());
+        Dto.setSubgroup(Entity.getSubgroup());
+        Dto.setStudent(studentToDto(Entity.getStudent()));
+        Dto.setLesson(lessonToDto(Entity.getLesson()));
+
+        return Dto;
     }
 
     public AccessRightEntity accessRightToEntity(AccessRightDTO Dto) {

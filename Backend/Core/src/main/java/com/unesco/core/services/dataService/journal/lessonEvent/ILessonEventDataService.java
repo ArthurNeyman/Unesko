@@ -9,4 +9,6 @@ import java.util.List;
 public interface ILessonEventDataService extends IDataService<LessonEventDTO> {
     List<LessonEventDTO> getByLesson(long lessonId);
     int getSumMaxValueBetweenDates(long lessonId, Date start, Date end);
+
+    int getSumMaxValue(long lessonId);
 }

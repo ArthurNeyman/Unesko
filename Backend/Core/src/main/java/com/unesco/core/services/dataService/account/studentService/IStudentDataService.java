@@ -6,6 +6,8 @@ import com.unesco.core.dto.additional.PageResultDTO;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.journal.StudentJournalDTO;
 import com.unesco.core.dto.shedule.LessonDTO;
+import com.unesco.core.dto.shedule.StudentLessonsDTO;
+import com.unesco.core.entities.schedule.StudentLessonSubgroupEntity;
 import com.unesco.core.services.dataService.IDataService;
 
 import java.util.List;
@@ -20,4 +22,6 @@ public interface IStudentDataService extends IDataService<StudentDTO> {
     List<StudentJournalDTO> getByGroupAndLesson(long groupId, long lessonId);
 
     ResponseStatusDTO<StudentDTO> saveStudentsSubgroup(List<StudentJournalDTO> studentJournal, LessonDTO lesson);
+
+    List<StudentLessonsDTO> findByStudentId(long studentId);
 }

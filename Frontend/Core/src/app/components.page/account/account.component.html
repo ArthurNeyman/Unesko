@@ -51,7 +51,7 @@
             <journal-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'academic-performance'"></journal-page>
             <lesson-configurator-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'lesson-configurator'"></lesson-configurator-page>
             <settings-page *ngSwitchCase="'settings-page'"></settings-page>
-            <academicPerformanceReport-component *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
+            <academicPerformanceReport-component [user]="user" *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
           </div>
         </div>
       </div>

@@ -17,11 +17,12 @@ import {AccountComponent} from "../components.page/account/account.component";
 import {ScheduleComponent} from "../components.page/schedule/schedule.component";
 
 export const routes: Routes = [
+   
 
    {
       path: RouteConstants.Student.Performance,
       component: StudentProgressComponent,
-      data: {}
+      data: {title: "Успеваемость"}
    },
 
    {
