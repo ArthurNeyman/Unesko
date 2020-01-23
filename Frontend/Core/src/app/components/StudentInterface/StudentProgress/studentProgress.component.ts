@@ -6,6 +6,10 @@
 
 import {Component, OnInit } from "@angular/core";
 
+import {User} from "../../../models/account/user.model";
+import {AuthenticationService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
+
 @Component({
   selector: 'student-progress',
   templateUrl: "./studentProgress.component.html",
@@ -37,11 +41,26 @@ export class StudentProgressComponent implements OnInit {
     },
 
   ];
+  public user: User;
+
   
-  constructor() {
-  }
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
+    this.user = new User();
+    this.authenticationService.getUser().subscribe(
+    res => {
+      this.user = res.data;
+      if (this.user.photo === "")
+      this.user.photo = "images/anon-user.jpg";
+    });
+}
+  
 
   ngOnInit() {
 
+  }
+
+
+  consoleLog() {
+    console.log('User = ', this.user);
   }
 }

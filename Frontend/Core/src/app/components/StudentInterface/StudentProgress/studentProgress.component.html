@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="content-table">
-            <div class="row-table" *ngFor="let discipline of disciplins">
+            <div class="row-table" *ngFor="let discipline of disciplins" (click)="consoleLog()">
               <div class="name-discipline-tr col1 tr-form">
                 <span>{{ discipline.name_discipline }}</span>
               </div>
