@@ -105,4 +105,10 @@ public class JournalControllerWeb {
             return journalController.getReportAcademicPerformance(professorId,semester,year);
     }
 
+    @RequestMapping("report/getCertification")
+    public  ResponseStatusDTO getCertification(@RequestParam long group_id,
+                                               @RequestParam int semester,
+                                               @RequestParam int year){
+        return journalController.getCertification(group_id,semester,year);
+    }
 }

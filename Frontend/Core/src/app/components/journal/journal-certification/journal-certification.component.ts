@@ -1,10 +1,9 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {Lesson} from "../../../models/shedule/lesson";
-import {SemesterNumberYear} from "../../../models/semesterNumberYear.model";
-import { JournalService } from '../../../services/journal.service';
-import { Journal } from '../../../models/journal/journal.model';
+import { SemesterNumberYear } from './../../../models/semesterNumberYear.model';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Lesson } from "../../../models/shedule/lesson";
+import { JournalService, Certification, CertificationValue } from '../../../services/journal.service';
 import { CertificationReport, CertificationStudent } from '../../../models/journal/certificationReport.model';
-import {DatePipe} from "@angular/common";
+import { DatePipe } from "@angular/common";
 
 
 @Component({
@@ -25,7 +24,9 @@ export class JournalCertificationComponent implements OnInit {
     public datePipe = new DatePipe("ru");
     public certificationReport: CertificationReport;
     public ru: any;
-    
+
+    private createCertificationElementVisible: Boolean = false;
+
     constructor(private journalService: JournalService) {
     }
 
@@ -56,12 +57,28 @@ export class JournalCertificationComponent implements OnInit {
         }
     }
 
-    getEventsSummValue(car: CertificationStudent) {
-        let summ = 0;
-        for (let s of car.eventValue) {
-            summ += s.value;
-        }
-        return summ;
+    show() {
+        console.log(this.lesson)
     }
-    
+
+    getCertificationForSave() {
+        return new Certification(
+            this.lesson.group.id,
+            this.reportStartDate,
+            this.reportEndDate,
+            this.semesterNumberYear.semester,
+            this.semesterNumberYear.year,
+            this.certificationReport.studentCertification.map((el) => {
+                return new CertificationValue(
+                    0,
+                    el.student.id,
+                    el.certificationValue,
+                    el.missingHours)
+            }),
+            this.certificationReport.lesson.id)
+    }
+
+    changeCertification(certification: Certification) {
+
+    }
 }

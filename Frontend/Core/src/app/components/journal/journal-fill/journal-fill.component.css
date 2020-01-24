@@ -19,8 +19,9 @@ input:hover,input:focus {
 
 .td-header {
   text-align: center;
-  background: #2a2b2d;
+  background: #007ad9;
   color: white;
+  font-size: 15px;
 }
 
 td input {
@@ -102,4 +103,9 @@ td input:focus {
 
 .disableCell {
   background: #bdbdbd !important
+}
+
+.pi-check:before {
+  content: "\e909";
+  background: #26ce26;
 }

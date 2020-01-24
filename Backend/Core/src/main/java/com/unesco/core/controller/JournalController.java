@@ -3,8 +3,10 @@ package com.unesco.core.controller;
 import com.unesco.core.dto.account.ProfessorDTO;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
-import com.unesco.core.dto.journal.*;
-import com.unesco.core.dto.plan.SemesterNumberYear;
+import com.unesco.core.dto.journal.CertificationReportDto;
+import com.unesco.core.dto.journal.JournalDTO;
+import com.unesco.core.dto.journal.LessonEventDTO;
+import com.unesco.core.dto.journal.VisitationConfigDTO;
 import com.unesco.core.dto.report.ReportAcademicPerformanceDto;
 import com.unesco.core.dto.shedule.LessonDTO;
 import com.unesco.core.managers.journal.VisitationConfigManager.interfaces.IVisitationConfigManager;
@@ -12,16 +14,18 @@ import com.unesco.core.managers.journal.journalManager.interfaces.journal.IJourn
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEvent.ILessonEventManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEventList.ILessonEventListManager;
 import com.unesco.core.services.dataService.account.professorService.ProfessorDataService;
+import com.unesco.core.services.dataService.journal.certification.ICertificationService;
 import com.unesco.core.services.dataService.journal.journal.IJournalDataService;
 import com.unesco.core.services.dataService.journal.lessonEvent.ILessonEventDataService;
 import com.unesco.core.services.dataService.journal.visitation.IVisitationConfigDataService;
 import com.unesco.core.services.dataService.plan.educationPeriodService.EducationPeriodService;
 import com.unesco.core.services.dataService.schedule.lessonService.ILessonDataService;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +52,9 @@ public class JournalController {
     private ProfessorDataService professorDataService;
     @Autowired
     private EducationPeriodService educationPeriodService;
+
+    @Autowired
+    private ICertificationService certificationService;
 
     private ProfessorDTO professor;
 
@@ -237,5 +244,13 @@ public class JournalController {
 
         return new ResponseStatusDTO(StatusTypes.OK, reportAcademicPerformanceDto);
     }
+
+    public  ResponseStatusDTO getCertification(long group_id,int semester, int year){
+        ResponseStatusDTO answer=new ResponseStatusDTO(StatusTypes.OK);
+        answer.setData(certificationService.getCertificationListByGroupIdAndEducationPeriodId(group_id,
+                educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getId()));
+        return  answer;
+    }
+
 
 }
