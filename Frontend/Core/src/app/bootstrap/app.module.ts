@@ -119,6 +119,7 @@ import { ExcelService } from '../services/excelService.service';
 import {ToastModule} from 'primeng/toast';
 import {PanelModule} from 'primeng/panel';
 import {AccordionModule} from 'primeng/accordion';
+import {ListboxModule} from 'primeng/listbox';
 
 
 registerLocaleData(localeRu);
@@ -160,7 +161,8 @@ registerLocaleData(localeRu);
         CardModule,
         ToastModule,
         PanelModule,
-        AccordionModule
+        AccordionModule,
+        ListboxModule
         ],
     entryComponents: [
         ProfileComponent

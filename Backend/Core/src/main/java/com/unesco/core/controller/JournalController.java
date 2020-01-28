@@ -2,6 +2,7 @@ package com.unesco.core.controller;
 
 import com.unesco.core.dto.account.ProfessorDTO;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
+import com.unesco.core.dto.certification.CertificationDTO;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.CertificationReportDto;
 import com.unesco.core.dto.journal.JournalDTO;
@@ -245,12 +246,20 @@ public class JournalController {
         return new ResponseStatusDTO(StatusTypes.OK, reportAcademicPerformanceDto);
     }
 
-    public  ResponseStatusDTO getCertification(long group_id,int semester, int year){
+    //------------------------------------------------------------------------------------------------------------------
+    public  ResponseStatusDTO getCertification(long lessonId){
         ResponseStatusDTO answer=new ResponseStatusDTO(StatusTypes.OK);
-        answer.setData(certificationService.getCertificationListByGroupIdAndEducationPeriodId(group_id,
-                educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getId()));
+        answer.setData(certificationService.getCertificationListByLessonId(lessonId));
         return  answer;
     }
 
+    public ResponseStatusDTO saveCertification(CertificationDTO certification){
+        return this.certificationService.saveCertification(certification);
+    }
 
+    public  ResponseStatusDTO deleteCertification(CertificationDTO certification){
+        ResponseStatusDTO answer=new ResponseStatusDTO(StatusTypes.OK);
+        this.certificationService.deleteCertification(certification);
+        return answer;
+    }
 }

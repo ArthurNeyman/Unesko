@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CertificationRepository  extends CrudRepository<CertificationEntity, Long> {
 
-    List<CertificationEntity> findByGroupIdAndEducationPeriodId(long groupId,long educationPeriodId);
+    List<CertificationEntity> findByLessonId(long lessonId);
 }

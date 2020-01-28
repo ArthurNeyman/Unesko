@@ -91,9 +91,9 @@ export class WeekScheduleComponent implements OnInit, OnChanges {
         );
         // Удаляем отображение субботы если в текущем расписанаа нет пар в субботу
         let findSundayPair = this.pairs.find(x => x.dayofweek == "Суббота");
-        if (!findSundayPair && this.days.indexOf("Суббота") != -1) {
-            this.days.splice(this.days.indexOf("Суббота"), 1);
-        }
+        // if (!findSundayPair && this.days.indexOf("Суббота") != -1) {
+        //     this.days.splice(this.days.indexOf("Суббота"), 1);
+        // }
 
         if (!this.editable) {
             let temPairs: Array<Pair> = JSON.parse(JSON.stringify(this.pairs));

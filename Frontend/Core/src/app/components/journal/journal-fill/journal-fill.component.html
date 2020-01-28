@@ -6,23 +6,17 @@
         </span>
     </div>
 
-    <span class="col-md-6" style=" text-align: right;">
-        <!-- <p-dropdown (ngModelChange)="changeHistoryDate($event)" [showClear]="true" [options]="historyDates"
-                    [(ngModel)]="selectHistoryDate" [placeholder]="'Отобразить журнал за дату'">
-        <ng-template let-item pTemplate="selectedItem">
-            <span>{{item.label}}</span>
-        </ng-template>
-        <ng-template let-date pTemplate="item">
-            <span>{{date.label}}</span>
-        </ng-template>
-        </p-dropdown> -->
+    <span class="col-md-6 text-right">
+
+        <button pButton type="button" label="Обновить" (click)="updateJournal()" class="ui-button-primary"></button>
+
     </span>
 
     <div class="col-sm-12 text-right journal">
         <p-table [columns]="header" [value]="journal.students" [scrollable]="true" [loading]="showLoader"
             [tableStyleClass]="'table table-bordered table-striped'" scrollHeight="60vh">
 
-            <ng-template  pTemplate="header" let-columns>
+            <ng-template pTemplate="header" let-columns>
                 <tr>
                     <td style="width: 250px" class="td-header"></td>
                     <ng-container>
@@ -88,8 +82,9 @@
                 <tr *ngIf="rowData.subgroup >0 && rowData.subgroup < 4 && (rowData.subgroup == subgroupType || subgroupType == 0)"
                     [ngClass]="{coloredRow: selectStudentId == rowData.student.id}">
                     <td style="text-align: left; text-overflow: ellipsis; overflow: hidden; width: 250px;">
-                        <span style="white-space: nowrap;"
-                            [userCard]="rowData.student.user">{{rowData.student.user.userFIO}}</span>
+                        <!-- <span style="white-space: nowrap;" [userCard]="rowData.student.user">{{rowData.student.user.userFIO}}</span> -->
+                        <span style="white-space: nowrap;" >{{rowData.student.user.userFIO}}</span>
+
                     </td>
 
                     <ng-template ngFor let-head [ngForOf]="columns">

@@ -2,6 +2,7 @@ package com.unesco.core.dto.certification;
 
 import com.unesco.core.dto.plan.EducationPeriodDTO;
 import com.unesco.core.dto.shedule.GroupDTO;
+import com.unesco.core.dto.shedule.LessonDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -17,12 +18,14 @@ public class CertificationDTO {
 
     private Date startDate;
 
-    public CertificationDTO(long id, Date startDate, Date endDate, GroupDTO group, EducationPeriodDTO educationPeriod, List<CertificationValueDTO> certificationValueDTOList) {
+    public CertificationDTO() {
+    }
+
+    public CertificationDTO(long id, Date startDate, Date endDate, LessonDTO lesson, List<CertificationValueDTO> certificationValueDTOList) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.group = group;
-        this.educationPeriod = educationPeriod;
+        this.lesson = lesson;
         this.certificationValueDTOList = certificationValueDTOList;
     }
 
@@ -34,20 +37,15 @@ public class CertificationDTO {
         return endDate;
     }
 
-    public GroupDTO getGroup() {
-        return group;
-    }
-
-    public EducationPeriodDTO getEducationPeriod() {
-        return educationPeriod;
-    }
-
     public List<CertificationValueDTO> getCertificationValueDTOList() {
         return certificationValueDTOList;
     }
 
+    public LessonDTO getLesson() {
+        return lesson;
+    }
+
     private Date endDate;
-    private GroupDTO group;
-    private EducationPeriodDTO educationPeriod;
+    private LessonDTO lesson;
     private List<CertificationValueDTO> certificationValueDTOList;
 }

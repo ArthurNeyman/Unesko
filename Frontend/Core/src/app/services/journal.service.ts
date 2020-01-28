@@ -1,4 +1,3 @@
-import { Group } from './../models/shedule/group';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
@@ -55,7 +54,6 @@ export class JournalService {
             );
     }
 
-    //journal-sertification service
     public GetJournalCertificationReport(lessonId, start, end, semesterNumberYear: SemesterNumberYear): Observable<ResponseStatus> {
         let params = new HttpParams();
         params = params.set("start", start);
@@ -156,6 +154,7 @@ export class JournalService {
             );
     }
 
+    //Получить отчет по профессору
     public getAcademiPerformanceReport(semesterNumberYear: SemesterNumberYear, professorId: string) {
         let params = new HttpParams();
         params = params.set("semester", semesterNumberYear.semester.toString());
@@ -169,56 +168,33 @@ export class JournalService {
             );
     }
     //-------------------------------------------------------------------------------------------------------
-    //Получить список аттестаций для группы по учебному периоду
-    public getCertificationList(lessnId: Number, group: Group, semesterNumberYear: SemesterNumberYear) {
-        let params = new HttpParams();
-        params = params.set("semester", semesterNumberYear.semester.toString());
-        params = params.set("year", semesterNumberYear.year.toString());
+    //Получить список аттестаций по предмету
+    public getCertificationList(lessonId: Number) {
+        return this.http.get(ApiRouteConstants.Journal.Certification.get
+            .replace(":lessonId",lessonId.toString()))
+            .pipe(
+                map((res: ResponseStatus) => res),
+                catchError(e => this.handleError.handle(e))
+            );
+        
     }
     //Сохранить сформированную аттестацию
-    public saveCertification(certification) {
-
+    public saveCertification(certification):Observable<ResponseStatus> {
+        let params = new HttpParams();
+        return this.http.post(ApiRouteConstants.Journal.Certification.save,certification,{ params: params })
+            .pipe(
+                map((res: ResponseStatus) => res),
+                catchError(e => this.handleError.handle(e))
+            );
     }
     //Удалить аттестацию
     public deleteCertification(certification) {
-
+        let params = new HttpParams();
+        return this.http.post(ApiRouteConstants.Journal.Certification.delete,certification,{ params: params })
+        .pipe(
+            map((res: ResponseStatus) => res),
+            catchError(e => this.handleError.handle(e))
+        );
     }
 
-}
-
-export class Certification {
-    private id: Number
-    private group_id: Number
-    private startDate: String
-    private endDate: String
-    private semester: Number
-    private year: Number
-    private certificationValue: CertificationValue[]
-    private lessonId: Number
-    constructor(group_id, startDate, endDate, semester, year, certificationValue, lessonId) {
-        this.id = 0;
-        this.group_id = group_id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.semester = semester;
-        this.year = year;
-        this.certificationValue = certificationValue
-        this.lessonId = lessonId
-    }
-}
-
-export class CertificationValue {
-    id: Number
-    certification_id: Number
-    studentId: Number
-    certificationValue: Number
-    missedAcademicHours: Number
-
-    constructor(certification_id, studentId, certificationValue, missedAcademicHours) {
-        this.id = 0
-        this.certification_id = certification_id
-        this.studentId = studentId
-        this.certificationValue = certificationValue
-        this.missedAcademicHours = missedAcademicHours
-    }
 }

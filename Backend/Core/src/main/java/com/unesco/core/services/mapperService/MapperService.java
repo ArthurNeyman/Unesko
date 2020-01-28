@@ -16,6 +16,7 @@ import com.unesco.core.dto.journal.VisitationConfigDTO;
 import com.unesco.core.dto.news.NewsDTO;
 import com.unesco.core.dto.plan.DepartmentDTO;
 import com.unesco.core.dto.plan.EducationPeriodDTO;
+import com.unesco.core.dto.plan.SemesterNumberYear;
 import com.unesco.core.dto.shedule.*;
 import com.unesco.core.dto.task.TaskDescriptionDTO;
 import com.unesco.core.dto.task.TaskUserDTO;
@@ -252,9 +253,9 @@ public class MapperService implements IMapperService {
             certificationValueEntityList.add(this.certificationValueToEntity(c));
 
         CertificationEntity certificationEntity=new CertificationEntity();
-        certificationEntity.setEducationPeriod(this.educationPeriodToEntity(DTO.getEducationPeriod()));
         certificationEntity.setEndDate(DTO.getEndDate());
-        certificationEntity.setGroup(this.groupToEntity(DTO.getGroup()));
+        certificationEntity.setStartDate(DTO.getStartDate());
+        certificationEntity.setLesson(this.lessonToEntity(DTO.getLesson()));
         certificationEntity.setId(DTO.getId());
         certificationEntity.setCertificationValueList(certificationValueEntityList);
         return  certificationEntity;
@@ -269,8 +270,7 @@ public class MapperService implements IMapperService {
         return new CertificationDTO(entity.getId(),
                 entity.getStartDate(),
                 entity.getEndDate(),
-                this.groupToDto(entity.getGroup()),
-                this.educationPeriodToDto(entity.getEducationPeriod()),
+                this.lessonToDto(entity.getLesson()),
                 certificationValueDTOS);
     }
 
@@ -283,7 +283,6 @@ public class MapperService implements IMapperService {
         certificationValueEntity.setMissedAcademicHours(DTO.getMissedAcademicHours());
         return  certificationValueEntity;
     }
-
     public CertificationValueDTO certificationValueToDTO(CertificationValueEntity Entity){
         CertificationValueDTO certificationValueDTO=new CertificationValueDTO();
         certificationValueDTO.setId(Entity.getId());
@@ -608,7 +607,9 @@ public class MapperService implements IMapperService {
         LessonDTO Dto = new LessonDTO();
         Dto.setId((int) Entity.getId());
         Dto.setDiscipline(disciplineToDto(Entity.getDiscipline()));
-        Dto.setSemesterNumberYear(DateHelper.getYearAndSemesterForPeriod(Entity.getEducationPeriod().getStartDate(),
+        if(Entity.getEducationPeriod()!=null)
+        Dto.setSemesterNumberYear(DateHelper.getYearAndSemesterForPeriod(
+                Entity.getEducationPeriod().getStartDate(),
                 Entity.getEducationPeriod().getEndDate()));
 
         if (Entity.getGroup() != null)

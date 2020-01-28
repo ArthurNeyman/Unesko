@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICertificationService {
 
-    List<CertificationDTO> getCertificationListByGroupIdAndEducationPeriodId(long group_id, long education_period_id);
+    List<CertificationDTO> getCertificationListByLessonId(long lessonId);
     ResponseStatusDTO<CertificationDTO> saveCertification(CertificationDTO certificationDTO);
     ResponseStatusDTO<CertificationDTO> deleteCertification(CertificationDTO certification);
 }
