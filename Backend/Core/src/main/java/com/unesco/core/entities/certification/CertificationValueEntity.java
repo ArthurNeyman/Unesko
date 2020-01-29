@@ -8,10 +8,9 @@ import javax.persistence.*;
 @Table(name="un_certification_value")
 public class CertificationValueEntity {
     @Id
-    @SequenceGenerator(name = "pointSequenceGen", sequenceName = "pointSequenceGen", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pointSequenceGen")
+    @SequenceGenerator(name = "certificationValueSequenceGen", sequenceName = "certificationValueSequenceGen", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "certificationValueSequenceGen")
     private long id;
-
 
     @Column(name = "certification_id")
     private long certificationId;
@@ -29,7 +28,6 @@ public class CertificationValueEntity {
     public long getId() {
         return id;
     }
-
 
     public StudentEntity getStudent() {
         return student;

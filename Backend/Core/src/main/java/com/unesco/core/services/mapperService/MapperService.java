@@ -34,6 +34,7 @@ import com.unesco.core.entities.plan.EducationPeriodEntity;
 import com.unesco.core.entities.schedule.*;
 import com.unesco.core.entities.task.TaskDescription;
 import com.unesco.core.entities.task.TaskUser;
+import com.unesco.core.repositories.certification.CertificationRepository;
 import com.unesco.core.repositories.schedule.PairRepository;
 import com.unesco.core.repositories.account.StudentRepository;
 import com.unesco.core.utils.DateHelper;
@@ -52,6 +53,8 @@ public class MapperService implements IMapperService {
     private PairRepository pairRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private CertificationRepository certificationRepository;
 
     public <T> Object toEntity(T model) {
 
@@ -245,39 +248,32 @@ public class MapperService implements IMapperService {
 
         return Dto;
     }
-
+//----------------------------------------------------------------------------------------------------------------------
     public CertificationEntity certificationToEntity(CertificationDTO DTO){
         if (DTO == null) return null;
-        List<CertificationValueEntity> certificationValueEntityList=new ArrayList<>();
-        for(CertificationValueDTO c:DTO.getCertificationValueDTOList())
-            certificationValueEntityList.add(this.certificationValueToEntity(c));
-
         CertificationEntity certificationEntity=new CertificationEntity();
+
         certificationEntity.setEndDate(DTO.getEndDate());
         certificationEntity.setStartDate(DTO.getStartDate());
         certificationEntity.setLesson(this.lessonToEntity(DTO.getLesson()));
         certificationEntity.setId(DTO.getId());
-        certificationEntity.setCertificationValueList(certificationValueEntityList);
         return  certificationEntity;
     }
     public CertificationDTO certificationToDTO(CertificationEntity entity){
         if(entity==null) return null;
-        List<CertificationValueDTO> certificationValueDTOS=new ArrayList<CertificationValueDTO>();
+        CertificationDTO certificationDTO=new CertificationDTO();
+        certificationDTO.setId(entity.getId());
+        certificationDTO.setStartDate(entity.getStartDate());
+        certificationDTO.setEndDate(entity.getEndDate());
+        certificationDTO.setLesson(this.lessonToDto(entity.getLesson()));
 
-        for(CertificationValueEntity c:entity.getCertificationValueList())
-            certificationValueDTOS.add( this.certificationValueToDTO(c));
-
-        return new CertificationDTO(entity.getId(),
-                entity.getStartDate(),
-                entity.getEndDate(),
-                this.lessonToDto(entity.getLesson()),
-                certificationValueDTOS);
+       return  certificationDTO;
     }
 
     public CertificationValueEntity certificationValueToEntity(CertificationValueDTO DTO){
         CertificationValueEntity certificationValueEntity=new CertificationValueEntity();
-        certificationValueEntity.setId(DTO.getId());
         certificationValueEntity.setCertificationId(DTO.getCertificationId());
+        certificationValueEntity.setId(DTO.getId());
         certificationValueEntity.setCertificationValue(DTO.getCertificationValue());
         certificationValueEntity.setStudent(this.studentToEntity(DTO.getStudent()));
         certificationValueEntity.setMissedAcademicHours(DTO.getMissedAcademicHours());
@@ -285,6 +281,7 @@ public class MapperService implements IMapperService {
     }
     public CertificationValueDTO certificationValueToDTO(CertificationValueEntity Entity){
         CertificationValueDTO certificationValueDTO=new CertificationValueDTO();
+
         certificationValueDTO.setId(Entity.getId());
         certificationValueDTO.setCertificationId(Entity.getCertificationId());
         certificationValueDTO.setCertificationValue(Entity.getCertificationValue());
@@ -292,7 +289,7 @@ public class MapperService implements IMapperService {
         certificationValueDTO.setMissedAcademicHours(Entity.getMissedAcademicHours());
         return  certificationValueDTO;
     }
-
+//----------------------------------------------------------------------------------------------------------------------
     public AccessRightEntity accessRightToEntity(AccessRightDTO Dto) {
         if (Dto == null) return null;
         AccessRightEntity Entity = new AccessRightEntity();

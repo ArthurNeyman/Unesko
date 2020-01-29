@@ -64,9 +64,8 @@ export class JournalCertificationComponent implements OnInit {
 
                             return 0
                         })
-                    this.certificationReport = result.data;
                     this.selectedCertification = this.getCertificationForSave(result.data)
-
+                    
                 }, error => {
 
                 }
@@ -104,9 +103,13 @@ export class JournalCertificationComponent implements OnInit {
     }
 
     saveCertification() {
+        // let id=this.selectedCertification.id
+        // this.selectedCertification.certificationValueDTOList.map((el)=>{el.certificationId=id})
+                
         this.journalService.saveCertification(this.selectedCertification).subscribe(
-            (result) => {
+            (result) => {                
                 this.selectedCertification = result.data
+                console.log(this.selectedCertification)
                 if (result.status == "OK") {
                     this.successSaveCertification()
                     this.getCertificationList()

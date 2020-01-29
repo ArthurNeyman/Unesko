@@ -1,11 +1,9 @@
 package com.unesco.core.entities.certification;
 
-import com.unesco.core.dto.certification.CertificationValueDTO;
-import com.unesco.core.entities.plan.EducationPeriodEntity;
-import com.unesco.core.entities.schedule.GroupEntity;
 import com.unesco.core.entities.schedule.LessonEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +11,8 @@ import java.util.List;
 @Table(name="un_certification")
 public class CertificationEntity {
     @Id
-    @SequenceGenerator(name = "pointSequenceGen", sequenceName = "pointSequenceGen", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pointSequenceGen")
+    @SequenceGenerator(name = "certificationSequenceGen", sequenceName = "certificationSequenceGen", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "certificationSequenceGen")
     private long id;
 
     @Column(name = "start_date")
@@ -27,20 +25,11 @@ public class CertificationEntity {
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private LessonEntity lesson;
 
-    @ElementCollection
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "certificationId")
-    private List<CertificationValueEntity> certificationValueList;
+    public CertificationEntity() {
+    }
 
     public long getId() {
         return id;
-    }
-
-    public void setCertificationValueList(List<CertificationValueEntity> certificationValueList) {
-        this.certificationValueList = certificationValueList;
-    }
-
-    public List<CertificationValueEntity> getCertificationValueList() {
-        return certificationValueList;
     }
 
     public Date getStartDate() {

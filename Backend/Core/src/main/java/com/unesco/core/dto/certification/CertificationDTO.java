@@ -9,43 +9,52 @@ import java.util.List;
 
 public class CertificationDTO {
 
-
     private long id;
+    private Date startDate;
+    private Date endDate;
+    private LessonDTO lesson;
+    private List<CertificationValueDTO> certificationValueDTOList;
+
+    public CertificationDTO() {
+    }
 
     public long getId() {
         return id;
     }
 
-    private Date startDate;
-
-    public CertificationDTO() {
-    }
-
-    public CertificationDTO(long id, Date startDate, Date endDate, LessonDTO lesson, List<CertificationValueDTO> certificationValueDTOList) {
+    public void setId(long id) {
         this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.lesson = lesson;
-        this.certificationValueDTOList = certificationValueDTOList;
     }
 
     public Date getStartDate() {
         return startDate;
     }
 
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
     public Date getEndDate() {
         return endDate;
     }
 
-    public List<CertificationValueDTO> getCertificationValueDTOList() {
-        return certificationValueDTOList;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public LessonDTO getLesson() {
         return lesson;
     }
 
-    private Date endDate;
-    private LessonDTO lesson;
-    private List<CertificationValueDTO> certificationValueDTOList;
+    public void setLesson(LessonDTO lesson) {
+        this.lesson = lesson;
+    }
+
+    public List<CertificationValueDTO> getCertificationValueDTOList() {
+        return certificationValueDTOList;
+    }
+
+    public void setCertificationValueDTOList(List<CertificationValueDTO> certificationValueDTOList) {
+        this.certificationValueDTOList = certificationValueDTOList;
+    }
 }

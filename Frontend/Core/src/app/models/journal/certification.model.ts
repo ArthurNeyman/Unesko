@@ -1,5 +1,5 @@
 export class Certification {
-    private id: Number
+    public id: Number
     public startDate: String
     public endDate: String
     private lesson: any
