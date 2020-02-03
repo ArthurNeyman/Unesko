@@ -27,8 +27,8 @@ export class JournalCertificationComponent implements OnInit {
     public certificationReport: CertificationReport;
     public ru: any;
 
-    private certificationList: Certification[]
-    private selectedCertification: Certification
+    public certificationList: Certification[]
+    public selectedCertification: Certification
 
     constructor(private messageService: MessageService, private journalService: JournalService) {
     }
