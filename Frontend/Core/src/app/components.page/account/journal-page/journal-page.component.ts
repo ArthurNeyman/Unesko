@@ -45,6 +45,7 @@ export class JournalPageComponent implements OnInit {
     }
 
     loadSchedule() {
+        this.pairs=[]
         if (this.user.roles.find(x => x.roleName == Roles.Professor.toString()))
             this.getProffesorPair();
         else if (this.user.roles.find(x => x.roleName == Roles.Student.toString()))

@@ -24,3 +24,5 @@ import "zone.js/dist/zone";
 
 import "bootstrap/dist/js/bootstrap.min.js";
 import "stringformat/index.js";
+
+import "xlsx/dist/xlsx.min.js"

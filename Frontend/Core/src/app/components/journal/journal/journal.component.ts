@@ -17,7 +17,7 @@ export class JournalComponent implements OnInit {
     @Input() subgroupType: number = 0;
     @Input() semesterNumberYear: SemesterNumberYear;
     
-    private items: MenuItem[];
+    public items: MenuItem[];
     activeItem: MenuItem;
 
     ngOnInit(): void {

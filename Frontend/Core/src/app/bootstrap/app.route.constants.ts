@@ -132,6 +132,11 @@ export const ApiRouteConstants = {
         }
     },
     Journal: {
+        Certification:{
+            get:"journal/report/getCertification/:lessonId",
+            save:"journal/report/saveCertification",
+            delete:"journal/report/deleteCertification"
+        },
         All: "journal/:lessonId",
         СertificationReport: "journal/report/certification/:lessonId",
         Dates: "journal/dates/:lessonId",

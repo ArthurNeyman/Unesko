@@ -47,13 +47,13 @@ export class JournalService {
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Journal.All
-            .replace(":lessonId", lessonId), {params: params})
+            .replace(":lessonId", lessonId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
             );
     }
-    //journal-sertification service
+
     public GetJournalCertificationReport(lessonId, start, end, semesterNumberYear: SemesterNumberYear): Observable<ResponseStatus> {
         let params = new HttpParams();
         params = params.set("start", start);
@@ -62,7 +62,7 @@ export class JournalService {
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Journal.СertificationReport
-            .replace(":lessonId", lessonId), {params: params})
+            .replace(":lessonId", lessonId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
@@ -75,7 +75,7 @@ export class JournalService {
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Journal.Dates
-            .replace(":lessonId", lessonId), {params: params})
+            .replace(":lessonId", lessonId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
@@ -88,7 +88,7 @@ export class JournalService {
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Journal.HistoryDates
-            .replace(":lessonId", lessonId), {params: params})
+            .replace(":lessonId", lessonId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => {
                     for (let i = 0; i < res.data.length; i++) {
@@ -111,7 +111,7 @@ export class JournalService {
 
     public Save(journal): Observable<ResponseStatus> {
         let params = new HttpParams();
-        return this.http.post(ApiRouteConstants.Journal.Save, journal, {params: params})
+        return this.http.post(ApiRouteConstants.Journal.Save, journal, { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
@@ -120,7 +120,7 @@ export class JournalService {
 
     public SaveEvent(event: LessonEvent): Observable<ResponseStatus> {
         let params = new HttpParams();
-        return this.http.post(ApiRouteConstants.Journal.EventSave, event, {params: params})
+        return this.http.post(ApiRouteConstants.Journal.EventSave, event, { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
@@ -129,7 +129,7 @@ export class JournalService {
 
     public SaveVisitation(config: VisitationConfig): Observable<ResponseStatus> {
         let params = new HttpParams();
-        return this.http.post(ApiRouteConstants.Journal.VisitationConfigSave, config, {params: params})
+        return this.http.post(ApiRouteConstants.Journal.VisitationConfigSave, config, { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
@@ -154,16 +154,47 @@ export class JournalService {
             );
     }
 
-    public getAcademiPerformanceReport(semesterNumberYear:SemesterNumberYear,professorId:string){
+    //Получить отчет по профессору
+    public getAcademiPerformanceReport(semesterNumberYear: SemesterNumberYear, professorId: string) {
         let params = new HttpParams();
         params = params.set("semester", semesterNumberYear.semester.toString());
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.Report.ReportAcademicPerfomance
-            .replace(":professorId", professorId), {params: params})
+            .replace(":professorId", professorId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
             );
     }
+    //-------------------------------------------------------------------------------------------------------
+    //Получить список аттестаций по предмету
+    public getCertificationList(lessonId: Number) {
+        return this.http.get(ApiRouteConstants.Journal.Certification.get
+            .replace(":lessonId",lessonId.toString()))
+            .pipe(
+                map((res: ResponseStatus) => res),
+                catchError(e => this.handleError.handle(e))
+            );
+        
+    }
+    //Сохранить сформированную аттестацию
+    public saveCertification(certification):Observable<ResponseStatus> {
+        let params = new HttpParams();
+        return this.http.post(ApiRouteConstants.Journal.Certification.save,certification,{ params: params })
+            .pipe(
+                map((res: ResponseStatus) => res),
+                catchError(e => this.handleError.handle(e))
+            );
+    }
+    //Удалить аттестацию
+    public deleteCertification(certification) {
+        let params = new HttpParams();
+        return this.http.post(ApiRouteConstants.Journal.Certification.delete,certification,{ params: params })
+        .pipe(
+            map((res: ResponseStatus) => res),
+            catchError(e => this.handleError.handle(e))
+        );
+    }
+
 }

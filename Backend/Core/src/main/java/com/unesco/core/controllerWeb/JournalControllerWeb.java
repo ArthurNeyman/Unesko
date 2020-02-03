@@ -2,6 +2,7 @@ package com.unesco.core.controllerWeb;
 
 import com.unesco.core.controller.JournalController;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
+import com.unesco.core.dto.certification.CertificationDTO;
 import com.unesco.core.dto.journal.JournalDTO;
 import com.unesco.core.dto.journal.LessonEventDTO;
 import com.unesco.core.dto.journal.VisitationConfigDTO;
@@ -105,4 +106,18 @@ public class JournalControllerWeb {
             return journalController.getReportAcademicPerformance(professorId,semester,year);
     }
 
+    @RequestMapping("report/getCertification/{lessonId}")
+    public  ResponseStatusDTO getCertification(@PathVariable("lessonId") long lessonId){
+        return journalController.getCertification(lessonId);
+    }
+
+    @RequestMapping ("report/saveCertification")
+    public ResponseStatusDTO saveCertification(@RequestBody CertificationDTO certification){
+        return journalController.saveCertification(certification);
+    }
+
+    @RequestMapping("report/deleteCertification")
+    public ResponseStatusDTO deleteCertification(@RequestBody CertificationDTO certification){
+        return journalController.deleteCertification(certification);
+    }
 }
