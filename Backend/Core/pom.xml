@@ -89,7 +89,6 @@
             <version>1.5.8.RELEASE</version>
         </dependency>
 
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

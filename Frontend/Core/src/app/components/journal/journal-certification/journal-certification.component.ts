@@ -1,10 +1,11 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {Lesson} from "../../../models/shedule/lesson";
-import {SemesterNumberYear} from "../../../models/semesterNumberYear.model";
+import { SemesterNumberYear } from './../../../models/semesterNumberYear.model';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Lesson } from "../../../models/shedule/lesson";
 import { JournalService } from '../../../services/journal.service';
-import { Journal } from '../../../models/journal/journal.model';
 import { CertificationReport, CertificationStudent } from '../../../models/journal/certificationReport.model';
-import {DatePipe} from "@angular/common";
+import { DatePipe } from "@angular/common";
+import { MessageService } from 'primeng/api';
+import { Certification, CertificationValue } from '../../../models/journal/certification.model';
 
 
 @Component({
@@ -25,11 +26,16 @@ export class JournalCertificationComponent implements OnInit {
     public datePipe = new DatePipe("ru");
     public certificationReport: CertificationReport;
     public ru: any;
-    
-    constructor(private journalService: JournalService) {
+
+    public certificationList: Certification[]
+    public selectedCertification: Certification
+
+    constructor(private messageService: MessageService, private journalService: JournalService) {
     }
 
     ngOnInit(): void {
+        this.getCertificationList()
+
         this.ru = {
             firstDayOfWeek: 1,
             dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
@@ -48,20 +54,85 @@ export class JournalCertificationComponent implements OnInit {
             let end = this.datePipe.transform(this.reportEndDate, "yyyy-MM-dd");
             this.journalService.GetJournalCertificationReport(this.lesson.id, start, end, this.lesson.semesterNumberYear).subscribe(
                 result => {
-                    this.certificationReport = result.data;
+                    if (result.data.certificationValueDTOList)
+                        result.data.certificationValueDTOList.sort((first, second) => {
+                            if (first.student.user.userFIO > first.student.user.userFIO)
+                                return 1
+
+                            if (first.student.user.userFIO < first.student.user.userFIO)
+                                return -1
+
+                            return 0
+                        })
+                    this.selectedCertification = this.getCertificationForSave(result.data)
+                    
                 }, error => {
+
                 }
             );
 
         }
     }
 
-    getEventsSummValue(car: CertificationStudent) {
-        let summ = 0;
-        for (let s of car.eventValue) {
-            summ += s.value;
-        }
-        return summ;
+    getCertificationList() {
+        this.journalService.getCertificationList(this.lesson.id).subscribe(
+            result => {
+                this.certificationList = result.data
+                this.certificationList = [...this.certificationList.map((el): Certification => {
+                    el['name'] = this.datePipe.transform(el.startDate, "dd.MM.yyyy") + "-" + this.datePipe.transform(el.endDate, "dd.MM.yyyy");
+                    return el
+                })]
+            }, error => {
+            }
+        );
+
     }
-    
+
+    getCertificationForSave(certification) {
+        return new Certification(
+            this.datePipe.transform(this.reportStartDate, "yyyy-MM-dd"),
+            this.datePipe.transform(this.reportEndDate, "yyyy-MM-dd"),
+            certification.studentCertification.map((el) => {
+                return new CertificationValue(
+                    0,
+                    el.student,
+                    el.certificationValue,
+                    el.missingHours)
+            }),
+            this.lesson)
+    }
+
+    saveCertification() {
+        // let id=this.selectedCertification.id
+        // this.selectedCertification.certificationValueDTOList.map((el)=>{el.certificationId=id})
+                
+        this.journalService.saveCertification(this.selectedCertification).subscribe(
+            (result) => {                
+                this.selectedCertification = result.data
+                console.log(this.selectedCertification)
+                if (result.status == "OK") {
+                    this.successSaveCertification()
+                    this.getCertificationList()
+                }
+            }
+        )
+    }
+
+    deleteCertification() {
+        this.journalService.deleteCertification(this.selectedCertification).subscribe(result => {
+            if (result.status == "OK") {
+                this.getCertificationList();
+                this.selectedCertification = null
+                this.successDeleteCertification();
+            }
+        });
+    }
+
+    successSaveCertification() {
+        this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация сохранена' });
+    }
+
+    successDeleteCertification() {
+        this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация удалена' });
+    }
 }

@@ -14,15 +14,18 @@ import {EnumKeysPipe} from "../pipes/enum.keys";
 import {Globals} from "../globals";
 import {ProfileDirective} from "../directive/profile.dirictive";
 import {EnumStringKeysPipe} from "../pipes/enum.string.keys";
+import {FileUploadModule as ngFileUploadModule} from "ng2-file-upload";
+
 import {
     CheckboxModule,
-    EditorModule, FileUploadModule, InplaceModule,
+    EditorModule, 
+    FileUploadModule, 
+    InplaceModule,
     InputTextareaModule,
     RadioButtonModule,
     TabViewModule,
     TooltipModule
 } from "primeng/primeng";
-import {FileUploadModule as ngFileUploadModule} from "ng2-file-upload";
 import {ConfirmDialogModule} from 'primeng/primeng';
 import {InputTextModule} from 'primeng/primeng';
 import {DialogModule} from 'primeng/primeng';
@@ -38,6 +41,14 @@ import {SelectButtonModule} from 'primeng/primeng';
 import {ToggleButtonModule} from 'primeng/primeng';
 import {ConfirmationService} from 'primeng/primeng';
 import {MessageService} from 'primeng/primeng';
+import {TabMenuModule} from 'primeng/primeng';
+import {CardModule} from 'primeng/primeng';
+import {PanelModule} from 'primeng/primeng';
+import {AccordionModule} from 'primeng/primeng';
+import {ListboxModule} from 'primeng/primeng';
+
+import {ToastModule} from 'primeng/components/toast/toast';
+import {TableModule} from "primeng/components/table/table";
 // http
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {GlobalHttpOptions} from "../http/globalHttpOptions";
@@ -55,6 +66,7 @@ import {UtilsService} from "../services/utils.service";
 import {NotificationService} from "../services/notification.service";
 import {HandelErrorService} from "../services/handelError.service";
 import {FileService} from "../services/file.service";
+import {ExcelService } from '../services/excelService.service';
 // guards
 import {AuthGuard} from "../guards/auth.guard";
 // components
@@ -97,7 +109,6 @@ import {HasRoleDirective} from "../directive/hasRole.dirictive";
 import {UserSearchComponent} from "../components/shared/userSearch/userSearch";
 import {ScheduleComponent} from "../components.page/schedule/schedule.component";
 import {DetailTaskComponent} from "../components/task/detailTask/detailTask.component";
-import {TableModule} from "primeng/table";
 import {StudentsConfiguratorComponent} from "../components.page/adminPanel/studentsConfigurator/studentsConfigurator";
 import {AcademicPerformanceComponent} from "../components/journal/academic-performance/academic-performance.component";
 import {MoodleService} from "../services/moodle.service";
@@ -111,15 +122,6 @@ import {JournalFillComponent} from "../components/journal/journal-fill/journal-f
 import {JournalCertificationComponent} from "../components/journal/journal-certification/journal-certification.component";
 
 import {AcademicPerformanceReportComponent} from "../components/academiPerformanceReport/academicPerformanceReport.component";
-
-
-import {TabMenuModule} from 'primeng/tabmenu';
-import {CardModule} from 'primeng/card';
-import { ExcelService } from '../services/excelService.service';
-import {ToastModule} from 'primeng/toast';
-import {PanelModule} from 'primeng/panel';
-import {AccordionModule} from 'primeng/accordion';
-
 
 registerLocaleData(localeRu);
 
@@ -160,7 +162,8 @@ registerLocaleData(localeRu);
         CardModule,
         ToastModule,
         PanelModule,
-        AccordionModule
+        AccordionModule,
+        ListboxModule
         ],
     entryComponents: [
         ProfileComponent

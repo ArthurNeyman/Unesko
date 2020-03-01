@@ -5,6 +5,8 @@ import com.unesco.core.dto.account.ProfessorDTO;
 import com.unesco.core.dto.account.RoleDTO;
 import com.unesco.core.dto.account.StudentDTO;
 import com.unesco.core.dto.account.UserDTO;
+import com.unesco.core.dto.certification.CertificationDTO;
+import com.unesco.core.dto.certification.CertificationValueDTO;
 import com.unesco.core.dto.file.FileByteCodeModel;
 import com.unesco.core.dto.file.FileDescriptionModel;
 import com.unesco.core.dto.journal.LessonEventDTO;
@@ -14,10 +16,13 @@ import com.unesco.core.dto.journal.VisitationConfigDTO;
 import com.unesco.core.dto.news.NewsDTO;
 import com.unesco.core.dto.plan.DepartmentDTO;
 import com.unesco.core.dto.plan.EducationPeriodDTO;
+import com.unesco.core.dto.plan.SemesterNumberYear;
 import com.unesco.core.dto.shedule.*;
 import com.unesco.core.dto.task.TaskDescriptionDTO;
 import com.unesco.core.dto.task.TaskUserDTO;
 import com.unesco.core.entities.account.*;
+import com.unesco.core.entities.certification.CertificationEntity;
+import com.unesco.core.entities.certification.CertificationValueEntity;
 import com.unesco.core.entities.file.FileByteCode;
 import com.unesco.core.entities.file.FileDescription;
 import com.unesco.core.entities.journal.LessonEventEntity;
@@ -29,6 +34,7 @@ import com.unesco.core.entities.plan.EducationPeriodEntity;
 import com.unesco.core.entities.schedule.*;
 import com.unesco.core.entities.task.TaskDescription;
 import com.unesco.core.entities.task.TaskUser;
+import com.unesco.core.repositories.certification.CertificationRepository;
 import com.unesco.core.repositories.schedule.PairRepository;
 import com.unesco.core.repositories.account.StudentRepository;
 import com.unesco.core.utils.DateHelper;
@@ -47,11 +53,19 @@ public class MapperService implements IMapperService {
     private PairRepository pairRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private CertificationRepository certificationRepository;
 
     public <T> Object toEntity(T model) {
 
         if (model == null)
             return null;
+
+        if(model instanceof  CertificationDTO)
+            return this.certificationToEntity((CertificationDTO)model);
+
+        if(model instanceof  CertificationValueDTO)
+            return this.certificationValueToEntity((CertificationValueDTO)model);
 
         if (model instanceof LessonEventDTO)
             return lessonEventToEntity((LessonEventDTO) model);
@@ -135,6 +149,12 @@ public class MapperService implements IMapperService {
 
         if (entity == null)
             return null;
+
+        if(entity instanceof  CertificationEntity)
+            return this.certificationToDTO((CertificationEntity) entity);
+
+        if(entity instanceof  CertificationValueEntity)
+            return this.certificationValueToDTO((CertificationValueEntity)entity);
 
         if (entity instanceof LessonEventEntity)
             return lessonEventToDto((LessonEventEntity) entity);
@@ -228,7 +248,48 @@ public class MapperService implements IMapperService {
 
         return Dto;
     }
+//----------------------------------------------------------------------------------------------------------------------
+    public CertificationEntity certificationToEntity(CertificationDTO DTO){
+        if (DTO == null) return null;
+        CertificationEntity certificationEntity=new CertificationEntity();
 
+        certificationEntity.setEndDate(DTO.getEndDate());
+        certificationEntity.setStartDate(DTO.getStartDate());
+        certificationEntity.setLesson(this.lessonToEntity(DTO.getLesson()));
+        certificationEntity.setId(DTO.getId());
+        return  certificationEntity;
+    }
+    public CertificationDTO certificationToDTO(CertificationEntity entity){
+        if(entity==null) return null;
+        CertificationDTO certificationDTO=new CertificationDTO();
+        certificationDTO.setId(entity.getId());
+        certificationDTO.setStartDate(entity.getStartDate());
+        certificationDTO.setEndDate(entity.getEndDate());
+        certificationDTO.setLesson(this.lessonToDto(entity.getLesson()));
+
+       return  certificationDTO;
+    }
+
+    public CertificationValueEntity certificationValueToEntity(CertificationValueDTO DTO){
+        CertificationValueEntity certificationValueEntity=new CertificationValueEntity();
+        certificationValueEntity.setCertificationId(DTO.getCertificationId());
+        certificationValueEntity.setId(DTO.getId());
+        certificationValueEntity.setCertificationValue(DTO.getCertificationValue());
+        certificationValueEntity.setStudent(this.studentToEntity(DTO.getStudent()));
+        certificationValueEntity.setMissedAcademicHours(DTO.getMissedAcademicHours());
+        return  certificationValueEntity;
+    }
+    public CertificationValueDTO certificationValueToDTO(CertificationValueEntity Entity){
+        CertificationValueDTO certificationValueDTO=new CertificationValueDTO();
+
+        certificationValueDTO.setId(Entity.getId());
+        certificationValueDTO.setCertificationId(Entity.getCertificationId());
+        certificationValueDTO.setCertificationValue(Entity.getCertificationValue());
+        certificationValueDTO.setStudent(this.studentToDto(Entity.getStudent()));
+        certificationValueDTO.setMissedAcademicHours(Entity.getMissedAcademicHours());
+        return  certificationValueDTO;
+    }
+//----------------------------------------------------------------------------------------------------------------------
     public AccessRightEntity accessRightToEntity(AccessRightDTO Dto) {
         if (Dto == null) return null;
         AccessRightEntity Entity = new AccessRightEntity();
@@ -274,8 +335,7 @@ public class MapperService implements IMapperService {
         return Dto;
     }
 
-    public PointDTO pointToDto(PointEntity Entity)
-    {
+    public PointDTO pointToDto(PointEntity Entity) {
         if (Entity == null) return null;
         PointDTO Dto = new PointDTO();
         Dto.setId(Entity.getId());
@@ -287,8 +347,7 @@ public class MapperService implements IMapperService {
         Dto.setDateOfCreate(Entity.getDateOfCreate());
         return Dto;
     }
-    public PointEntity pointToEntity(PointDTO Dto)
-    {
+    public PointEntity pointToEntity(PointDTO Dto) {
         if (Dto == null) return null;
         PointEntity Entity = new PointEntity();
         Entity.setId(Dto.getId());
@@ -301,8 +360,7 @@ public class MapperService implements IMapperService {
         return Entity;
     }
 
-    public LessonEventDTO lessonEventToDto(LessonEventEntity Entity)
-    {
+    public LessonEventDTO lessonEventToDto(LessonEventEntity Entity){
         if (Entity == null) return null;
         LessonEventDTO Dto = new LessonEventDTO();
         Dto.setId(Entity.getId());
@@ -326,8 +384,7 @@ public class MapperService implements IMapperService {
         Dto.setType(pointTypeToDto(Entity.getType()));
         return Dto;
     }
-    public LessonEventEntity lessonEventToEntity(LessonEventDTO Dto)
-    {
+    public LessonEventEntity lessonEventToEntity(LessonEventDTO Dto) {
         if (Dto == null) return null;
         LessonEventEntity Entity = new LessonEventEntity();
         Entity.setId(Dto.getId());
@@ -352,16 +409,14 @@ public class MapperService implements IMapperService {
         return Entity;
     }
 
-    public PointTypeDTO pointTypeToDto(PointTypeEntity Entity)
-    {
+    public PointTypeDTO pointTypeToDto(PointTypeEntity Entity) {
         if (Entity == null) return null;
         PointTypeDTO Dto = new PointTypeDTO();
         Dto.setId(Entity.getId());
         Dto.setName(Entity.getName());
         return Dto;
     }
-    public PointTypeEntity pointTypeToEntity(PointTypeDTO Dto)
-    {
+    public PointTypeEntity pointTypeToEntity(PointTypeDTO Dto) {
         if (Dto == null) return null;
         PointTypeEntity Entity = new PointTypeEntity();
         Entity.setId(Dto.getId());
@@ -467,8 +522,7 @@ public class MapperService implements IMapperService {
         return Entity;
     }
 
-    public NewsDTO newsToDto(NewsEntity Entity)
-    {
+    public NewsDTO newsToDto(NewsEntity Entity) {
         if (Entity == null) return null;
         NewsDTO Dto = new NewsDTO();
         Dto.setId(Entity.getId());
@@ -481,8 +535,7 @@ public class MapperService implements IMapperService {
         Dto.setTags(Entity.getTags());
         return Dto;
     }
-    public NewsEntity newsToEntity(NewsDTO Dto)
-    {
+    public NewsEntity newsToEntity(NewsDTO Dto) {
         if (Dto == null) return null;
         NewsEntity Entity = new NewsEntity();
         Entity.setId(Dto.getId());
@@ -496,8 +549,7 @@ public class MapperService implements IMapperService {
         return Entity;
     }
 
-    public ProfessorDTO professorToDto(ProfessorEntity Entity)
-    {
+    public ProfessorDTO professorToDto(ProfessorEntity Entity) {
         if (Entity == null) return null;
         ProfessorDTO Dto = new ProfessorDTO();
         Dto.setId(Entity.getId());
@@ -505,8 +557,7 @@ public class MapperService implements IMapperService {
         Dto.setDepartment((DepartmentDTO) departmentToDto(Entity.getDepartment()));
         return Dto;
     }
-    public ProfessorEntity professorToEntity(ProfessorDTO Dto)
-    {
+    public ProfessorEntity professorToEntity(ProfessorDTO Dto) {
         if (Dto == null) return null;
         ProfessorEntity Entity = new ProfessorEntity();
         Entity.setId(Dto.getId());
@@ -515,8 +566,7 @@ public class MapperService implements IMapperService {
         return Entity;
     }
 
-    public StudentDTO studentToDto(StudentEntity Entity)
-    {
+    public StudentDTO studentToDto(StudentEntity Entity) {
         if (Entity == null) return null;
         StudentDTO Dto = new StudentDTO();
         Dto.setId(Entity.getId());
@@ -524,8 +574,7 @@ public class MapperService implements IMapperService {
         Dto.setGroup((GroupDTO) groupToDto(Entity.getGroup()));
         return Dto;
     }
-    public StudentEntity studentToEntity(StudentDTO Dto)
-    {
+    public StudentEntity studentToEntity(StudentDTO Dto) {
         if (Dto == null) return null;
         StudentEntity Entity = new StudentEntity();
         Entity.setId(Dto.getId());
@@ -534,16 +583,14 @@ public class MapperService implements IMapperService {
         return Entity;
     }
 
-    public RoomDTO roomToDto(RoomEntity Entity)
-    {
+    public RoomDTO roomToDto(RoomEntity Entity) {
         if (Entity == null) return null;
         RoomDTO Dto = new RoomDTO();
         Dto.setId(Entity.getId());
         Dto.setRoom(Entity.getRoom());
         return Dto;
     }
-    public RoomEntity roomToEntity(RoomDTO Dto)
-    {
+    public RoomEntity roomToEntity(RoomDTO Dto) {
         if (Dto == null) return null;
         RoomEntity Entity = new RoomEntity();
         Entity.setId(Dto.getId());
@@ -557,7 +604,9 @@ public class MapperService implements IMapperService {
         LessonDTO Dto = new LessonDTO();
         Dto.setId((int) Entity.getId());
         Dto.setDiscipline(disciplineToDto(Entity.getDiscipline()));
-        Dto.setSemesterNumberYear(DateHelper.getYearAndSemesterForPeriod(Entity.getEducationPeriod().getStartDate(),
+        if(Entity.getEducationPeriod()!=null)
+        Dto.setSemesterNumberYear(DateHelper.getYearAndSemesterForPeriod(
+                Entity.getEducationPeriod().getStartDate(),
                 Entity.getEducationPeriod().getEndDate()));
 
         if (Entity.getGroup() != null)

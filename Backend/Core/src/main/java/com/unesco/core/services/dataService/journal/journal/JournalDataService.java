@@ -1,6 +1,5 @@
 package com.unesco.core.services.dataService.journal.journal;
 
-import com.unesco.core.dto.account.StudentDTO;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.PointTypes;
 import com.unesco.core.dto.enums.StatusTypes;
@@ -21,7 +20,6 @@ import com.unesco.core.utils.StartEndDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 

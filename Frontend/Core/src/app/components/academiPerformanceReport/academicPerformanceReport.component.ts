@@ -29,7 +29,7 @@ export class AcademicPerformanceReportComponent implements OnInit{
     private checked: boolean;
     private selectedLessons:boolean[];
     private ckeck=false;
-    private field:string='report-choose';
+    public field:string='report-choose';
     cols: any[];
 
     constructor(private messageService:MessageService,  private journalService:JournalService,private excelService:ExcelService) {}
