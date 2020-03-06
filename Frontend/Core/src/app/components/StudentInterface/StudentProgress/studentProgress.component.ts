@@ -25,6 +25,7 @@ export class StudentProgressComponent implements OnInit {
   public gotList: any;
   public yearsStudy: any;
   public selectSemester: any;
+  public dates: Array<Date> = [];
 
   constructor(
     private JournalService: JournalService,
@@ -71,13 +72,19 @@ export class StudentProgressComponent implements OnInit {
         mark = "Удовлетворительно";
       }
 
+      let percentStr = percent.toString();
+
+      if (percentStr.indexOf(".")) {
+        percentStr = percent.toFixed(2);
+      }
+
       this.listLessons.push({
         max_value: item.maxValue,
         value: item.value,
         name_discipline: item.lesson.discipline.name,
         year: item.lesson.semesterNumberYear.year,
         semester: item.lesson.semesterNumberYear.semester,
-        percent: percent,
+        percent: percentStr,
         mark: mark
       });
     }

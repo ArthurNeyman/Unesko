@@ -25,8 +25,16 @@ public interface PointRepository extends CrudRepository<PointEntity, Long> {
                                                          @Param("typeId") long typeId,
                                                          @Param("pairId") long pairId,
                                                          @Param("dateOfCreate") Date dateOfCreate);
-    @Query("SELECT sum(p.value) FROM PointEntity p where p.student.id = :studentId AND" +
+    @Query("SELECT p FROM PointEntity p where p.student.id = :studentId AND" +
             " p.pair.id = :pairId")
-    Integer findByStudentIdAndPairId(@Param("studentId") long studentId,
+    List<PointEntity> findByStudentIdAndPairId(@Param("studentId") long studentId,
                                                @Param("pairId") long pairId);
+
+    List<PointEntity> findByStudentIdAndTypeId(@Param("studentId") long studentId, @Param("typeId") long typeId);
+
+    @Query("SELECT sum(p.value) FROM PointEntity p where p.student.id = :studentId AND" +
+            " p.pair.id = :pairId AND p.type.id = :eventId")
+    Integer getSumEvent(@Param("eventId") long event_id,
+                      @Param("pairId") long pair_id,
+                      @Param("studentId") long student_id);
 }

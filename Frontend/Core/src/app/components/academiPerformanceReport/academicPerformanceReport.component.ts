@@ -46,7 +46,7 @@ export class AcademicPerformanceReportComponent implements OnInit{
 
     load(){
         this.show=false;
-        this.journalService.getAcademiPerformanceReport(this.semesterNumberYear).subscribe(
+        this.journalService.getAcademiPerformanceReport(this.semesterNumberYear, this.user.id.toString()).subscribe(
             result=>{
                 this.data=result.data;
                 this.show=true;

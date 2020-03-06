@@ -166,9 +166,34 @@ public class PointDataService implements IPointDataService {
         return result;
     }
 
-    public int getByStudentAndPair(long studentId, long pairId)
+    public List<PointDTO> getByStudentAndPair(long studentId, long pairId)
     {
-        return (pointRepository.findByStudentIdAndPairId(studentId, pairId)!=null)?pointRepository.findByStudentIdAndPairId(studentId, pairId):0;
+
+        List<PointEntity> pointsEntity = pointRepository.findByStudentIdAndPairId(studentId, pairId);
+        List<PointDTO> modelList = new ArrayList<>();
+        for (PointEntity item: pointsEntity) {
+            PointDTO model = (PointDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+        return modelList;
     }
+
+    // Получить баллы для студента для конкретного вида деятельности
+    public List<PointDTO> getValueForEventLessonByStudentIdAndPointType(long studentId, long pairId)
+    {
+        List<PointEntity> valuesEventLesson = pointRepository.findByStudentIdAndTypeId(studentId, pairId);
+        List<PointDTO> modelList = new ArrayList<>();
+        for (PointEntity item: valuesEventLesson) {
+            PointDTO model = (PointDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+        return modelList;
+    }
+
+
+    public int getSumValueByEventPairStudentId(long event_id, long pair_id, long student_id) {
+      return pointRepository.getSumEvent(event_id, pair_id, student_id) != null ? pointRepository.getSumEvent(event_id, pair_id, student_id) : 0;
+    };
+
 
 }
