@@ -14,6 +14,7 @@ import { catchError, map } from "rxjs/operators";
 import { HandelErrorService } from "../../../services/handelError.service";
 import { JournalService } from "../../../services/journal.service";
 
+
 @Component({
   selector: "student-progress",
   templateUrl: "./studentProgress.component.html",
@@ -26,6 +27,7 @@ export class StudentProgressComponent implements OnInit {
   public yearsStudy: any;
   public selectSemester: any;
   public dates: Array<Date> = [];
+  public showDetail: Array<any> = [];
 
   constructor(
     private JournalService: JournalService,
@@ -47,8 +49,7 @@ export class StudentProgressComponent implements OnInit {
     this.JournalService.GetStudentPerformance(this.user.id).subscribe(res => {
       this.gotList = res.data;
       this.yearsStudy = [];
-      this.setList(res.data)
-
+      this.setList(res.data);
     });
   }
 
@@ -78,6 +79,13 @@ export class StudentProgressComponent implements OnInit {
         percentStr = percent.toFixed(2);
       }
 
+      let events = [];
+      for (let eventId in item.eventsPairWithPoints) {
+        let event = item.eventsPairWithPoints[eventId];
+        console.log(event);
+        events.push(event);
+      }
+
       this.listLessons.push({
         max_value: item.maxValue,
         value: item.value,
@@ -85,17 +93,20 @@ export class StudentProgressComponent implements OnInit {
         year: item.lesson.semesterNumberYear.year,
         semester: item.lesson.semesterNumberYear.semester,
         percent: percentStr,
-        mark: mark
+        mark: mark,
+        events: events
       });
     }
+
+    console.log(this.listLessons);
   }
 
   filterByYear(numberYear) {
     this.setList(this.gotList);
-    console.log(numberYear)
-    if (numberYear == 0)  {
-    this.setList(this.gotList);
-    return;
+    console.log(numberYear);
+    if (numberYear == 0) {
+      this.setList(this.gotList);
+      return;
     }
     this.listLessons = this.listLessons.filter(item => {
       return item.year == numberYear;
@@ -112,5 +123,14 @@ export class StudentProgressComponent implements OnInit {
 
   consoleLog(event) {
     console.log("consoleLog = ", event);
+  }
+
+  changeShow(index) {
+    if (this.showDetail[index]) {
+      this.showDetail[index] = false;
+    } else {
+      this.showDetail[index] = true;
+    }
+    console.log(" this.showDetail = ",  this.showDetail);
   }
 }
