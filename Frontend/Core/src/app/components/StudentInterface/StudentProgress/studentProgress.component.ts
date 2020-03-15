@@ -1,5 +1,5 @@
 /**
- * Компонент просомтра баллов
+ * Компонент просмотров баллов
  * Разработал: Константинов Вадим М-164
  * Дата: 26.12.2019
  **/
@@ -28,6 +28,8 @@ export class StudentProgressComponent implements OnInit {
   public selectSemester: any;
   public dates: Array<Date> = [];
   public showDetail: Array<any> = [];
+  public numberYear: String = '0';
+  public numberSemestr: String = '0';
 
   constructor(
     private JournalService: JournalService,
@@ -82,7 +84,6 @@ export class StudentProgressComponent implements OnInit {
       let events = [];
       for (let eventId in item.eventsPairWithPoints) {
         let event = item.eventsPairWithPoints[eventId];
-        console.log(event);
         events.push(event);
       }
 
@@ -97,32 +98,35 @@ export class StudentProgressComponent implements OnInit {
         events: events
       });
     }
-
-    console.log(this.listLessons);
   }
 
-  filterByYear(numberYear) {
+  public startFilter() {
+    console.log(this.numberYear);
+    console.log(this.numberSemestr);
     this.setList(this.gotList);
-    console.log(numberYear);
-    if (numberYear == 0) {
-      this.setList(this.gotList);
+    if (this.numberYear == '0' && this.numberSemestr == '0') {
       return;
     }
     this.listLessons = this.listLessons.filter(item => {
-      return item.year == numberYear;
+      let flagYear: Boolean = false, flagSemestr: Boolean = false;
+      if (this.numberYear == '0' || this.numberYear == item.year) {
+        flagYear = true;
+      } 
+      if (this.numberSemestr == '0' || this.numberSemestr == item.semester) {
+        flagSemestr = true;
+      }
+      return flagYear && flagSemestr;
     });
   }
 
-  filterBySemester(numberSemester) {
-    this.setList(this.gotList);
-    this.listLessons = this.listLessons.filter(item => {
-      if (numberSemester == 0) return true;
-      return item.semester == numberSemester;
-    });
+  changeFilterYear(numberYear) {
+    this.numberYear = numberYear;
+    this.startFilter();
   }
 
-  consoleLog(event) {
-    console.log("consoleLog = ", event);
+  changeFilterSemestYear(numberSemester) {
+    this.numberSemestr = numberSemester;
+    this.startFilter();
   }
 
   changeShow(index) {
@@ -131,6 +135,5 @@ export class StudentProgressComponent implements OnInit {
     } else {
       this.showDetail[index] = true;
     }
-    console.log(" this.showDetail = ",  this.showDetail);
   }
 }
