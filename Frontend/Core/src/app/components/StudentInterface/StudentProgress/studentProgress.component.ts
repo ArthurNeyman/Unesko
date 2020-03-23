@@ -1,5 +1,5 @@
 /**
- * Компонент просомтра баллов
+ * Компонент просмотров баллов
  * Разработал: Константинов Вадим М-164
  * Дата: 26.12.2019
  **/
@@ -14,6 +14,7 @@ import { catchError, map } from "rxjs/operators";
 import { HandelErrorService } from "../../../services/handelError.service";
 import { JournalService } from "../../../services/journal.service";
 
+
 @Component({
   selector: "student-progress",
   templateUrl: "./studentProgress.component.html",
@@ -25,6 +26,10 @@ export class StudentProgressComponent implements OnInit {
   public gotList: any;
   public yearsStudy: any;
   public selectSemester: any;
+  public dates: Array<Date> = [];
+  public showDetail: Array<any> = [];
+  public numberYear: String = '0';
+  public numberSemestr: String = '0';
 
   constructor(
     private JournalService: JournalService,
@@ -70,38 +75,65 @@ export class StudentProgressComponent implements OnInit {
         mark = "Удовлетворительно";
       }
 
+      let percentStr = percent.toString();
+
+      if (percentStr.indexOf(".")) {
+        percentStr = percent.toFixed(2);
+      }
+
+      let events = [];
+      for (let eventId in item.eventsPairWithPoints) {
+        let event = item.eventsPairWithPoints[eventId];
+        events.push(event);
+      }
+
       this.listLessons.push({
         max_value: item.maxValue,
         value: item.value,
         name_discipline: item.lesson.discipline.name,
         year: item.lesson.semesterNumberYear.year,
         semester: item.lesson.semesterNumberYear.semester,
-        percent: percent,
-        mark: mark
+        percent: percentStr,
+        mark: mark,
+        events: events
       });
     }
   }
 
-  filterByYear(numberYear) {
+  public startFilter() {
+    console.log(this.numberYear);
+    console.log(this.numberSemestr);
     this.setList(this.gotList);
-    if (numberYear == 0) {
-      this.setList(this.gotList);
+    if (this.numberYear == '0' && this.numberSemestr == '0') {
       return;
     }
     this.listLessons = this.listLessons.filter(item => {
-      return item.year == numberYear;
+      let flagYear: Boolean = false, flagSemestr: Boolean = false;
+      if (this.numberYear == '0' || this.numberYear == item.year) {
+        flagYear = true;
+      } 
+      if (this.numberSemestr == '0' || this.numberSemestr == item.semester) {
+        flagSemestr = true;
+      }
+      return flagYear && flagSemestr;
     });
   }
 
-  filterBySemester(numberSemester) {
-    this.setList(this.gotList);
-    this.listLessons = this.listLessons.filter(item => {
-      if (numberSemester == 0) return true;
-      return item.semester == numberSemester;
-    });
+  changeFilterYear(numberYear) {
+    this.numberYear = numberYear;
+    this.startFilter();
   }
 
-  consoleLog(event) {
-    console.log("consoleLog = ", event);
+  changeFilterSemestYear(numberSemester) {
+    this.numberSemestr = numberSemester;
+    this.startFilter();
+  }
+
+  changeShow(index) {
+    if (this.showDetail[index]) {
+      this.showDetail[index] = false;
+    } else {
+      this.showDetail[index] = true;
+    }
   }
 }

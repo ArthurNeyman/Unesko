@@ -1,0 +1,141 @@
+.panel {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+}
+
+.panel-body {
+  font-size: 13px;
+}
+
+.filters-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px
+}
+
+.search {
+  position: relative;
+}
+
+.search input {
+  width: 300px;
+  height: 30px;
+  padding-left: 10px;
+  padding-right: 55px;
+}
+
+.period {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-start {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.calendar-end {
+  margin-left: 10px;
+}
+
+.calendar-start, .calendar-end {
+  width: 100px;
+}
+
+.btn-clean {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  top: 0;
+  height: 30px;
+  width: 20px;
+  right: 5px;
+}
+
+.btn-clean:hover {
+  opacity: 0.7;
+}
+
+
+.table-tabs {
+  display: grid;
+  grid-template-columns: 25% 15% minmax(90px , 10%) 10% 15% 15% 10%;
+  min-height: 35px;
+  border-radius: 4px;
+  background-color: #000000ab;
+}
+
+.table-tabs__tab {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  padding: 5px 10px;
+  text-align: center;
+  color: #fff;
+}
+
+.table-tabs__tab:nth-child(1) {
+  z-index: 7;
+    box-shadow: 6px 0px 0px -5px #cccccc;
+}
+
+.table-tabs__tab:nth-child(2) {
+  z-index: 6;
+    box-shadow: 6px 0px 0px -5px #cccccc;
+}
+
+.table-tabs__tab:nth-child(3) {
+  z-index: 5;
+    box-shadow: 6px 0px 0px -5px #cccccc;
+}
+
+.table-tabs__tab:nth-child(4){
+  z-index: 4;
+    box-shadow: 6px 0px 0px -5px #cccccc;
+}
+
+.table-tabs__tab:nth-child(5) {
+  z-index: 3;
+    box-shadow: 6px 0px 0px -5px #cccccc;
+}
+
+.table-tabs__tab:nth-child(6) {
+  z-index: 2;
+    box-shadow: 6px 0px 0px -5px #cccccc;
+}
+
+.table-tabs__tab:nth-child(7) {
+  z-index: 1;
+}
+
+.table-content {
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+}
+
+.table-content-item {
+  display: grid;
+  grid-template-columns: 25% 15% minmax(90px , 10%) 10% 15% 15% 10%;
+  min-height: 30px;
+}
+
+.table-content-item:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.table-content-item__tr {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  padding: 5px 10px;
+  text-align: center;
+}

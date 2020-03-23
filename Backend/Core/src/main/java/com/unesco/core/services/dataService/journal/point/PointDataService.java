@@ -4,6 +4,7 @@ import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.PointDTO;
 import com.unesco.core.dto.shedule.PairDTO;
+import com.unesco.core.dto.studentInterface.ArchivePointDTO;
 import com.unesco.core.entities.journal.PointEntity;
 import com.unesco.core.entities.schedule.PairEntity;
 import com.unesco.core.repositories.journal.PointRepository;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -166,9 +169,56 @@ public class PointDataService implements IPointDataService {
         return result;
     }
 
-    public int getByStudentAndPair(long studentId, long pairId)
+    public List<PointDTO> getByStudentAndPair(long studentId, long pairId)
     {
-        return (pointRepository.findByStudentIdAndPairId(studentId, pairId)!=null)?pointRepository.findByStudentIdAndPairId(studentId, pairId):0;
+
+        List<PointEntity> pointsEntity = pointRepository.findByStudentIdAndPairId(studentId, pairId);
+        List<PointDTO> modelList = new ArrayList<>();
+        for (PointEntity item: pointsEntity) {
+            PointDTO model = (PointDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+        return modelList;
     }
+
+    // Получить баллы для студента для конкретного вида деятельности
+    public List<PointDTO> getValueForEventLessonByStudentIdAndPointType(long studentId, long pairId)
+    {
+        List<PointEntity> valuesEventLesson = pointRepository.findByStudentIdAndTypeId(studentId, pairId);
+        List<PointDTO> modelList = new ArrayList<>();
+        for (PointEntity item: valuesEventLesson) {
+            PointDTO model = (PointDTO) mapperService.toDto(item);
+            modelList.add(model);
+        }
+        return modelList;
+    }
+
+
+    public int getSumValueByEventPairStudentId(long event_id, long pair_id, long student_id) {
+      return pointRepository.getSumEvent(event_id, pair_id, student_id) != null ? pointRepository.getSumEvent(event_id, pair_id, student_id) : 0;
+    };
+
+    public List<ArchivePointDTO> getArchivePoints(long student_id, Date formatDateStart, Date formatDateEnd) {
+        List<ArchivePointDTO> modelList = new ArrayList<>();
+        for (PointEntity item: pointRepository.findByStudentIdAndDateBetween(student_id, formatDateStart, formatDateEnd)) {
+            ArchivePointDTO archivePoint = new ArchivePointDTO();
+            archivePoint.setValue(item.getValue());
+
+            DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
+            String formattedDate = formatter.format(item.getDate());
+            archivePoint.setDate(formattedDate);
+
+            archivePoint.setTypePointTitle(item.getType().getName());
+            archivePoint.setRoomTitle(item.getPair().getRoom().getRoom());
+            archivePoint.setDayOfweek(item.getPair().getDayofweek());
+            archivePoint.setLessonTitle(item.getPair().getLesson().getDiscipline().getName());
+            archivePoint.setTypePairTitle(item.getPair().getPairType().getType());
+            modelList.add(archivePoint);
+        }
+
+        return modelList;
+    }
+
 
 }

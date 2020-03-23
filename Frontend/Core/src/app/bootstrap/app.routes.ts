@@ -2,8 +2,10 @@
 import {RouterModule, Routes} from "@angular/router";
 import {RouteConstants} from "./app.route.constants";
 
-
+// Успеваемость студента
 import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
+// Архив отметок
+import {ArchivePointsComponent} from "../components/studentInterface/archivePoints/archivePoints.component";
 
 import {AuthGuard} from "../guards/auth.guard";
 import {ListNewsComponent} from "../components/news/list-news/list-news.component";
@@ -17,7 +19,11 @@ import {AccountComponent} from "../components.page/account/account.component";
 import {ScheduleComponent} from "../components.page/schedule/schedule.component";
 
 export const routes: Routes = [
-   
+   {
+      path: RouteConstants.Student.ArchivePoints,
+      component: ArchivePointsComponent,
+      data: {title: "Архив отметок"}
+   },
 
    {
       path: RouteConstants.Student.Performance,

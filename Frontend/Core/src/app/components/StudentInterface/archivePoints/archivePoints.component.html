@@ -1,0 +1,75 @@
+<div class="panel panel-default panel-inverse ">
+  <div class="panel-heading">
+    <!-- Название блока -->
+    <div class="header-component__title">
+      <h3>Архив отметок</h3>
+    </div>
+  </div>
+  <!-- Таблицы -->
+  <div class="panel-body">
+    <div class="filters-block">
+        <div class="search">
+          <input type="text" placeholder="Введите поисковый запрос" [(ngModel)]="searchText" (input)="startSearch()">
+          <div class="btn-clean" *ngIf="searchText" (click)="cleanSearch()"><i class="fa fa-times" aria-hidden="true"></i></div>
+        </div>
+        <div class="period">
+          <span>Период с</span>
+          <div class="calendar-start">
+              <p-calendar  [locale]="ru" [(ngModel)]="dateStart" (ngModelChange)="changePeriod()" [yearRange]="yearPeriod"
+                          dateFormat="dd.mm.yy" [monthNavigator]="true" [yearNavigator]="true" [showButtonBar]="true"
+                          [style]="{'width':'100%'}" styleClass="my-calendar"
+                          [inputStyle]="{'opacity':'1'}"></p-calendar>
+          </div>
+          <span>по</span>
+          <div class="calendar-end">
+              <p-calendar  [locale]="ru" [(ngModel)]="dateEnd" (ngModelChange)="changePeriod()" [yearRange]="yearPeriod"
+                        dateFormat="dd.mm.yy" [monthNavigator]="true" [yearNavigator]="true" [showButtonBar]="true"
+                        [style]="{'width':'100%'}" styleClass="my-calendar"
+                        [inputStyle]="{'opacity':'1'}"></p-calendar>
+          </div>
+        </div>
+    </div>    
+    <div class="table-tabs">
+      <!-- Название предмета -->
+      <div class="table-tabs__tab">
+        <span>Наименование предмета</span>
+      </div>
+      <!-- Вид занятия -->
+      <div class="table-tabs__tab">
+        <span>Вид занятия</span>  
+      </div>
+      <!-- Дата -->
+      <div class="table-tabs__tab">
+        <span>Дата</span>
+      </div>
+      <!-- Количество баллов -->
+      <div class="table-tabs__tab">
+        <span>Количество баллов</span>
+      </div>
+      <!-- Тип события  -->
+      <div class="table-tabs__tab">
+        <span>Тип события</span>
+      </div>
+      <!-- День недели  -->
+      <div class="table-tabs__tab">
+        <span>День недели</span>
+      </div>
+      <!-- Номер кабинета  -->
+      <div class="table-tabs__tab">
+        <span>Номер кабинета</span>
+      </div>
+    </div>
+    <!-- Таблица -->
+    <div class="table-content">
+      <div class="table-content-item" *ngFor="let item of filteredArchivePoints;let index=index">
+        <div class="table-content-item__tr">{{ item.lessonTitle }}</div>
+        <div class="table-content-item__tr">{{ item.typePairTitle }}</div>
+        <div class="table-content-item__tr">{{ item.date }}</div>
+        <div class="table-content-item__tr">{{ item.value }}</div>
+        <div class="table-content-item__tr">{{ item.typePointTitle }}</div>
+        <div class="table-content-item__tr">{{ item.dayOfweek }}</div>
+        <div class="table-content-item__tr">{{ item.roomTitle }}</div>
+      </div>
+    </div>
+  </div>
+</div>

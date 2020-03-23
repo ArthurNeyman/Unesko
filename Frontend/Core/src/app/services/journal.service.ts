@@ -21,10 +21,26 @@ export class JournalService {
     ) {
     }
 
+    
+    public GetArchivePoint(userID, dateStart, dateEnd): Observable<ResponseStatus> {
+        let params = new HttpParams();
+        params = params.set("userId", userID.toString());
+        params = params.set("dateStart", dateStart.toString());
+        params = params.set("dateEnd", dateEnd.toString());
+
+        return this.http
+          .post("Performance/archive-points", params)
+          .pipe(
+            map((res: ResponseStatus) => res),
+            catchError(e => this.handleError.handle(e))
+          );
+      }
+
     public GetStudentPerformance(userID): Observable<ResponseStatus> {
-      let params = new HttpParams().set("userId", userID.toString());;
+      let params = new HttpParams().set("userId", userID.toString());
+      console.log(userID);
       return this.http
-        .post("performance/points", params)
+        .post("Performance/points", params)
         .pipe(
           map((res: ResponseStatus) => res),
           catchError(e => this.handleError.handle(e))
@@ -176,7 +192,7 @@ export class JournalService {
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
             );
-        
+
     }
     //Сохранить сформированную аттестацию
     public saveCertification(certification):Observable<ResponseStatus> {

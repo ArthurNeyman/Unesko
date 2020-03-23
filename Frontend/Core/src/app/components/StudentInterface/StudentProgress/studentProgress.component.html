@@ -15,8 +15,9 @@
           </div>
           <div class="semestr-block row-block-date">
             <label for="exampleFormControlSelect1">Семестр</label>
-            <select class="form-control" id="exampleFormControlSelect1" (change)="filterBySemester($event.target.value)">
-              <option value="0" >-</option>
+            <select class="form-control" id="exampleFormControlSelect1"
+              (change)="filterBySemester($event.target.value)">
+              <option value="0">-</option>
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -34,33 +35,53 @@
             <div class="percent-points col3 tab-form">
               <span>Процентное соотношение</span>
             </div>
-            
+
             <div class="year col4 tab-form">
               <span>Учебный год</span>
             </div>
-            
+
             <div class="semestr col5 tab-form">
               <span>Семестр</span>
             </div>
           </div>
           <div class="content-table">
-            <div class="row-table" *ngFor="let discipline of listLessons">
-              <div class="name-discipline-tr col1 tr-form">
-                <span>{{ discipline.name_discipline }}</span>
+            <div class="row-table" *ngFor="let discipline of listLessons;let index=index">
+              <div class="tr-container" (click)="changeShow(index)">
+                <div class="name-discipline-tr col1 tr-form">
+                  <span>{{ discipline.name_discipline }}</span>
+                </div>
+                <div class="current-points-tr col2 tr-form">
+                  <span>{{ discipline.value }} из {{ discipline.max_value }}</span>
+                </div>
+                <div class="percent-points-tr col3 tr-form">
+                  <span>{{ discipline.percent }} %</span>
+                </div>
+
+                <div class="year-tr col4 tr-form">
+                  <span>{{ discipline.year }}</span>
+                </div>
+
+                <div class="semestr-tr col5 tr-form">
+                  <span>{{ discipline.semester }}</span>
+                </div>
               </div>
-              <div class="current-points-tr col2 tr-form">
-                <span>{{ discipline.value }} из {{ discipline.max_value }}</span>
-              </div>
-              <div class="percent-points-tr col3 tr-form">
-                <span>{{ discipline.percent }} %</span>
-              </div>
-              
-              <div class="year-tr col4 tr-form">
-                <span>{{ discipline.year }}</span>
-              </div>
-              
-              <div class="semestr-tr col5 tr-form">
-                <span>{{ discipline.semester }}</span>
+              <div class="dropdown-table" *ngIf="this.showDetail[index] && discipline.events.length > 0">
+                <div class="dropdown-tabs">
+                    <div class="tab-dd-form">
+                      Тип события
+                    </div> 
+                    <div class="tab-dd-form">
+                      Набранно баллов
+                    </div>
+                    <div class="tab-dd-form">
+                      Максимум баллов
+                    </div>
+                </div>
+                <div class="dropdown-content" *ngFor="let event of discipline.events">
+                  <div class="tr-dd-form"> {{event.titleEvent }}</div>
+                  <div class="tr-dd-form"> {{event.currentValue }}</div>
+                  <div class="tr-dd-form"> {{event.maxValue }}</div>
+                </div>
               </div>
             </div>
           </div>

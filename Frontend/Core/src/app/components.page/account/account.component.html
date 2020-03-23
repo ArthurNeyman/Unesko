@@ -28,8 +28,10 @@
                class="list-group-item">Управление задачами</a>
             <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('journal-page')"
                class="list-group-item">Заполнение журнала</a>
-            <a *hasRole="[Roles.Student]" style="cursor: pointer;" (click)="menuToole('academic-performance')"
+            <a *hasRole="[Roles.Student]" style="cursor: pointer;"  [routerLink]="['/Performance']"
                class="list-group-item">Успеваемость</a>
+            <a *hasRole="[Roles.Student]" style="cursor: pointer;"  [routerLink]="['/archive-points']"
+            class="list-group-item">Архив отметок</a>
             <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('lesson-configurator')"
                class="list-group-item">Настройка занятий</a>
             <a style="cursor: pointer;" (click)="menuToole('settings-page')"
@@ -48,7 +50,6 @@
             <news-dispatcher-page *ngSwitchCase="'news-dispatcher-page'"></news-dispatcher-page>
             <task-list *ngSwitchCase="'tasks-list'"></task-list>
             <journal-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'journal-page'"></journal-page>
-            <journal-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'academic-performance'"></journal-page>
             <lesson-configurator-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'lesson-configurator'"></lesson-configurator-page>
             <settings-page *ngSwitchCase="'settings-page'"></settings-page>
             <academicPerformanceReport-component [user]="user" *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>

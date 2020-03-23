@@ -1,6 +1,7 @@
 package com.unesco.core.services.dataService.journal.point;
 
 import com.unesco.core.dto.journal.PointDTO;
+import com.unesco.core.dto.studentInterface.ArchivePointDTO;
 import com.unesco.core.services.dataService.IDataService;
 
 import java.util.Date;
@@ -65,6 +66,15 @@ public interface IPointDataService extends IDataService<PointDTO> {
     PointDTO getEqualPoint(long studentId, Date date, long typeId, long pairId, Date dateOfCreate);
 
 
-    int getByStudentAndPair(long studentId, long pairId);
+    List<PointDTO> getByStudentAndPair(long studentId, long pairId);
+
+    // Получить баллы для студента для конкретного вида деятельности
+    List<PointDTO> getValueForEventLessonByStudentIdAndPointType(long studentId, long pairId);
+
+
+    // Получить баллы за пару за конкретное событие
+    int getSumValueByEventPairStudentId(long event_id, long pair_id, long student_id);
+
+    List<ArchivePointDTO> getArchivePoints(long student_id, Date formatDateStart, Date formatDateEnd);
 
 }

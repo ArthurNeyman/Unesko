@@ -70,6 +70,7 @@ import {ExcelService } from '../services/excelService.service';
 // guards
 import {AuthGuard} from "../guards/auth.guard";
 // components
+import {ArchivePointsComponent} from "../components/studentInterface/archivePoints/archivePoints.component";
 import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
 import {AppComponent} from "./app.component";
 import {SingleNewsComponent} from "../components/news/single-news/single-news.component";
@@ -169,6 +170,7 @@ registerLocaleData(localeRu);
         ProfileComponent
     ],
     declarations: [
+        ArchivePointsComponent,
         StudentProgressComponent,                       // Компонент просмотров баллов
         AppComponent,
         AccountComponent,
