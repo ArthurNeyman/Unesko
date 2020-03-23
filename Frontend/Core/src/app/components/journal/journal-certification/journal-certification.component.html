@@ -33,7 +33,7 @@
 
         <div *ngIf="selectedCertification" class="ui-g-9">
            
-            <p-table scrollHeight="350px" [scrollable]="true" [value]="selectedCertification.certificationValueDTOList">
+            <p-table scrollHeight="330px" [scrollable]="true" [value]="selectedCertification.certificationValueDTOList">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Студент</th>
@@ -55,7 +55,7 @@
 
             <div class="ui-g">
                 <button pButton type="button" label="Сохранить" (click)="saveCertification()"
-                    style="margin-top: 1rem;margin-right: 1rem;" class="ui-button-success"></button>
+                    style="margin-top: 1rem; margin-right: 1rem;" class="ui-button-success"></button>
                 <button *ngIf="selectedCertification.id!=0" pButton type="button" label="Удалить"
                     (click)="deleteCertification()" style="margin-top: 1rem;margin-right: 1rem;"
                     class="ui-button-danger"></button>

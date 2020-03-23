@@ -130,8 +130,6 @@ public class ScheduleController {
                 return result;
             }
             findLesson = saveLessonStatus.getData();
-            System.out.println("lesson id^"+findLesson.getId());
-
         }
 
         //--------------------------------------------------------------------------------------------------------------

@@ -72,7 +72,6 @@ public class JournalController {
 
         journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
         journalManager.CreateJournal();
-        System.out.println(journalManager.get().getComparison().size()+" "+forDate);
 
         return new ResponseStatusDTO(StatusTypes.OK, journalManager.get());
     }

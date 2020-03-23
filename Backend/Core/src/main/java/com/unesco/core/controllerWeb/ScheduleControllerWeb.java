@@ -56,7 +56,6 @@ public class ScheduleControllerWeb {
 
     @RequestMapping("/pair/save")
     public ResponseStatusDTO savePair(@RequestBody PairParameters param) {
-        System.out.println(param.getPairModel().getLesson().getId());
         return sheduleController.savePair(param.getPairModel(), param.isSkipWarnings());
     }
 

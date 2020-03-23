@@ -101,9 +101,9 @@ module.exports = function(env) {
       './src/app/main-aot.ts'
     ];
 
-    config.plugins = config.plugins.concat([
-      new webpack.optimize.UglifyJsPlugin({output: {comments: false}})
-    ]);
+    // config.plugins = config.plugins.concat([
+    //   new webpack.optimize.UglifyJsPlugin({output: {comments: false}})
+    // ]);
   }
 
   if (env == 'dev') {
