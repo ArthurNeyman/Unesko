@@ -72,7 +72,7 @@ public class StudentPerformanceController {
             List<PairDTO> studentPairs = pairDataService.getAllByLesson(lesson.getLesson().getId());
             Map<Long, EventPairDTO> eventsPairWithPoints = new HashMap<>();
             lessonEventListManager.init(lessonEventDataService.getByLesson(lesson.getLesson().getId()));
-
+             /////////
             // Костыль
             // Бегаем по событиям для предмета, и без повторений добавляем в объект
             for (LessonEventDTO lessonEvents : lessonEventListManager.getAll()) {
