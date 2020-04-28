@@ -17,6 +17,7 @@ export class AccountComponent implements OnInit {
     public AccessRightType;
     public Roles = Roles;
     public viewMenu: boolean = true;
+    public viewDigitalLibrary: boolean = false;
 
     constructor(private authenticationService: AuthenticationService,
                 private router: Router) {

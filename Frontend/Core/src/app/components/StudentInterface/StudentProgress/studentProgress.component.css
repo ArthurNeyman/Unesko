@@ -87,7 +87,7 @@
   justify-content: left;
 }
 
-.row-table:hover {
+.tr-container:hover {
   background-color: #f6f6f6;
 }
 
@@ -107,11 +107,23 @@
   margin: 5px;
   border: 1px solid #cccccc;
   border-radius: 4px;
-  background-color: #f0f0f0;
 }
 
 .tab-dd-form:not(:last-child) {
   box-shadow: 5px 0px 0px -4px #cccccc;
+}
+
+.dropdown-tabs {
+  background-color: #e6e6e6;
+  border-bottom: 1px solid #cccc;
+}
+
+.dropdown-content {
+  background-color: #f0f0f0;
+}
+
+.dropdown-content:not(:last-child) {
+  border-bottom: 1px solid #cccccc;
 }
 
 .dropdown-tabs, .dropdown-content {

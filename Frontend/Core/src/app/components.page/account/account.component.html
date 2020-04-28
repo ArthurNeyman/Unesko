@@ -1,62 +1,96 @@
 <div class="container container-block">
-  <div class="row">
+    <div class="row">
 
-    <div *ngIf="viewMenu" class="col-md-2">
+        <div *ngIf="viewMenu" class="col-md-2">
 
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="user-info">
-            <div class="user-img">
-              <img [src]="user.photo" alt="">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="user-info">
+                        <div class="user-img">
+                            <img [src]="user.photo" alt="">
+                        </div>
+                        <div class="user-desc">
+                            <p class="user-desc-name"> {{user.userFIO}}</p>
+                            <p class="user-desc-role">
+                                <span *ngFor="let role of user.roles">{{role.roleName | translate}} </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="user-desc">
-              <p class="user-desc-name"> {{user.userFIO}}</p>
-              <p class="user-desc-role">
-                <span *ngFor="let role of user.roles">{{role.roleName | translate}} </span>
-              </p>
+
+            <div class="head">
+                <div class="panel panel-default panel-inverse">
+                    <div class="list-group">
+                        <a style="cursor: pointer;" (click)="menuToole('settings-page')"
+                           class="list-group-item">Профиль</a>
+                        <a *hasAccessRight="[AccessRightType.CREATE_OR_UPDATE_NEWS]" style="cursor: pointer;"
+                           (click)="menuToole('news-dispatcher-page')"
+                           class="list-group-item">Управление новостями</a>
+                        <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('journal-page')"
+                           class="list-group-item">Заполнение журнала</a>
+                        <a *hasRole="[Roles.Student]" style="cursor: pointer;" [routerLink]="['/Performance']"
+                           class="list-group-item">Успеваемость</a>
+                        <a *hasRole="[Roles.Student]" style="cursor: pointer;" [routerLink]="['/archive-points']"
+                           class="list-group-item">Архив отметок</a>
+                        <a *hasRole="[Roles.Professor]" style="cursor: pointer;"
+                           (click)="menuToole('lesson-configurator')"
+                           class="list-group-item">Настройка занятий</a>
+                        <a *hasRole="[Roles.Professor]" style="cursor: pointer;"
+                           (click)="menuToole('academicPerformanceReport-component')"
+                           class="list-group-item">Отчет по успеваемости</a>
+                        <a style="cursor: pointer;" (click)="menuToole('tasks-list')"
+                           class="list-group-item">Управление задачами</a>
+                        <a *hasRole="[Roles.Student]" style="cursor: pointer;" (mouseenter)="viewDigitalLibrary = true"
+                           (mouseleave)="viewDigitalLibrary = false"
+                           class="list-group-item digital-library">Электронные библиотечные системы
+                            <div class="dropdown-list" *ngIf="viewDigitalLibrary">
+                                <a href="https://biblioclub.ru/index.php?page=book_blocks&view=main_ub" target="_blank"
+                                   target="_blank">
+                                    <div class="list-tr">Университетская библиотека онлайн</div>
+                                </a>
+                                <a href="https://e.lanbook.com/" target="_blank">
+                                    <div class="list-tr">Издательство "Лань"</div>
+                                </a>
+                                <a href="https://biblio-online.ru/" target="_blank">
+                                    <div class="list-tr">Издательство "ЮРАЙТ"</div>
+                                </a>
+                                <a href="http://www.studentlibrary.ru/" target="_blank">
+                                    <div class="list-tr">Консультант студента</div>
+                                </a>
+                                <a href="http://znanium.com/" target="_blank">
+                                    <div class="list-tr">Znanium.com</div>
+                                </a>
+                                <a href="http://www.rosmedlib.ru/" target="_blank">
+                                    <div class="list-tr">Консультант врача</div>
+                                </a>
+                                <a href="https://academia-library.ru/" target="_blank">
+                                    <div class="list-tr">ЭБ «Образовательно-издательский центр «Академия»</div>
+                                </a>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
-      <div class="head">
-        <div class="panel panel-default panel-inverse">
-          <div class="list-group">
-            <a *hasAccessRight="[AccessRightType.CREATE_OR_UPDATE_NEWS]" style="cursor: pointer;" (click)="menuToole('news-dispatcher-page')"
-               class="list-group-item">Управление новостями</a>
-            <a  style="cursor: pointer;" (click)="menuToole('tasks-list')"
-               class="list-group-item">Управление задачами</a>
-            <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('journal-page')"
-               class="list-group-item">Заполнение журнала</a>
-            <a *hasRole="[Roles.Student]" style="cursor: pointer;"  [routerLink]="['/Performance']"
-               class="list-group-item">Успеваемость</a>
-            <a *hasRole="[Roles.Student]" style="cursor: pointer;"  [routerLink]="['/archive-points']"
-            class="list-group-item">Архив отметок</a>
-            <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('lesson-configurator')"
-               class="list-group-item">Настройка занятий</a>
-            <a style="cursor: pointer;" (click)="menuToole('settings-page')"
-               class="list-group-item">Профиль</a>
-            <a *hasRole="[Roles.Professor]" style="cursor: pointer;" (click)="menuToole('academicPerformanceReport-component')"
-               class="list-group-item">Отчет по успеваемости</a>
-          </div>
+        <div [ngClass]="{'col-md-10': viewMenu, 'col-md-12': !viewMenu}" class="col-md-10">
+            <div class="head" [ngSwitch]="menuName">
+                <div class="panel panel-default panel-inverse">
+                    <div class="panel-body">
+                        <news-dispatcher-page *ngSwitchCase="'news-dispatcher-page'"></news-dispatcher-page>
+                        <task-list *ngSwitchCase="'tasks-list'"></task-list>
+                        <journal-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'journal-page'"></journal-page>
+                        <lesson-configurator-page (toogleViewMenu)="toogleViewMenu()"
+                                                  *ngSwitchCase="'lesson-configurator'"></lesson-configurator-page>
+                        <settings-page *ngSwitchCase="'settings-page'"></settings-page>
+                        <academicPerformanceReport-component [user]="user"
+                                                             *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+
     </div>
-
-    <div  [ngClass]="{'col-md-10': viewMenu, 'col-md-12': !viewMenu}" class="col-md-10">
-      <div class="head" [ngSwitch]="menuName">
-        <div class="panel panel-default panel-inverse">
-          <div class="panel-body">
-            <news-dispatcher-page *ngSwitchCase="'news-dispatcher-page'"></news-dispatcher-page>
-            <task-list *ngSwitchCase="'tasks-list'"></task-list>
-            <journal-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'journal-page'"></journal-page>
-            <lesson-configurator-page (toogleViewMenu)="toogleViewMenu()" *ngSwitchCase="'lesson-configurator'"></lesson-configurator-page>
-            <settings-page *ngSwitchCase="'settings-page'"></settings-page>
-            <academicPerformanceReport-component [user]="user" *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </div>
