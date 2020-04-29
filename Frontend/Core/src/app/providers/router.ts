@@ -2,6 +2,10 @@
 
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
     parse(url: string): UrlTree {
-        return super.parse(url.toLowerCase());
+        if (url == '/Performance') {
+            return super.parse(url);
+        } else {
+            return super.parse(url.toLowerCase());
+        }
     }
 }

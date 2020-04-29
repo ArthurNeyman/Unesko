@@ -8,7 +8,7 @@
         <div class="select-block">
           <div class="year-block row-block-date">
             <label for="exampleFormControlSelect1">Год</label>
-            <select class="form-control" id="exampleFormControlSelect1" (change)="filterByYear($event.target.value)">
+            <select class="form-control" id="exampleFormControlSelect1" (change)="changeFilterYear($event.target.value)">
               <option value="0">-</option>
               <option *ngFor="let year of yearsStudy" value="{{year}}">{{ year }}</option>
             </select>
@@ -16,7 +16,7 @@
           <div class="semestr-block row-block-date">
             <label for="exampleFormControlSelect1">Семестр</label>
             <select class="form-control" id="exampleFormControlSelect1"
-              (change)="filterBySemester($event.target.value)">
+              (change)="changeFilterSemestYear($event.target.value)">
               <option value="0">-</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -26,7 +26,7 @@
         </div>
         <div class="table-block">
           <div class="tabs-block">
-            <div class="name-discipline col1 tab-form" (click)="filterBySemester(1)">
+            <div class="name-discipline col1 tab-form">
               <span>Название дисциплины</span>
             </div>
             <div class="current-points col2 tab-form">
