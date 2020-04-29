@@ -1,0 +1,91 @@
+<div>
+    <div class="header-panel-body">
+        <h3>Информация о преподавателе</h3>
+    </div>
+    <p-autoComplete [size]="40"
+                    id="professor"
+                    [(ngModel)]="currentProfessor"
+                    [dropdown]="true"
+                    [suggestions]="filteredProfessors"
+                    [placeholder]="'Выберите преподавателя'"
+                    (completeMethod)="getProfessors($event)"
+                    field="user.userFIO"
+                    [emptyMessage]="'Ничего не найдено.'"
+                    [forceSelection]="true"
+    >
+        <ng-template let-item pTemplate="item">
+            <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5; position: relative;">
+                <div style="font-size:14px;margin:10px 37px 0 0;">{{item.user.userFIO}}</div>
+                <img [src]="item.user.photo"
+                     style="width:32px;position: absolute;right: 0;top: 50%;transform: translate(0,-50%)"/>
+            </div>
+        </ng-template>
+    </p-autoComplete>
+
+
+    <div class="row" *ngIf="currentProfessor">
+        <div class="col-sm-3">
+            <div class="profile-photo">
+                <img [src]="currentProfessor.user.photo" alt="">
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="profile-header">
+                <h2>{{currentProfessor.user.userFIO}}</h2>
+            </div>
+
+            <hr>
+
+            <h3>Информация</h3>
+
+            <div class="profile-info">
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="info-label col-sm-3">
+                            <p class="form-control-static">Кафедра:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                {{currentProfessor.department.name}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-label col-sm-3">
+                            <p class="form-control-static">Институт:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                {{currentProfessor.department.institute.name}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-label col-sm-3">
+                            <p class="form-control-static">Е-мэйл:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                {{currentProfessor.user.email}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-label col-sm-3">
+                            <p class="form-control-static">Роли:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                <ng-container *ngFor="let role of currentProfessor.user.roles">
+                                    {{ role.roleName | translate}}
+                                </ng-container>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

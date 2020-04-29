@@ -6,6 +6,8 @@ import {RouteConstants} from "./app.route.constants";
 import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
 // Архив отметок
 import {ArchivePointsComponent} from "../components/studentInterface/archivePoints/archivePoints.component";
+// Профиль преподавателя
+import {TeacherProfileComponent} from "../components/studentInterface/teacherProfile/teacherProfile.component";
 
 import {AuthGuard} from "../guards/auth.guard";
 import {ListNewsComponent} from "../components/news/list-news/list-news.component";
@@ -19,6 +21,11 @@ import {AccountComponent} from "../components.page/account/account.component";
 import {ScheduleComponent} from "../components.page/schedule/schedule.component";
 
 export const routes: Routes = [
+   {
+      path: RouteConstants.Student.TeacherProfile,
+      component: TeacherProfileComponent,
+      data: {title: "Профиль преподавателя"}
+   },
    {
       path: RouteConstants.Student.ArchivePoints,
       component: ArchivePointsComponent,

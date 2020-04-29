@@ -1,11 +1,13 @@
 ﻿import {appSettings} from './app.environment';
+import {TeacherProfileComponent} from "../components/StudentInterface/teacherProfile/teacherProfile.component";
 
 export const BaseApiUrl = appSettings.BaseApiUrl;
 
 export const RouteConstants = {
     Student: {
         Performance: "Performance",
-        ArchivePoints: "archive-points"
+        ArchivePoints: "archive-points",
+        TeacherProfile: "teacher-profile",
     },
     Home: "news",
     News: {
