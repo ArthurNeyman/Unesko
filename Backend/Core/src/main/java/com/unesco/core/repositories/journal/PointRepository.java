@@ -1,21 +1,12 @@
 package com.unesco.core.repositories.journal;
 
-import com.unesco.core.dto.studentInterface.ArchivePointDTO;
 import com.unesco.core.entities.journal.PointEntity;
-import com.unesco.core.entities.journal.PointTypeEntity;
-import com.unesco.core.entities.schedule.PairEntity;
-import com.unesco.core.entities.schedule.LessonEntity;
-import com.unesco.core.entities.schedule.DisciplineEntity;
-import com.unesco.core.entities.schedule.PairTypeEntity;
-import com.unesco.core.entities.schedule.RoomEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public interface PointRepository extends CrudRepository<PointEntity, Long> {
 

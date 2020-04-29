@@ -1,10 +1,6 @@
 package com.unesco.core.services.mapperService;
 
-import com.unesco.core.dto.account.AccessRightDTO;
-import com.unesco.core.dto.account.ProfessorDTO;
-import com.unesco.core.dto.account.RoleDTO;
-import com.unesco.core.dto.account.StudentDTO;
-import com.unesco.core.dto.account.UserDTO;
+import com.unesco.core.dto.account.*;
 import com.unesco.core.dto.certification.CertificationDTO;
 import com.unesco.core.dto.certification.CertificationValueDTO;
 import com.unesco.core.dto.file.FileByteCodeModel;
@@ -16,7 +12,6 @@ import com.unesco.core.dto.journal.VisitationConfigDTO;
 import com.unesco.core.dto.news.NewsDTO;
 import com.unesco.core.dto.plan.DepartmentDTO;
 import com.unesco.core.dto.plan.EducationPeriodDTO;
-import com.unesco.core.dto.plan.SemesterNumberYear;
 import com.unesco.core.dto.shedule.*;
 import com.unesco.core.dto.task.TaskDescriptionDTO;
 import com.unesco.core.dto.task.TaskUserDTO;
@@ -34,11 +29,10 @@ import com.unesco.core.entities.plan.EducationPeriodEntity;
 import com.unesco.core.entities.schedule.*;
 import com.unesco.core.entities.task.TaskDescription;
 import com.unesco.core.entities.task.TaskUser;
+import com.unesco.core.repositories.account.StudentRepository;
 import com.unesco.core.repositories.certification.CertificationRepository;
 import com.unesco.core.repositories.schedule.PairRepository;
-import com.unesco.core.repositories.account.StudentRepository;
 import com.unesco.core.utils.DateHelper;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -142,7 +136,7 @@ public class MapperService implements IMapperService {
         if (model instanceof EducationPeriodDTO)
             return educationPeriodToEntity((EducationPeriodDTO) model);
 
-        return new Exception("Not found " + model.getClass().toString() + " model class");
+            return new Exception("Not found " + model.getClass().toString() + " model class");
     }
 
     public <T> Object toDto(T entity) {
