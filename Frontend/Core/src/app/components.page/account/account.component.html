@@ -41,6 +41,8 @@
                            class="list-group-item">Отчет по успеваемости</a>
                         <a style="cursor: pointer;" (click)="menuToole('tasks-list')"
                            class="list-group-item">Управление задачами</a>
+                        <a style="cursor: pointer;" (click)="menuToole('teacher-profile')"
+                           class="list-group-item">Информация о преподавателе</a>
                         <a *hasRole="[Roles.Student]" style="cursor: pointer;" (mouseenter)="viewDigitalLibrary = true"
                            (mouseleave)="viewDigitalLibrary = false"
                            class="list-group-item digital-library">Электронные библиотечные системы
@@ -87,6 +89,7 @@
                         <settings-page *ngSwitchCase="'settings-page'"></settings-page>
                         <academicPerformanceReport-component [user]="user"
                                                              *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
+                        <teacher-profile *ngSwitchCase="'teacher-profile'"></teacher-profile>
                     </div>
                 </div>
             </div>

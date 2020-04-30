@@ -101,8 +101,6 @@ export class StudentProgressComponent implements OnInit {
   }
 
   public startFilter() {
-    console.log(this.numberYear);
-    console.log(this.numberSemestr);
     this.setList(this.gotList);
     if (this.numberYear == '0' && this.numberSemestr == '0') {
       return;

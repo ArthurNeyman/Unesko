@@ -38,7 +38,6 @@ export class JournalService {
 
     public GetStudentPerformance(userID): Observable<ResponseStatus> {
       let params = new HttpParams().set("userId", userID.toString());
-      console.log(userID);
       return this.http
         .post("Performance/points", params)
         .pipe(
