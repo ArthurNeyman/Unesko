@@ -1,0 +1,3 @@
+psql -h localhost -d unesco -U postgres -f ict.sql
+D:\Program_files\Postgres\bin\psql.exe --host "185.209.31.160" --port "5432" --username "seduser"  --dbname "seddb" -f "C:\\Users\\arthu\\DOWNLO~1\\BACKUP~1.SQL" 
+password:cj5t8snb8q

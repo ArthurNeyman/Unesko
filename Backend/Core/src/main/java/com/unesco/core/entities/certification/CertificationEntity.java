@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name="un_certification")
 public class CertificationEntity {
+
     @Id
     @SequenceGenerator(name = "certificationSequenceGen", sequenceName = "certificationSequenceGen", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "certificationSequenceGen")

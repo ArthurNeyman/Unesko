@@ -28,6 +28,7 @@ public class PairEntity {
     @ManyToOne
     @JoinColumn(name = "pair_type_id", referencedColumnName = "id")
     private PairTypeEntity pairType;
+
     @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private RoomEntity room;

@@ -1,1 +1,0 @@
-psql -h localhost -d unesco -U postgres -f ict.sql
