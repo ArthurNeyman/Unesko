@@ -47,10 +47,10 @@ export class LessonCertificationComponent implements OnInit {
     allHours:number
 
     private show: boolean = false;
-    private semesterNumberYear: SemesterNumberYear = new SemesterNumberYear();
-    private lessonCertificationList: LessonCertification[];
+    public semesterNumberYear: SemesterNumberYear = new SemesterNumberYear();
+    public lessonCertificationList: LessonCertification[];
     private lessonCertificationListForMenu:SelectItem[]
-    private selectedLessonCertification:LessonCertification;
+    public selectedLessonCertification:LessonCertification;
     private eventList:any[];
 
 

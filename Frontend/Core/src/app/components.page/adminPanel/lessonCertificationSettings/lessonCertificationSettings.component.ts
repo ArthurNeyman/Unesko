@@ -35,7 +35,7 @@ export class LessonCertificationSettingsComponent implements OnInit {
         private journalService:JournalService,
         private service:LessonCertificationService
 ) {
-}
+    }
     ngOnInit() {
         this.getLessonCertificationtypes()
     }
@@ -57,7 +57,7 @@ export class LessonCertificationSettingsComponent implements OnInit {
         }
     }
 
-    public getProfessorLessons(event:any){
+    public getProfessorLessons(){
         if (this.currentProfessor == null || this.currentProfessor.id == 0 || !this.semesterNumberYear)
             return;
             this.service.getLessonCertificationList(this.semesterNumberYear, this.currentProfessor.id.toString()).subscribe(
@@ -79,7 +79,7 @@ export class LessonCertificationSettingsComponent implements OnInit {
         )
     }
 
-    setLessonCertificationtype(lessonCertification : LessonCertification){
+    public setLessonCertificationtype(lessonCertification : LessonCertification){
        this.service.setLessonCertificationtype(lessonCertification).subscribe(
            result=>{
                 lessonCertification.id=result.data.id

@@ -6,13 +6,10 @@ spring:
       ddl-auto: update
   datasource:
     # Release DB
-    url: jdbc:postgresql://localhost:5432/unesco?currentSchema=public
-    username: postgres
-    password: postgres
-    #url: jdbc:postgresql://185.209.31.160:5432/seddb?currentSchema=public
-    #username: seduser
-    #password: cj5t8snb8q
-    #driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://185.209.31.160:5432/seddb?currentSchema=public
+    username: seduser
+    password: cj5t8snb8q
+    driverClassName: org.postgresql.Driver
   http:
     multipart:
       max-file-size: 50Mb
