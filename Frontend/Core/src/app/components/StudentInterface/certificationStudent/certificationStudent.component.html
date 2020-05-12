@@ -1,0 +1,11 @@
+<div>
+    <div class="header-panel-body">
+        <h3>Информация об аттестации</h3>
+    </div>
+    <p-dropdown [style]="{'width':'100%'}"
+                [options]="certificationLessonList"
+                [(ngModel)]="selectedCertificationLesson" (onChange)="changeCertificationLesson()"
+                optionLabel="lesson.discipline.name"
+                placeholder="Выберите предмет">
+    </p-dropdown>
+</div>

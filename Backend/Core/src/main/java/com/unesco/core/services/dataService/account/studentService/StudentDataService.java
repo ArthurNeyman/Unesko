@@ -184,7 +184,6 @@ public class StudentDataService implements IStudentDataService {
 
         List<StudentLessonSubgroupEntity> entity = studentLessonSubgroupRepository.findByStudentId(studentId);
         for (StudentLessonSubgroupEntity item: entity) {
-            System.out.println("item" +  item);
             StudentLessonsDTO model = (StudentLessonsDTO) mapperService.toDto(item);
             modelList.add(model);
         }

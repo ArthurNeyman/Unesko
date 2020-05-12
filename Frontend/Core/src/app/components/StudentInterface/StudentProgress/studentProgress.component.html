@@ -7,22 +7,21 @@
       <div class="panel-body">
         <div class="select-block">
           <div class="year-block row-block-date">
-            <label for="exampleFormControlSelect1">Год</label>
-            <select class="form-control" id="exampleFormControlSelect1" (change)="changeFilterYear($event.target.value)">
+            <label for="selectYear">Год</label>
+            <select class="form-control" id="selectYear" (change)="changeFilterYear($event.target.value)">
               <option value="0">-</option>
               <option *ngFor="let year of yearsStudy" value="{{year}}">{{ year }}</option>
             </select>
           </div>
           <div class="semestr-block row-block-date">
-            <label for="exampleFormControlSelect1">Семестр</label>
-            <select class="form-control" id="exampleFormControlSelect1"
+            <label for="selectSemester">Семестр</label>
+            <select class="form-control" id="selectSemester"
               (change)="changeFilterSemestYear($event.target.value)">
               <option value="0">-</option>
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
           </div>
-
         </div>
         <div class="table-block">
           <div class="tabs-block">

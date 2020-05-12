@@ -34,4 +34,8 @@ public interface ILessonCertificationService {
     ResponseStatusDTO getLessonCertification(long lessonId);
     public ResponseStatusDTO getLessonEvents(long lessonId);
 
+
+    // Получить информацию об аттестации для студента по его id и id конкретного предмета(lesson_certification_id)
+    LessonCertificationResultDTO getLessonCertificationResultByStudentIdAndLessonCertificationId (long studentId, long lessonCertificationId);
+
 }

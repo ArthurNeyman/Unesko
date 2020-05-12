@@ -31,6 +31,8 @@
                            class="list-group-item">Заполнение журнала</a>
                         <a *hasRole="[Roles.Student]" style="cursor: pointer;" [routerLink]="['/Performance']"
                            class="list-group-item">Успеваемость</a>
+                        <a *hasRole="[Roles.Student]" style="cursor: pointer;" (click)="menuToole('certification-student')"
+                           class="list-group-item">Информация об аттестации</a>
                         <a *hasRole="[Roles.Student]" style="cursor: pointer;" [routerLink]="['/archive-points']"
                            class="list-group-item">Архив отметок</a>
                         <a *hasRole="[Roles.Professor]" style="cursor: pointer;"
@@ -96,6 +98,7 @@
                         <lesson-certification [user]="user"
                                                              *ngSwitchCase="'lesson-certification'"></lesson-certification>
                         <teacher-profile *ngSwitchCase="'teacher-profile'"></teacher-profile>
+                        <certification-student *ngSwitchCase="'certification-student'"></certification-student>
                     </div>
                 </div>
             </div>

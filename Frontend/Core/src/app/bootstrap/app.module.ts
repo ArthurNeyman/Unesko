@@ -72,6 +72,7 @@ import {ExcelService } from '../services/excelService.service';
 // guards
 import {AuthGuard} from "../guards/auth.guard";
 // components
+import {CertificationStudentComponent} from "../components/studentInterface/certificationStudent/certificationStudent.component";
 import {TeacherProfileComponent} from "../components/studentInterface/teacherProfile/teacherProfile.component";
 import {ArchivePointsComponent} from "../components/studentInterface/archivePoints/archivePoints.component";
 import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
@@ -176,6 +177,7 @@ registerLocaleData(localeRu);
         ProfileComponent
     ],
     declarations: [
+        CertificationStudentComponent,              // Просмотр аттестации для студента
         TeacherProfileComponent,                    // Профиль преподавателя
         ArchivePointsComponent,                     // Архив отметок
         StudentProgressComponent,                   // Компонент просмотров баллов

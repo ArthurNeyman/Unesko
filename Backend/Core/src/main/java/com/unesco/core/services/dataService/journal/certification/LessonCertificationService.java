@@ -221,4 +221,11 @@ public class LessonCertificationService implements  ILessonCertificationService 
         }
         return  responseStatusDTO;
     }
+
+    @Override
+    public LessonCertificationResultDTO getLessonCertificationResultByStudentIdAndLessonCertificationId(long studentId, long lessonCertificationId) {
+        LessonCertificationEntity lessonCertificationEntity=new LessonCertificationEntity();
+        LessonCertificationResultEntity lessonCertificationResultEntity = lessonCertificationResultRepository.getLessonCertificationResultByStudentEntityIdAndLessonCertificationId(studentId, lessonCertificationId);
+        return (LessonCertificationResultDTO) mapperService.toDto(lessonCertificationResultEntity);
+    }
 }

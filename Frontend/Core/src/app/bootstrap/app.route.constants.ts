@@ -193,6 +193,7 @@ export const ApiRouteConstants = {
         getLessonCertificationResult:"lessonCertification/getLessonCertificationResult",
         getLessonCertification:"lessonCertification/getLessonCertification/:lessonId",
         getLessonEvents:"lessonCertification/getLessonEvents/:lessonId",
+        getLessonListWithCertification:"Performance/student-certification-point",
         saveLessonCertificationResult:"lessonCertification/saveLessonCertificationResult"
     }
 };

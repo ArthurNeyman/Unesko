@@ -20,6 +20,10 @@ public class StudentPerformanceControllerWEB {
     public ResponseStatusDTO getPoints(@RequestParam("userId") long userId) {
         return studentPerformanceController.getPoints(userId);
     }
+    @RequestMapping(method = RequestMethod.POST, value = "/student-certification-point")
+    public ResponseStatusDTO getLessonListWithCertification(@RequestParam("userId") long userId) {
+        return studentPerformanceController.getLessonListWithCertification(userId);
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/archive-points")
     public ResponseStatusDTO getArchivePoints(@RequestParam("userId") long userId,
