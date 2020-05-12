@@ -1,4 +1,5 @@
-﻿import {CommonModule, registerLocaleData} from "@angular/common";
+﻿import { LessonCertificationService } from './../services/lessonCertification.service';
+import {CommonModule, registerLocaleData} from "@angular/common";
 import {LOCALE_ID, NgModule} from "@angular/core";
 import {UrlSerializer} from "@angular/router";
 import {BrowserModule} from "@angular/platform-browser";
@@ -15,6 +16,7 @@ import {Globals} from "../globals";
 import {ProfileDirective} from "../directive/profile.dirictive";
 import {EnumStringKeysPipe} from "../pipes/enum.string.keys";
 import {FileUploadModule as ngFileUploadModule} from "ng2-file-upload";
+import {SpinnerModule} from 'primeng/spinner';
 
 import {
     CheckboxModule,
@@ -125,6 +127,9 @@ import {JournalCertificationComponent} from "../components/journal/journal-certi
 
 import {AcademicPerformanceReportComponent} from "../components/academiPerformanceReport/academicPerformanceReport.component";
 
+import {LessonCertificationSettingsComponent} from "../components.page/adminPanel/lessonCertificationSettings/lessonCertificationSettings.component";
+import {LessonCertificationComponent, ListenInputCertification} from "../components/lessonCertification/lessonCertification.component"
+
 registerLocaleData(localeRu);
 
 @NgModule({
@@ -165,8 +170,8 @@ registerLocaleData(localeRu);
         ToastModule,
         PanelModule,
         AccordionModule,
-        ListboxModule
-        ],
+        ListboxModule,
+        SpinnerModule        ],
     entryComponents: [
         ProfileComponent
     ],
@@ -224,7 +229,10 @@ registerLocaleData(localeRu);
         SemesterPickerComponent,
         JournalFillComponent,
         JournalCertificationComponent,
-        AcademicPerformanceReportComponent
+        AcademicPerformanceReportComponent,
+        LessonCertificationSettingsComponent,
+        LessonCertificationComponent,
+        ListenInputCertification
     ],
     providers: [
         {provide: RequestOptions, useClass: GlobalHttpOptions},
@@ -249,7 +257,8 @@ registerLocaleData(localeRu);
         ScheduleService,
         PluginService,
         FileService,
-        ExcelService
+        ExcelService,
+        LessonCertificationService
     ],
     bootstrap: [
         AppComponent

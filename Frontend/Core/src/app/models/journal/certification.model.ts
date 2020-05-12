@@ -1,3 +1,5 @@
+import { Student } from './../account/student';
+import { Lesson } from './../shedule/lesson';
 export class Certification {
     public id: Number
     public startDate: String
@@ -30,4 +32,31 @@ export class CertificationValue {
         this.certificationValue = certificationValue
         this.missedAcademicHours = missedAcademicHours
     }
+}
+
+export class LessonCertificationType{
+    public id:number
+    public name:String
+}
+
+export class LessonCertification{
+    public id:Number;
+    public lesson:Lesson;
+    public lessonCertificationType:LessonCertificationType; 
+    public maxCertificationScore:number;
+    
+    constructor(lesson:Lesson,lessonCertificationType:LessonCertificationType){
+        this.lesson=lesson
+        this.lessonCertificationType=lessonCertificationType
+    }
+}
+
+export class LessonCertificationValue{
+    public id:Number
+    public absence:boolean
+    public certificationScore:number
+    public lessonCertificatonId:number
+    public ratingDate:Date
+    public studentDTO:Student
+    public totalScore:number
 }

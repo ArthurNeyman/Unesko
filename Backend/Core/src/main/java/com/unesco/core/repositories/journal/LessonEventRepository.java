@@ -21,6 +21,4 @@ public interface LessonEventRepository extends CrudRepository<LessonEventEntity,
 
     @Query("SELECT sum(p.maxValue) FROM LessonEventEntity p where p.lessonEntity.id = :lessonId")
     Integer getMaxPointValue(@Param("lessonId") long lessonId);
-
-
 }

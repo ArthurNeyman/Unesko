@@ -1,8 +1,7 @@
 package com.unesco.core.services.mapperService;
 
 import com.unesco.core.dto.account.*;
-import com.unesco.core.dto.certification.CertificationDTO;
-import com.unesco.core.dto.certification.CertificationValueDTO;
+import com.unesco.core.dto.certification.*;
 import com.unesco.core.dto.file.FileByteCodeModel;
 import com.unesco.core.dto.file.FileDescriptionModel;
 import com.unesco.core.dto.journal.LessonEventDTO;
@@ -16,8 +15,7 @@ import com.unesco.core.dto.shedule.*;
 import com.unesco.core.dto.task.TaskDescriptionDTO;
 import com.unesco.core.dto.task.TaskUserDTO;
 import com.unesco.core.entities.account.*;
-import com.unesco.core.entities.certification.CertificationEntity;
-import com.unesco.core.entities.certification.CertificationValueEntity;
+import com.unesco.core.entities.certification.*;
 import com.unesco.core.entities.file.FileByteCode;
 import com.unesco.core.entities.file.FileDescription;
 import com.unesco.core.entities.journal.LessonEventEntity;
@@ -54,13 +52,21 @@ public class MapperService implements IMapperService {
 
         if (model == null)
             return null;
-
+//----------------------------------------------------------------------------------------------------------------------
         if(model instanceof  CertificationDTO)
             return this.certificationToEntity((CertificationDTO)model);
-
         if(model instanceof  CertificationValueDTO)
             return this.certificationValueToEntity((CertificationValueDTO)model);
 
+        if(model instanceof  LessonCertificationResultDTO)
+            return this.lessonCertificationResultToEntity((LessonCertificationResultDTO)model);
+
+        if(model instanceof  LessonCertificationTypeDTO)
+            return  this.lessonCertificationTypeToEntity((LessonCertificationTypeDTO)model);
+
+        if(model instanceof  LessonCertificationDTO)
+            return  this.lessonCertificationToEntity((LessonCertificationDTO)model);
+//----------------------------------------------------------------------------------------------------------------------
         if (model instanceof LessonEventDTO)
             return lessonEventToEntity((LessonEventDTO) model);
 
@@ -143,13 +149,20 @@ public class MapperService implements IMapperService {
 
         if (entity == null)
             return null;
-
+//----------------------------------------------------------------------------------------------------------------------
         if(entity instanceof  CertificationEntity)
             return this.certificationToDTO((CertificationEntity) entity);
 
         if(entity instanceof  CertificationValueEntity)
             return this.certificationValueToDTO((CertificationValueEntity)entity);
 
+        if(entity instanceof LessonCertificationResultEntity)
+            return this.lessonCertificationResultToDTO((LessonCertificationResultEntity)entity);
+        if(entity instanceof  LessonCertificationEntity)
+            return this.lessonCertificationToDTO((LessonCertificationEntity) entity);
+        if(entity instanceof  LessonCertificationTypeEntity)
+            return this.lessonCertificationTypeToDTO((LessonCertificationTypeEntity)entity);
+//----------------------------------------------------------------------------------------------------------------------
         if (entity instanceof LessonEventEntity)
             return lessonEventToDto((LessonEventEntity) entity);
 
@@ -232,16 +245,6 @@ public class MapperService implements IMapperService {
         return new Exception("Not found " + entity.getClass().toString() + " entity class");
     }
 
-    public StudentLessonsDTO studentLessonsToDto(StudentLessonSubgroupEntity Entity) {
-        if (Entity == null) return null;
-        StudentLessonsDTO Dto = new StudentLessonsDTO();
-        Dto.setId((int) Entity.getId());
-        Dto.setSubgroup(Entity.getSubgroup());
-        Dto.setStudent(studentToDto(Entity.getStudent()));
-        Dto.setLesson(lessonToDto(Entity.getLesson()));
-
-        return Dto;
-    }
 //----------------------------------------------------------------------------------------------------------------------
     public CertificationEntity certificationToEntity(CertificationDTO DTO){
         if (DTO == null) return null;
@@ -283,7 +286,72 @@ public class MapperService implements IMapperService {
         certificationValueDTO.setMissedAcademicHours(Entity.getMissedAcademicHours());
         return  certificationValueDTO;
     }
+
+    public LessonCertificationTypeDTO lessonCertificationTypeToDTO(LessonCertificationTypeEntity lessonCertificationTypeEntity){
+        LessonCertificationTypeDTO lessonCertificationTypeDTO=new LessonCertificationTypeDTO();
+        lessonCertificationTypeDTO.setId(lessonCertificationTypeEntity.getId());
+        lessonCertificationTypeDTO.setName(lessonCertificationTypeEntity.getName());
+        return lessonCertificationTypeDTO;
+    }
+    public LessonCertificationTypeEntity lessonCertificationTypeToEntity(LessonCertificationTypeDTO lessonCertificationTypeDTO){
+        LessonCertificationTypeEntity lessonCertificationTypeEntity=new LessonCertificationTypeEntity();
+        lessonCertificationTypeEntity.setId(lessonCertificationTypeDTO.getId());
+        lessonCertificationTypeDTO.setName(lessonCertificationTypeDTO.getName());
+        return lessonCertificationTypeEntity;
+    }
+
+    public LessonCertificationDTO lessonCertificationToDTO(LessonCertificationEntity lessonCertificationEntity){
+        LessonCertificationDTO lessonCertificationDTO=new LessonCertificationDTO();
+        lessonCertificationDTO.setId(lessonCertificationEntity.getId());
+        lessonCertificationDTO.setLesson(this.lessonToDto(lessonCertificationEntity.getLesson()));
+        lessonCertificationDTO.setLessonCertificationType(this.lessonCertificationTypeToDTO(lessonCertificationEntity.getLessonCertificationTypeEntity()));
+        lessonCertificationDTO.setMaxCertificationScore(lessonCertificationEntity.getMaxCertificationScore());
+        return lessonCertificationDTO;
+    }
+    public LessonCertificationEntity lessonCertificationToEntity(LessonCertificationDTO lessonCertificationDTO){
+        LessonCertificationEntity lessonCertificationEntity=new LessonCertificationEntity();
+        lessonCertificationEntity.setId(lessonCertificationDTO.getId());
+        lessonCertificationEntity.setLesson(this.lessonToEntity(lessonCertificationDTO.getLesson()));
+        lessonCertificationEntity.setLessonCertificationTypeEntity(this.lessonCertificationTypeToEntity(lessonCertificationDTO.getLessonCertificationType()));
+        lessonCertificationEntity.setMaxCertificationScore(lessonCertificationDTO.getMaxCertificationScore());
+        return lessonCertificationEntity;
+    }
+
+    public LessonCertificationResultDTO lessonCertificationResultToDTO(LessonCertificationResultEntity lessonCertificationResultEntity){
+        LessonCertificationResultDTO lessonCertificationResultDTO=new LessonCertificationResultDTO();
+        lessonCertificationResultDTO.setId(lessonCertificationResultEntity.getId());
+        lessonCertificationResultDTO.setAbsence(lessonCertificationResultEntity.isAbsence());
+        lessonCertificationResultDTO.setCertificationScore(lessonCertificationResultEntity.getCertificationScore());
+        lessonCertificationResultDTO.setLessonCertificationId(lessonCertificationResultEntity.getLessonCertificationId());
+        lessonCertificationResultDTO.setRatingDate(lessonCertificationResultEntity.getRatingDate());
+        lessonCertificationResultDTO.setTotalScore(lessonCertificationResultEntity.getTotalScore());
+        lessonCertificationResultDTO.setStudentDTO(this.studentToDto(lessonCertificationResultEntity.getStudentEntity()));
+        return lessonCertificationResultDTO;
+    }
+    public LessonCertificationResultEntity lessonCertificationResultToEntity(LessonCertificationResultDTO lessonCertificationResultDTO){
+        LessonCertificationResultEntity lessonCertificationResultEntity=new LessonCertificationResultEntity();
+        lessonCertificationResultEntity.setId(lessonCertificationResultDTO.getId());
+        lessonCertificationResultEntity.setAbsence(lessonCertificationResultDTO.isAbsence());
+        lessonCertificationResultEntity.setCertificationScore(lessonCertificationResultDTO.getCertificationScore());
+        lessonCertificationResultEntity.setLessonCertificationId(lessonCertificationResultDTO.getLessonCertificationId());
+        lessonCertificationResultEntity.setRatingDate(lessonCertificationResultDTO.getRatingDate());
+        lessonCertificationResultEntity.setTotalScore(lessonCertificationResultDTO.getTotalScore());
+        lessonCertificationResultEntity.setStudentEntity(this.studentToEntity(lessonCertificationResultDTO.getStudentDTO()));
+        return  lessonCertificationResultEntity;
+    }
 //----------------------------------------------------------------------------------------------------------------------
+
+    public StudentLessonsDTO studentLessonsToDto(StudentLessonSubgroupEntity Entity) {
+        if (Entity == null) return null;
+        StudentLessonsDTO Dto = new StudentLessonsDTO();
+        Dto.setId((int) Entity.getId());
+        Dto.setSubgroup(Entity.getSubgroup());
+        Dto.setStudent(studentToDto(Entity.getStudent()));
+        Dto.setLesson(lessonToDto(Entity.getLesson()));
+
+        return Dto;
+    }
+
     public AccessRightEntity accessRightToEntity(AccessRightDTO Dto) {
         if (Dto == null) return null;
         AccessRightEntity Entity = new AccessRightEntity();

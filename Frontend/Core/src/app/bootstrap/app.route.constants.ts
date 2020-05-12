@@ -1,4 +1,5 @@
-﻿import {appSettings} from './app.environment';
+﻿import { LessonCertificationSettingsComponent } from './../components.page/adminPanel/lessonCertificationSettings/lessonCertificationSettings.component';
+import {appSettings} from './app.environment';
 import {TeacherProfileComponent} from "../components/StudentInterface/teacherProfile/teacherProfile.component";
 
 export const BaseApiUrl = appSettings.BaseApiUrl;
@@ -182,5 +183,16 @@ export const ApiRouteConstants = {
     },
     Report:{
        ReportAcademicPerfomance:"journal/report/onProgress/:professorId"
+    },
+    LessonCertification:{
+        getLessons:"journal/report/onProgress/:professorId",
+        getLessonCertificationTypes:"lessonCertification/getLessonCertificationTypes",
+        setLessonCertificationType:"lessonCertification/setLessonCertificationType",
+        getLessonCertificationList:"lessonCertification/getLessonCertificationList/:professorId",
+        setMaxScore:"lessonCertification/setMaxScore",
+        getLessonCertificationResult:"lessonCertification/getLessonCertificationResult",
+        getLessonCertification:"lessonCertification/getLessonCertification/:lessonId",
+        getLessonEvents:"lessonCertification/getLessonEvents/:lessonId",
+        saveLessonCertificationResult:"lessonCertification/saveLessonCertificationResult"
     }
 };

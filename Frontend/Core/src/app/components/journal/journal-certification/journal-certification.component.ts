@@ -82,6 +82,7 @@ export class JournalCertificationComponent implements OnInit {
                     el['name'] = this.datePipe.transform(el.startDate, "dd.MM.yyyy") + "-" + this.datePipe.transform(el.endDate, "dd.MM.yyyy");
                     return el
                 })]
+                
             }, error => {
             }
         );
@@ -103,8 +104,6 @@ export class JournalCertificationComponent implements OnInit {
     }
 
     saveCertification() {
-        // let id=this.selectedCertification.id
-        // this.selectedCertification.certificationValueDTOList.map((el)=>{el.certificationId=id})
                 
         this.journalService.saveCertification(this.selectedCertification).subscribe(
             (result) => {                

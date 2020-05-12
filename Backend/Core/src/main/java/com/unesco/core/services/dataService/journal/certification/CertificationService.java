@@ -45,7 +45,6 @@ public class CertificationService implements ICertificationService {
         return list;
     }
 
-
     @Override
     public ResponseStatusDTO<CertificationDTO> saveCertification(CertificationDTO certification) {
 

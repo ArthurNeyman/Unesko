@@ -1,0 +1,34 @@
+
+<semester-picker style="display: inline-block" (ngModelChange)="getProfessorLessons()"
+[semesterNumberYear]="semesterNumberYear"></semester-picker>
+
+<p-autoComplete [size]="40"
+    id="professor"
+    [(ngModel)]="currentProfessor"
+    [dropdown]="true"
+    (onSelect)="GetProfessors($event)"
+    [suggestions]="profs"
+    (ngModelChange)="getProfessorLessons()"
+    [placeholder]="'Начните вводить имя преподавателя'"
+    (completeMethod)="GetProfessors($event)"
+    [multiple]="false" field="user.userFIO"
+    [emptyMessage]="'Ничего не найдено.'"
+    [forceSelection]="true"></p-autoComplete>
+
+    <div *ngIf="show"  >
+        <div *ngIf="lessonCertificationList.length==0">
+            расписание не заполнено
+        </div>
+        <div *ngFor="let item of lessonCertificationList" class="ui-g-12 m-10 ">
+            <p class="ui-g-6" >{{item.lesson.discipline.name}}     {{item.lesson.group.name}} </p>
+            <p-selectButton class="ui-g-2" [options]="typeList"  [(ngModel)]="item.lessonCertificationType" (onChange)="setLessonCertificationtype(item)">
+                <ng-template let-item>
+                    <span>{{item.name}}</span>
+                </ng-template>
+            </p-selectButton>
+        </div>        
+</div>
+
+
+    
+    

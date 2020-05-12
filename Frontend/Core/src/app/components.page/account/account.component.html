@@ -36,11 +36,14 @@
                         <a *hasRole="[Roles.Professor]" style="cursor: pointer;"
                            (click)="menuToole('lesson-configurator')"
                            class="list-group-item">Настройка занятий</a>
+                           <a style="cursor: pointer;" (click)="menuToole('tasks-list')"
+                           class="list-group-item">Управление задачами</a>
                         <a *hasRole="[Roles.Professor]" style="cursor: pointer;"
                            (click)="menuToole('academicPerformanceReport-component')"
                            class="list-group-item">Отчет по успеваемости</a>
-                        <a style="cursor: pointer;" (click)="menuToole('tasks-list')"
-                           class="list-group-item">Управление задачами</a>
+                           <a *hasRole="[Roles.Professor]" style="cursor: pointer;"
+                           (click)="menuToole('lesson-certification')"
+                           class="list-group-item">Текущая аттестация</a>
                         <a style="cursor: pointer;" (click)="menuToole('teacher-profile')"
                            class="list-group-item">Информация о преподавателе</a>
                         <a *hasRole="[Roles.Student]" style="cursor: pointer;" (mouseenter)="viewDigitalLibrary = true"
@@ -89,6 +92,8 @@
                         <settings-page *ngSwitchCase="'settings-page'"></settings-page>
                         <academicPerformanceReport-component [user]="user"
                                                              *ngSwitchCase="'academicPerformanceReport-component'"></academicPerformanceReport-component>
+                        <lesson-certification [user]="user"
+                                                             *ngSwitchCase="'lesson-certification'"></lesson-certification>
                         <teacher-profile *ngSwitchCase="'teacher-profile'"></teacher-profile>
                     </div>
                 </div>

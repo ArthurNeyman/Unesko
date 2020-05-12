@@ -12,6 +12,8 @@
             <li><a (click)="menuToogle='showShedule'"><i class="fa fa-calendar"></i> Просмотр расписания</a></li>
             <li><a (click)="menuToogle='educationPeriod'"><i class="fa fa-calendar-o"></i> Периоды обучения</a></li>
             <li><a (click)="menuToogle='studentsConfiguratorPage'"><i class="fa fa-users"></i> Настройка подгрупп студентов</a></li>
+            <li><a (click)="menuToogle='lessonCertificationSettings'"><i class="fa fa-tags"></i> Настройка аттестации предметов</a></li>
+
             <li class="dropdown">
                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                   <i class="fa fa-book"></i> Справочники
@@ -53,7 +55,8 @@
             <education-period *ngSwitchCase="menuToogle == 'educationPeriod'"></education-period>
 
             <students-configurator-page *ngSwitchCase="menuToogle == 'studentsConfiguratorPage'"></students-configurator-page>
-
+            
+            <lesson-certification-settings *ngSwitchCase="menuToogle == 'lessonCertificationSettings'"> </lesson-certification-settings>
          </div>
       </div>
    </div>
