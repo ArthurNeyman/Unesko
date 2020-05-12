@@ -41,7 +41,7 @@
                            class="list-group-item">Отчет по успеваемости</a>
                         <a style="cursor: pointer;" (click)="menuToole('tasks-list')"
                            class="list-group-item">Управление задачами</a>
-                        <a style="cursor: pointer;" (click)="menuToole('teacher-profile')"
+                        <a *hasRole="[Roles.Student]" style="cursor: pointer;" (click)="menuToole('teacher-profile')"
                            class="list-group-item">Информация о преподавателе</a>
                         <a *hasRole="[Roles.Student]" style="cursor: pointer;" (mouseenter)="viewDigitalLibrary = true"
                            (mouseleave)="viewDigitalLibrary = false"
