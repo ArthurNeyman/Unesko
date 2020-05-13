@@ -27,6 +27,7 @@ export class CertificationStudentComponent implements OnInit {
     public statusCertification: any = 3;
     public countBadCertification: any = 0;
     public filterBadCertification: any = false;
+    public searchText: String = '';
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -116,6 +117,8 @@ export class CertificationStudentComponent implements OnInit {
     filterByBadCertification() {
         this.filterBadCertification = true;
 
+        // Клонируем без ссылкы
+        this.certificationLessonList = JSON.parse(JSON.stringify(this.defaultList));
         this.certificationLessonList = this.certificationLessonList.filter(lesson => {
             return lesson.statusCertificationId < 3 ? true : false;
         });
@@ -127,6 +130,33 @@ export class CertificationStudentComponent implements OnInit {
         this.certificationLessonList = JSON.parse(JSON.stringify(this.defaultList));
 
         this.filterBadCertification = false;
+    }
+
+    public startSearch() {
+        if (this.filterBadCertification) {
+            this.filterByBadCertification();
+        } else {
+            this.resetList();
+        }
+        if (this.searchText) {
+            this.certificationLessonList = this.certificationLessonList.filter(item => {
+                return (
+                    item.lesson.discipline.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1 ||
+                    item.lesson.semesterNumberYear.year.toString().toLowerCase().indexOf(this.searchText.toLowerCase()) > -1 ||
+                    item.lesson.semesterNumberYear.semester.toString().toLowerCase().indexOf(this.searchText.toLowerCase()) > -1 ||
+                    item.statusCertification.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
+                );
+            });
+        }
+    }
+
+    public cleanSearch() {
+        this.searchText = '';
+        if (this.filterBadCertification) {
+            this.filterByBadCertification();
+        } else {
+            this.resetList();
+        }
     }
 
 }

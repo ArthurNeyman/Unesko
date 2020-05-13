@@ -1,90 +1,104 @@
 <div>
-  <div class="container">
-    <div class="panel panel-default panel-inverse">
-      <div class="panel-heading">
-        <h3>Просмотр успеваемости</h3>
-      </div>
-      <div class="panel-body">
-        <div class="select-block">
-          <div class="year-block row-block-date">
-            <label for="selectYear">Год</label>
-            <select class="form-control" id="selectYear" (change)="changeFilterYear($event.target.value)">
-              <option value="0">-</option>
-              <option *ngFor="let year of yearsStudy" value="{{year}}">{{ year }}</option>
-            </select>
-          </div>
-          <div class="semestr-block row-block-date">
-            <label for="selectSemester">Семестр</label>
-            <select class="form-control" id="selectSemester"
-              (change)="changeFilterSemestYear($event.target.value)">
-              <option value="0">-</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div>
-        </div>
-        <div class="table-block">
-          <div class="tabs-block">
-            <div class="name-discipline col1 tab-form">
-              <span>Название дисциплины</span>
-            </div>
-            <div class="current-points col2 tab-form">
-              <span>Баллы за семестр</span>
-            </div>
-            <div class="percent-points col3 tab-form">
-              <span>Процентное соотношение</span>
-            </div>
+    <div class="container">
+        <div class="panel panel-default panel-inverse">
+            <div class="panel-heading">
+                <h3>Просмотр успеваемости</h3>
 
-            <div class="year col4 tab-form">
-              <span>Учебный год</span>
+                <button (click)="comeBack()" pButton type="button"
+                        icon="pi pi-arrow-left" class="ui-button-secondary" title="Вернуться назад"></button>
             </div>
+            <div class="panel-body">
+                <div class="select-block">
 
-            <div class="semestr col5 tab-form">
-              <span>Семестр</span>
-            </div>
-          </div>
-          <div class="content-table">
-            <div class="row-table" *ngFor="let discipline of listLessons;let index=index">
-              <div class="tr-container" (click)="changeShow(index)">
-                <div class="name-discipline-tr col1 tr-form">
-                  <span>{{ discipline.name_discipline }}</span>
-                </div>
-                <div class="current-points-tr col2 tr-form">
-                  <span>{{ discipline.value }} из {{ discipline.max_value }}</span>
-                </div>
-                <div class="percent-points-tr col3 tr-form">
-                  <span>{{ discipline.percent }} %</span>
-                </div>
-
-                <div class="year-tr col4 tr-form">
-                  <span>{{ discipline.year }}</span>
-                </div>
-
-                <div class="semestr-tr col5 tr-form">
-                  <span>{{ discipline.semester }}</span>
-                </div>
-              </div>
-              <div class="dropdown-table" *ngIf="this.showDetail[index] && discipline.events.length > 0">
-                <div class="dropdown-tabs">
-                    <div class="tab-dd-form">
-                      Тип события
-                    </div> 
-                    <div class="tab-dd-form">
-                      Набранно баллов
+                    <div class="search">
+                        <input type="text" placeholder="Введите наименование предмета" [(ngModel)]="searchText"
+                               (input)="startSearch()">
+                        <div class="btn-clean" *ngIf="searchText" (click)="cleanSearch()"><i class="fa fa-times"
+                                                                                                aria-hidden="true"></i>
+                        </div>
                     </div>
-                    <div class="tab-dd-form">
-                      Максимум баллов
+                    <div style="display: flex">
+                        <div class="year-block row-block-date">
+                            <label for="selectYear">Год</label>
+                            <select class="form-control" id="selectYear"
+                                    (change)="changeFilterYear($event.target.value)">
+                                <option value="0">-</option>
+                                <option *ngFor="let year of yearsStudy" value="{{year}}">{{ year }}</option>
+                            </select>
+                        </div>
+                        <div class="semestr-block row-block-date">
+                            <label for="selectSemester">Семестр</label>
+                            <select class="form-control" id="selectSemester"
+                                    (change)="changeFilterSemestYear($event.target.value)">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="dropdown-content" *ngFor="let event of discipline.events">
-                  <div class="tr-dd-form"> {{event.titleEvent }}</div>
-                  <div class="tr-dd-form"> {{event.currentValue }}</div>
-                  <div class="tr-dd-form"> {{event.maxValue }}</div>
+                <div class="table-block">
+                    <div class="tabs-block">
+                        <div class="name-discipline col1 tab-form">
+                            <span>Название дисциплины</span>
+                        </div>
+                        <div class="current-points col2 tab-form">
+                            <span>Баллы за семестр</span>
+                        </div>
+                        <div class="percent-points col3 tab-form">
+                            <span>Процентное соотношение</span>
+                        </div>
+
+                        <div class="year col4 tab-form">
+                            <span>Учебный год</span>
+                        </div>
+
+                        <div class="semestr col5 tab-form">
+                            <span>Семестр</span>
+                        </div>
+                    </div>
+                    <div class="content-table">
+                        <div class="row-table" *ngFor="let discipline of listLessons;let index=index">
+                            <div class="tr-container" (click)="changeShow(index)">
+                                <div class="name-discipline-tr col1 tr-form">
+                                    <span>{{ discipline.name_discipline }}</span>
+                                </div>
+                                <div class="current-points-tr col2 tr-form">
+                                    <span>{{ discipline.value }} из {{ discipline.max_value }}</span>
+                                </div>
+                                <div class="percent-points-tr col3 tr-form">
+                                    <span>{{ discipline.percent }} %</span>
+                                </div>
+
+                                <div class="year-tr col4 tr-form">
+                                    <span>{{ discipline.year }}</span>
+                                </div>
+
+                                <div class="semestr-tr col5 tr-form">
+                                    <span>{{ discipline.semester }}</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-table" *ngIf="this.showDetail[index] && discipline.events.length > 0">
+                                <div class="dropdown-tabs">
+                                    <div class="tab-dd-form">
+                                        Тип события
+                                    </div>
+                                    <div class="tab-dd-form">
+                                        Набранно баллов
+                                    </div>
+                                    <div class="tab-dd-form">
+                                        Максимум баллов
+                                    </div>
+                                </div>
+                                <div class="dropdown-content" *ngFor="let event of discipline.events">
+                                    <div class="tr-dd-form"> {{event.titleEvent }}</div>
+                                    <div class="tr-dd-form"> {{event.currentValue }}</div>
+                                    <div class="tr-dd-form"> {{event.maxValue }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>

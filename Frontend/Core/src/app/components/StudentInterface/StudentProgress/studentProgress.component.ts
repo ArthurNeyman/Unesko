@@ -8,11 +8,11 @@ import {Component, OnInit} from "@angular/core";
 import {User} from "../../../models/account/user.model";
 import {AuthenticationService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import "rxjs/add/operator/catch";
-import {catchError, map} from "rxjs/operators";
 import {HandelErrorService} from "../../../services/handelError.service";
 import {JournalService} from "../../../services/journal.service";
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -30,13 +30,15 @@ export class StudentProgressComponent implements OnInit {
     public showDetail: Array<any> = [];
     public numberYear: String = '0';
     public numberSemestr: String = '0';
+    public searchText: String = '';
 
     constructor(
         private JournalService: JournalService,
         private http: HttpClient,
         private handleError: HandelErrorService,
         private authenticationService: AuthenticationService,
-        private router: Router
+        private router: Router,
+        private _location: Location
     ) {
         this.listLessons = [];
         this.authenticationService.getUser().subscribe(res => {
@@ -47,6 +49,28 @@ export class StudentProgressComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    comeBack() {
+        this._location.back();
+    }
+
+
+    public startSearch() {
+        this.setList(this.gotList);
+        if (this.searchText) {
+            this.listLessons = this.listLessons.filter(item => {
+                return (
+                    item.name_discipline.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
+                );
+            });
+        }
+    }
+
+    cleanSearch() {
+        this.searchText = '';
+        this.setList(this.gotList);
+    }
+
 
     public getPoint() {
         this.JournalService.GetStudentPerformance(this.user.id).subscribe(res => {

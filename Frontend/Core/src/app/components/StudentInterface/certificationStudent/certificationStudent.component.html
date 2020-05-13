@@ -3,6 +3,10 @@
         <h3>Информация об аттестации</h3>
     </div>
     <div class="filter-block">
+        <div class="search">
+            <input type="text" placeholder="Введите поисковый запрос" [(ngModel)]="searchText" (input)="startSearch()">
+            <div class="btn-clean" *ngIf="searchText" (click)="cleanSearch()"><i class="fa fa-times" aria-hidden="true"></i></div>
+        </div>
         <div class="certification-block" style="display: flex" *ngIf="statusCertification < 3">
             <div class="certification-status unsatisfactory">
                 <span title="У вас есть незакрытые предметы">{{countBadCertification}}</span>
@@ -13,8 +17,6 @@
             <button *ngIf="filterBadCertification" (click)="resetList()" pButton type="button"
                     icon="pi pi-times" class="ui-button-secondary" title="Сбросить"></button>
         </div>
-
-        <div class="filters"></div>
     </div>
     <!--    <p-dropdown [style]="{'width':'100%'}"
                     [options]="certificationLessonList"
