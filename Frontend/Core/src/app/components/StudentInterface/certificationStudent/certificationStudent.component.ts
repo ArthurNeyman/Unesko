@@ -4,11 +4,12 @@
  * Дата: 13.05.2020
  **/
 
-import { Component, OnInit } from "@angular/core";
-import { User } from "../../../models/account/user.model";
+import {Component, OnInit} from "@angular/core";
+import {User} from "../../../models/account/user.model";
 import {SemesterNumberYear} from "../../../models/semesterNumberYear.model";
 import {AuthenticationService} from "../../../services/auth.service";
 import {LessonCertificationService} from '../../../services/lessonCertification.service';
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     selector: "certification-student",
@@ -18,10 +19,14 @@ import {LessonCertificationService} from '../../../services/lessonCertification.
 export class CertificationStudentComponent implements OnInit {
     public user: User;
     public semesterNumberYear: SemesterNumberYear = new SemesterNumberYear();
-    public certificationLessonList: any;
+    public certificationLessonList: any = [];
+    public defaultList: any = [];
     public selectedCertificationLesson: any;
     public display: boolean = false;
     public modalInfo: any;
+    public statusCertification: any = 3;
+    public countBadCertification: any = 0;
+    public filterBadCertification: any = false;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -33,18 +38,49 @@ export class CertificationStudentComponent implements OnInit {
         });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 
+    // Получить список занятий с аттестацией
     public getLessonListWithCertification() {
         this.service.GetLessonListWithCertificationForStudent(this.user.id).subscribe(res => {
-            console.log('getLessonListWithCertification res = ', res.data);
+            this.defaultList = res.data;
             this.certificationLessonList = res.data;
+            this.certificationLessonList.forEach(lesson => {
+                if (lesson.statusCertificationId < 3) this.countBadCertification++;
+                if (this.statusCertification > lesson.statusCertificationId) {
+                    this.statusCertification = lesson.statusCertificationId;
+                }
+            });
+
+            this.certificationLessonList.sort((a, b) => {
+                if (a.statusCertificationId < 3 || b.statusCertificationId < 3) {
+                    if (a.statusCertificationId < b.statusCertificationId) {
+                        return -1;
+                    }
+                    if (a.statusCertificationId > b.statusCertificationId) {
+
+                    }
+                    return 1;
+
+                    if (a.lesson.semesterNumberYear.year < b.lesson.semesterNumberYear.year) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+                if (a.lesson.semesterNumberYear.year < b.lesson.semesterNumberYear.year) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+
+
+            });
         });
     }
-    public changeCertificationLesson() {
-        console.log('changeCertificationLesson event = ', event, this.selectedCertificationLesson);
-    }
 
+    // Расчитать процент баллов
     calculatePercent(cur, max, certificationTypeId) {
         let onePercent = max / 100;
         let percent = 0;
@@ -68,12 +104,29 @@ export class CertificationStudentComponent implements OnInit {
         return status;
     }
 
+    // Показать модалку
     showInformationModal(modalInfo) {
         this.modalInfo = modalInfo;
         this.modalInfo.statusGotPoints = this.calculatePercent(this.modalInfo.currentPoints, this.modalInfo.maxGotPoints, this.modalInfo.certificationTypeId);
         this.modalInfo.statusCertificationPoints = this.calculatePercent(this.modalInfo.currentCertificationPoints, this.modalInfo.maxCertificationPoints, this.modalInfo.certificationTypeId);
         this.display = true;
-        console.log('showInformationModal modalInfo = ', this.modalInfo);
+    }
+
+    // Фильтрация предметов по не сданным
+    filterByBadCertification() {
+        this.filterBadCertification = true;
+
+        this.certificationLessonList = this.certificationLessonList.filter(lesson => {
+            return lesson.statusCertificationId < 3 ? true : false;
+        });
+    }
+
+    // Сбросить фильтрацию списка
+    resetList() {
+        // Клонируем без ссылкы
+        this.certificationLessonList = JSON.parse(JSON.stringify(this.defaultList));
+
+        this.filterBadCertification = false;
     }
 
 }

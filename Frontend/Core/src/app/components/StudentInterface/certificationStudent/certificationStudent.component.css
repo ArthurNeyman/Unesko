@@ -133,3 +133,15 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.certification-block {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.certification-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+}
