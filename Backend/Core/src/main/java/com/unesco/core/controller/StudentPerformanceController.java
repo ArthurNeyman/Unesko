@@ -102,7 +102,7 @@ public class StudentPerformanceController {
     }
 
     // Получить архив отметок
-    public ResponseStatusDTO getArchivePoints(long userId, String dateStart,String dateEnd) {
+    public ResponseStatusDTO getArchivePoints(long userId, String dateStart, String dateEnd) {
         StudentDTO student = studentPointsService.getByUser(userId); // Студент
         Date formatDateStart = null;
         try {
@@ -130,37 +130,64 @@ public class StudentPerformanceController {
 
         List<CertificationLessonsStudentDTO> resultList = new ArrayList<>();
         for (StudentLessonsDTO lesson : studentLessons) {
-            // Считаем баллы набранные за текущий предмет
-            int sumValue = getSumPointForLesson(student.getId(), lesson.getLesson().getId());
 
-            // Считаем максимум баллов за текущий предмет
-            int maxValue = getMaxPointsForLesson(lesson);
+            try {
+                // lessonCertification
+                LessonCertificationDTO lessonCertification = (LessonCertificationDTO) (lessonCertificationService.getLessonCertification(lesson.getLesson().getId())).getData();
+                int  maxCertificationPoints = lessonCertification.getMaxCertificationScore();
+                long certificationTypeId = lessonCertification.getLessonCertificationType().getId();
 
+                // lessonCertificationResult
+                LessonCertificationResultDTO lessonCertificationResult = lessonCertificationService.getLessonCertificationResultByStudentIdAndLessonCertificationId(student.getId(), lessonCertification.getId());
+                int currentCertificationPoints = lessonCertificationResult.getCertificationScore();
+                boolean absence = lessonCertificationResult.isAbsence();
+                String date = lessonCertificationResult.getRatingDate() != null ? formatter.format(lessonCertificationResult.getRatingDate()) : "";
 
+                // Считаем баллы набранные за текущий предмет
+                int sumValue = getSumPointForLesson(student.getId(), lesson.getLesson().getId());
 
-            int currentCertificationPoints = -1;
-            boolean absence = false;
-            String date = "";
-            int maxCertificationPoints = -1;
-            long certificationTypeId = -1;
+                // Считаем максимум баллов за текущий предмет
+                int maxValue = getMaxPointsForLesson(lesson);
 
-            if ((lessonCertificationService.getLessonCertification(lesson.getLesson().getId())).getData() != null) {
-               LessonCertificationDTO lessonCertification = (LessonCertificationDTO) (lessonCertificationService.getLessonCertification(lesson.getLesson().getId())).getData();
-               maxCertificationPoints = lessonCertification.getMaxCertificationScore();
-               certificationTypeId = lessonCertification.getMaxCertificationScore();
-               if (lessonCertificationService.getLessonCertificationResultByStudentIdAndLessonCertificationId(student.getId(),  lessonCertification.getId()) != null) {
-                    LessonCertificationResultDTO lessonCertificationResult = lessonCertificationService.getLessonCertificationResultByStudentIdAndLessonCertificationId(student.getId(),  lessonCertification.getId());
-                    currentCertificationPoints = lessonCertificationResult.getCertificationScore();
-                    absence = lessonCertificationResult.isAbsence();
-                    date = lessonCertificationResult.getRatingDate() != null ? formatter.format(lessonCertificationResult.getRatingDate()) : "";
+                String statusCertification = "";
+                int statusCertificationId = 1;
+                float onePercent = (float)( (currentCertificationPoints > maxCertificationPoints ? currentCertificationPoints : maxCertificationPoints) + maxValue) / 100;
+                float percent = 0;
+                float sumPoints = currentCertificationPoints + sumValue; // Общее кол-во баллов за семестр + аттестационный
+                if (onePercent > 0) {
+                    percent = sumPoints / onePercent; // процент успеваемости студента по предмету
                 }
+                // Определяем статус аттестации
+                if (certificationTypeId == 2) {
+                    // если это зачет
+                    statusCertification = percent > 50 ? "Зачтено" : "Не зачтено";
+                    statusCertificationId = percent > 50 ? 6 : 1;
+                } else {
+                    // если это экзамен
+                    statusCertification = "Неудовлетворительно";
+                    statusCertificationId = 2;
+                    if (percent > 85) {
+                        statusCertification = "Отлично";
+                        statusCertificationId = 5;
+                    } else if (percent > 65) {
+                        statusCertification = "Хорошо";
+                        statusCertificationId = 4;
+                    } else if (percent > 50) {
+                        statusCertification = "Удовлетворительно";
+                        statusCertificationId = 3;
+                    }
+                }
+
+                CertificationLessonsStudentDTO object = new CertificationLessonsStudentDTO(lesson.getLesson(), sumValue, maxValue,
+                        currentCertificationPoints, maxCertificationPoints,
+                        certificationTypeId, absence,
+                        date, statusCertification, statusCertificationId);
+                resultList.add(object);                                                                                         // Объект для передачи
+
+            } catch(Throwable t) {
+                // Если не было простановки баллов за аттестацию по предмету - идем дальше
+                continue;
             }
-            
-            CertificationLessonsStudentDTO object = new CertificationLessonsStudentDTO(lesson.getLesson(), sumValue, maxValue,
-                    currentCertificationPoints,  maxCertificationPoints,
-                    certificationTypeId, absence,
-                    date);
-            resultList.add(object);                                                                                         // Объект для передачи
         }
 
         return new ResponseStatusDTO(StatusTypes.OK, resultList);

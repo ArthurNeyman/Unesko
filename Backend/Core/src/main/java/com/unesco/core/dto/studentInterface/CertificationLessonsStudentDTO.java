@@ -13,6 +13,8 @@ public class CertificationLessonsStudentDTO {
     public long certificationTypeId;  // тип аттестации (1 - Экзамен, 2 - зачет)
     public boolean absence;  // была ли явка
     public String date;  // дата проведения аттестации
+    public String statusCertification;  // Статус аттестации словами для фронта
+    public int statusCertificationId;  // Статус аттестации 1 - не зачтено, 6 - зачтено, 2-5 оценка за экзамен
 
 
 
@@ -21,7 +23,8 @@ public class CertificationLessonsStudentDTO {
 
     public CertificationLessonsStudentDTO(LessonDTO lesson ,int currentPoints, int maxGotPoints,
                                           int currentCertificationPoints, int maxCertificationPoints,
-                                          long certificationTypeId, boolean absence, String date) {
+                                          long certificationTypeId, boolean absence, String date,
+                                          String statusCertification, int statusCertificationId) {
         this.lesson = lesson;
         this.currentPoints = currentPoints;
         this.currentCertificationPoints = currentCertificationPoints;
@@ -30,5 +33,7 @@ public class CertificationLessonsStudentDTO {
         this.certificationTypeId = certificationTypeId;
         this.absence = absence;
         this.date = date;
+        this.statusCertification = statusCertification;
+        this.statusCertificationId = statusCertificationId;
     }
 }
