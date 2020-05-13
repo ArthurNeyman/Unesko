@@ -2,12 +2,71 @@
     <div class="header-panel-body">
         <h3>Информация об аттестации</h3>
     </div>
-<!--    <p-dropdown [style]="{'width':'100%'}"
-                [options]="certificationLessonList"
-                [(ngModel)]="selectedCertificationLesson" (onChange)="changeCertificationLesson()"
-                optionLabel="lesson.discipline.name"
-                placeholder="Выберите предмет">
-    </p-dropdown>-->
+    <!--    <p-dropdown [style]="{'width':'100%'}"
+                    [options]="certificationLessonList"
+                    [(ngModel)]="selectedCertificationLesson" (onChange)="changeCertificationLesson()"
+                    optionLabel="lesson.discipline.name"
+                    placeholder="Выберите предмет">
+        </p-dropdown>-->
+    <p-dialog [header]="modalInfo ? modalInfo.lesson.discipline.name : ''" [(visible)]="display"  [style]="{width: '50vw'}">
+        <div class="content" *ngIf="modalInfo">
+            <div class="title-block">
+                <div class="title str">
+                    <span>Набрано баллов:</span>
+                </div>
+                <div class="title str">
+                    <span>Аттестационный балл:</span>
+                </div>
+                <div class="title str">
+                    <span>Была ли явка:</span>
+                </div>
+                <div class="title str">
+                    <span>Дата:</span>
+                </div>
+                <div class="title str">
+                    <span>Оценка:</span>
+                </div>
+            </div>
+            <div class="data-block">
+                <div class="data str" [ngClass]="{
+                        'unsatisfactory': modalInfo.statusGotPoints <= 2,
+                        'satisfactorily': modalInfo.statusGotPoints == 3,
+                        'good': modalInfo.statusGotPoints == 4,
+                        'perfectly': modalInfo.statusGotPoints > 4
+                    }">
+                    <span>{{modalInfo.currentPoints}} / {{modalInfo.maxGotPoints}}</span>
+                </div>
+                <div class="data str" [ngClass]="{
+                        'unsatisfactory': modalInfo.statusCertificationPoints <= 2,
+                        'satisfactorily': modalInfo.statusCertificationPoints == 3,
+                        'good': modalInfo.statusCertificationPoints == 4,
+                        'perfectly': modalInfo.statusCertificationPoints > 4
+                    }">
+                    <span>{{modalInfo.currentCertificationPoints}} / {{modalInfo.maxCertificationPoints}}</span>
+                </div>
+                <div class="data str" [ngClass]="{
+                        'unsatisfactory': modalInfo.absence == false,
+                        'perfectly': modalInfo.absence == true
+                    }">
+                    <span>{{ modalInfo.absence ? 'да': 'нет'  }}</span>
+                </div>
+                <div class="data str">
+                    <span>{{ modalInfo.date.split(' ')[0] ? modalInfo.date.split(' ')[0] : '-' }}</span>
+                </div>
+                <div class="data str" [ngClass]="{
+                        'unsatisfactory': modalInfo.statusCertificationId <= 2,
+                        'satisfactorily': modalInfo.statusCertificationId == 3,
+                        'good': modalInfo.statusCertificationId == 4,
+                        'perfectly': modalInfo.statusCertificationId > 4
+                    }">
+                    <span>{{ modalInfo.statusCertification }}</span>
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-times" (click)="display=false" label="Закрыть" class="ui-button-secondary"></button>
+        </p-footer>
+    </p-dialog>
     <div class="lesson-table">
         <!-- Вкладки таблицы предметов-->
         <div class="table-tabs">
@@ -31,7 +90,7 @@
         <!-- Контент таблицы-->
         <div class="table-content">
             <!-- Строка таблицы-->
-            <div class="str-table" *ngFor="let lesson of certificationLessonList;let index=index">
+            <div class="str-table" *ngFor="let lesson of certificationLessonList;let index=index" (click)="showInformationModal(lesson)">
                 <!-- Название предмета -->
                 <div class="str-tr">
                     <span>{{ lesson.lesson.discipline.name }}</span>
@@ -47,7 +106,7 @@
                 <!-- Статус аттестации statusCertificationId-->
                 <div class="str-tr">
                     <div class="certification-form" [ngClass]="{
-                        'unsatisfactory': lesson.statusCertificationId < 2,
+                        'unsatisfactory': lesson.statusCertificationId <= 2,
                         'satisfactorily': lesson.statusCertificationId == 3,
                         'good': lesson.statusCertificationId == 4,
                         'perfectly': lesson.statusCertificationId > 4

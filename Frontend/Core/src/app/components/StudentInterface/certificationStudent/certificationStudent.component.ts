@@ -20,6 +20,8 @@ export class CertificationStudentComponent implements OnInit {
     public semesterNumberYear: SemesterNumberYear = new SemesterNumberYear();
     public certificationLessonList: any;
     public selectedCertificationLesson: any;
+    public display: boolean = false;
+    public modalInfo: any;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -41,6 +43,37 @@ export class CertificationStudentComponent implements OnInit {
     }
     public changeCertificationLesson() {
         console.log('changeCertificationLesson event = ', event, this.selectedCertificationLesson);
+    }
+
+    calculatePercent(cur, max, certificationTypeId) {
+        let onePercent = max / 100;
+        let percent = 0;
+        if (onePercent > 0) {
+            percent = cur / onePercent; // процент успеваемости студента по предмету
+        }
+        let status = 0;
+        // Определяем статус аттестации
+        if (certificationTypeId == 2) {
+            status = percent > 50 ? 6 : 1;
+        } else {
+            status = 2;
+            if (percent > 85) {
+                status = 5;
+            } else if (percent > 65) {
+                status = 4;
+            } else if (percent > 50) {
+                status = 3;
+            }
+        }
+        return status;
+    }
+
+    showInformationModal(modalInfo) {
+        this.modalInfo = modalInfo;
+        this.modalInfo.statusGotPoints = this.calculatePercent(this.modalInfo.currentPoints, this.modalInfo.maxGotPoints, this.modalInfo.certificationTypeId);
+        this.modalInfo.statusCertificationPoints = this.calculatePercent(this.modalInfo.currentCertificationPoints, this.modalInfo.maxCertificationPoints, this.modalInfo.certificationTypeId);
+        this.display = true;
+        console.log('showInformationModal modalInfo = ', this.modalInfo);
     }
 
 }
