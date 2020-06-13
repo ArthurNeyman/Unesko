@@ -34,12 +34,12 @@
                 <div class="title str">
                     <span>Аттестационный балл:</span>
                 </div>
-                <div class="title str">
+<!--                <div class="title str">
                     <span>Была ли явка:</span>
                 </div>
                 <div class="title str">
                     <span>Дата:</span>
-                </div>
+                </div>-->
                 <div class="title str">
                     <span>Оценка:</span>
                 </div>
@@ -61,7 +61,7 @@
                     }">
                     <span>{{modalInfo.currentCertificationPoints}} / {{modalInfo.maxCertificationPoints}}</span>
                 </div>
-                <div class="data str" [ngClass]="{
+<!--                <div class="data str" [ngClass]="{
                         'unsatisfactory': modalInfo.absence == false,
                         'perfectly': modalInfo.absence == true
                     }">
@@ -69,7 +69,7 @@
                 </div>
                 <div class="data str">
                     <span>{{ modalInfo.date.split(' ')[0] ? modalInfo.date.split(' ')[0] : '-' }}</span>
-                </div>
+                </div>-->
                 <div class="data str" [ngClass]="{
                         'unsatisfactory': modalInfo.statusCertificationId <= 2,
                         'satisfactorily': modalInfo.statusCertificationId == 3,
