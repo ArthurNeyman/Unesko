@@ -1,5 +1,7 @@
 import { Student } from './../account/student';
 import { Lesson } from './../shedule/lesson';
+
+//Аттестация в журнале
 export class Certification {
     public id: Number
     public startDate: String
@@ -17,7 +19,7 @@ export class Certification {
 
 
 }
-
+//Конкретное значение аттестации в журнале
 export class CertificationValue {
     id: Number
     certificationId: Number
@@ -34,11 +36,12 @@ export class CertificationValue {
     }
 }
 
+//Тип итоговая аттестации
 export class LessonCertificationType{
     public id:number
     public name:String
 }
-
+//Итоговая аттестация
 export class LessonCertification{
     public id:Number;
     public lesson:Lesson;
@@ -50,13 +53,15 @@ export class LessonCertification{
         this.lessonCertificationType=lessonCertificationType
     }
 }
-
+//Конкретное значение итоговой аттестации
 export class LessonCertificationValue{
     public id:Number
     public absence:boolean
     public certificationScore:number
     public lessonCertificatonId:number
     public ratingDate:Date
+    public currentScore:number
     public studentDTO:Student
     public totalScore:number
+    public mark : String
 }

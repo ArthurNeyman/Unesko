@@ -26,5 +26,5 @@ public interface LessonRepository extends CrudRepository<LessonEntity, Long>, Cr
 
     List<LessonEntity> findByGroupId(long groupId);
 
-
+    LessonEntity findById(long lessonId);
 }

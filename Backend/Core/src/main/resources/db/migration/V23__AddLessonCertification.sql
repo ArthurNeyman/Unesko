@@ -29,6 +29,7 @@ create table un_lesson_certification_value(
 
 insert into un_lesson_certification_type(id,name) values(1,'Экзамен');
 insert into un_lesson_certification_type(id,name) values(2,'Зачет');
+insert into un_lesson_certification_type(id,name) values(3,'Зачет с оценкой');
 
 alter table un_lesson_certification add constraint lessonIdConstraint foreign key (lesson_id) references un_lesson;
 alter table un_lesson_certification add constraint lessonCertificationTypeConstraint foreign key (lesson_certification_type_id) references un_lesson_certification_type;

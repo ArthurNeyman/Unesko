@@ -14,6 +14,7 @@ public interface LessonCertificationResultRepository extends CrudRepository<Less
     List<LessonCertificationResultEntity> getByLessonCertificationId(long lessonCertificationId, Sort sort);
 
 
-    LessonCertificationResultEntity getLessonCertificationResultByStudentEntityIdAndLessonCertificationId(@Param("studentEntityId") long studentId, @Param("lessonCertificationId") long lessonCertificationId);
+    LessonCertificationResultEntity getLessonCertificationResultByStudentEntityIdAndLessonCertificationId(@Param("studentEntityId") long studentId,
+                                                                                                          @Param("lessonCertificationId") long lessonCertificationId);
 
 }

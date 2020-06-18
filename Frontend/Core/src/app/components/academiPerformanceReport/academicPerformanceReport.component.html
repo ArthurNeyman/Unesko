@@ -23,14 +23,16 @@
                     <div class="ui-g-8" style="font-size:20px;">
                         Дисциплина 
                     </div>
-                    <div class="ui-g-2" >
-                        <div class="ui-g" >
-                            <p-button class="ui-g-6" icon="pi pi-check" (click)="chooseAll(true)"></p-button>
-                            <div class="ui-g-6" style="text-align: right;">
-                                <p-button  icon="pi pi-times" (click)="chooseAll(false)"></p-button>
-                            </div>
-                        </div>
+
+                    <div class="ui-g-2" style="text-align: right    ;" >
+                            <p-toggleButton onLabel="Очистить все"
+                                            offLabel="Выбрать все" 
+                                            onIcon="pi pi-times" 
+                                            offIcon="pi pi-check"
+                                            [(ngModel)]="selectAll"
+                                            (onChange)="chooseAll()"></p-toggleButton>
                     </div>
+
                 </div>  
             </div>
         

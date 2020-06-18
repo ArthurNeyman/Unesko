@@ -20,15 +20,14 @@ export class JournalCertificationComponent implements OnInit {
     @Input() semesterNumberYear: SemesterNumberYear;
     @Input() lesson: Lesson;
 
-    reportStartDate: any;
-    reportEndDate: any;
-
+    public reportStartDate: String;
+    public reportEndDate: String;
     public datePipe = new DatePipe("ru");
     public certificationReport: CertificationReport;
     public ru: any;
-
     public certificationList: Certification[]
     public selectedCertification: Certification
+    public onlyVisitation:boolean=false;
 
     constructor(private messageService: MessageService, private journalService: JournalService) {
     }
@@ -52,20 +51,11 @@ export class JournalCertificationComponent implements OnInit {
         if (this.reportStartDate && this.reportEndDate) {
             let start = this.datePipe.transform(this.reportStartDate, "yyyy-MM-dd");
             let end = this.datePipe.transform(this.reportEndDate, "yyyy-MM-dd");
-            this.journalService.GetJournalCertificationReport(this.lesson.id, start, end, this.lesson.semesterNumberYear).subscribe(
+            this.journalService.GetJournalCertificationReport(this.lesson.id, start, end, this.lesson.semesterNumberYear,this.onlyVisitation).subscribe(
                 result => {
-                    if (result.data.certificationValueDTOList)
-                        result.data.certificationValueDTOList.sort((first, second) => {
-                            if (first.student.user.userFIO > first.student.user.userFIO)
-                                return 1
-
-                            if (first.student.user.userFIO < first.student.user.userFIO)
-                                return -1
-
-                            return 0
-                        })
-                    this.selectedCertification = this.getCertificationForSave(result.data)
+                    console.log(result.data);
                     
+                    this.selectedCertification = this.getCertificationForSave(result.data)
                 }, error => {
 
                 }
@@ -86,7 +76,6 @@ export class JournalCertificationComponent implements OnInit {
             }, error => {
             }
         );
-
     }
 
     getCertificationForSave(certification) {
@@ -103,14 +92,12 @@ export class JournalCertificationComponent implements OnInit {
             this.lesson)
     }
 
-    saveCertification() {
-                
+    saveCertification() {                  
         this.journalService.saveCertification(this.selectedCertification).subscribe(
             (result) => {                
                 this.selectedCertification = result.data
-                console.log(this.selectedCertification)
                 if (result.status == "OK") {
-                    this.successSaveCertification()
+                    this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация сохранена' });
                     this.getCertificationList()
                 }
             }
@@ -122,16 +109,8 @@ export class JournalCertificationComponent implements OnInit {
             if (result.status == "OK") {
                 this.getCertificationList();
                 this.selectedCertification = null
-                this.successDeleteCertification();
+                this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация удалена' });
             }
         });
-    }
-
-    successSaveCertification() {
-        this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация сохранена' });
-    }
-
-    successDeleteCertification() {
-        this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация удалена' });
     }
 }

@@ -1,7 +1,6 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
 import {Lesson} from "../../../models/shedule/lesson";
 import {SemesterNumberYear} from "../../../models/semesterNumberYear.model";
-
 import {MenuItem} from 'primeng/api';
 
 @Component({
@@ -28,9 +27,14 @@ export class JournalComponent implements OnInit {
                 this.activeItem=this.items[0];
             }        
         },{
-            label: 'Аттестация',
+            label: 'Успеваемость',
             command: (event) => {
                 this.activeItem=this.items[1];
+            }
+        },{
+            label: 'Текущая аттестация',
+            command: (event) => {
+                this.activeItem=this.items[2];
             }
         }]
 

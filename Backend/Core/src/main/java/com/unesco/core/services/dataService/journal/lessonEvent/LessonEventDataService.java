@@ -3,9 +3,11 @@ package com.unesco.core.services.dataService.journal.lessonEvent;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.enums.StatusTypes;
 import com.unesco.core.dto.journal.LessonEventDTO;
+import com.unesco.core.dto.shedule.PairDTO;
 import com.unesco.core.entities.journal.LessonEventEntity;
 import com.unesco.core.entities.schedule.PairEntity;
 import com.unesco.core.repositories.journal.LessonEventRepository;
+import com.unesco.core.repositories.schedule.PairRepository;
 import com.unesco.core.services.mapperService.IMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +24,9 @@ public class LessonEventDataService implements ILessonEventDataService {
     private IMapperService mapperService;
     @Autowired
     private LessonEventRepository lessonEventRepository;
+
+    @Autowired
+    private PairRepository pairRepository;
 
     public List<LessonEventDTO> getAll()
     {
@@ -93,4 +98,5 @@ public class LessonEventDataService implements ILessonEventDataService {
     public int getSumMaxValue(long lessonId){
         return (lessonEventRepository.getMaxPointValue(lessonId)!=null)?lessonEventRepository.getMaxPointValue(lessonId):0;
     }
+
 }

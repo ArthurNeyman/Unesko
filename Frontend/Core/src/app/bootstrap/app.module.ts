@@ -73,7 +73,6 @@ import {ExcelService } from '../services/excelService.service';
 import {AuthGuard} from "../guards/auth.guard";
 // components
 import {CertificationStudentComponent} from "../components/studentInterface/certificationStudent/certificationStudent.component";
-import {TeacherProfileComponent} from "../components/studentInterface/teacherProfile/teacherProfile.component";
 import {ArchivePointsComponent} from "../components/studentInterface/archivePoints/archivePoints.component";
 import {StudentProgressComponent} from "../components/studentInterface/studentProgress/studentProgress.component";
 import {AppComponent} from "./app.component";
@@ -130,11 +129,14 @@ import {AcademicPerformanceReportComponent} from "../components/academiPerforman
 
 import {LessonCertificationSettingsComponent} from "../components.page/adminPanel/lessonCertificationSettings/lessonCertificationSettings.component";
 import {LessonCertificationComponent, ListenInputCertification} from "../components/lessonCertification/lessonCertification.component"
+import { TeacherProfileComponent } from '../components/studentInterface/teacherProfile/teacherProfile.component';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 registerLocaleData(localeRu);
 
 @NgModule({
     imports: [
+        OverlayPanelModule,
         CommonModule,
         BrowserAnimationsModule,
         BrowserModule,
@@ -172,7 +174,9 @@ registerLocaleData(localeRu);
         PanelModule,
         AccordionModule,
         ListboxModule,
-        SpinnerModule        ],
+        SpinnerModule
+    ]
+        ,
     entryComponents: [
         ProfileComponent
     ],
@@ -235,7 +239,7 @@ registerLocaleData(localeRu);
         LessonCertificationSettingsComponent,
         LessonCertificationComponent,
         ListenInputCertification
-    ],
+        ],
     providers: [
         {provide: RequestOptions, useClass: GlobalHttpOptions},
         {provide: UrlSerializer, useClass: LowerCaseUrlSerializer},

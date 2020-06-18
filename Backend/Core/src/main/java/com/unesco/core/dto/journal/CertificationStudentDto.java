@@ -79,4 +79,12 @@ public class CertificationStudentDto {
             this.setCertificationValue(1);
         else this.setCertificationValue(2);
     }
+
+    public void setCertificationValueByVisitation(){
+        if(visitationValue/(visitationValue+missingHours)< 0.3)
+            this.setCertificationValue(0);
+        else if(visitationValue/(visitationValue+missingHours) <0.6)
+            this.setCertificationValue(1);
+        else this.setCertificationValue(2);
+    }
 }

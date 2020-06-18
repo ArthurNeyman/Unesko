@@ -34,6 +34,7 @@ export class LessonConfiguratorPageComponent implements OnInit {
                 this.accountService.GetProfessorByUser(this.user.id).subscribe(
                     resultProf => {
                         this.professor = resultProf.data;
+                        this.loadLesson()
                     }
                 );
             });
@@ -44,6 +45,7 @@ export class LessonConfiguratorPageComponent implements OnInit {
     }
 
     loadLesson() {
+        
         if (this.professor == null || this.professor.id == 0)
             return;
         this.showLoader = true;

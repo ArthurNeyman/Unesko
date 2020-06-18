@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ComparisonDTO {
+
     private Date date;
     private List<ComparisonPointDTO> points;
 

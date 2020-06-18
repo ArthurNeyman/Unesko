@@ -5,6 +5,7 @@ import com.unesco.core.dto.shedule.LessonDTO;
 import java.util.List;
 
 public class CertificationReportDto {
+
     private LessonDTO lesson;
     private List<CertificationStudentDto> studentCertification;
     private double allHours;

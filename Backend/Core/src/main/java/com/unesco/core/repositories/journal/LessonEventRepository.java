@@ -1,6 +1,7 @@
 package com.unesco.core.repositories.journal;
 
 import com.unesco.core.entities.journal.LessonEventEntity;
+import com.unesco.core.entities.schedule.PairEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,5 @@ public interface LessonEventRepository extends CrudRepository<LessonEventEntity,
 
     @Query("SELECT sum(p.maxValue) FROM LessonEventEntity p where p.lessonEntity.id = :lessonId")
     Integer getMaxPointValue(@Param("lessonId") long lessonId);
+
 }

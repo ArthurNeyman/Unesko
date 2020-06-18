@@ -1,14 +1,15 @@
 <div class="ui-g ">
     <semester-picker class="ui-g-5" style="display: inline-block" (ngModelChange)="getProfessorLessons()"
         [semesterNumberYear]="semesterNumberYear"></semester-picker>
-    
-        <div class="ui-g-7">
-        <div *ngIf="!lessonCertificationList || lessonCertificationList.length==0">
-            Расписание не заполнено
+
+    <div class="ui-g-7">
+        <div style="text-align: center;font-size: large;"
+            *ngIf="!lessonCertificationList || lessonCertificationList.length==0">
+            <p>Расписание не заполнено </p>
         </div>
         <p-dropdown [style]="{'width':'100%'}" *ngIf="lessonCertificationList && lessonCertificationList.length>0"
-            [(ngModel)]="this.selectedLessonCertification" (onChange)="loadData($event.value)" [options]="lessonCertificationListForMenu" 
-            placeholder="Выбор дисциплины">
+            [(ngModel)]="this.selectedLessonCertification" (onChange)="loadData($event.value)"
+            [options]="lessonCertificationListForMenu" placeholder="Выбор дисциплины">
             <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.value.lesson.group.name}}
                     {{item.value.lesson.discipline.name}} </span>
@@ -20,102 +21,162 @@
     </div>
 </div>
 
-<div *ngIf="selectedLessonCertification">
+<div *ngIf="!showLoader" style="margin-top: 2rem;">
+
     <div *ngIf="lessonCertificationList && lessonCertificationList.length>0">
+
         <div *ngIf="selectedLessonCertification">
-            <div class=ui-g>
-                <div class=ui-g-6>
-                    <p>Группа: {{selectedLessonCertification.lesson.group.name}}</p>
-                    <p>Специльность: {{selectedLessonCertification.lesson.group.speciality.name}}</p>
-                    <p>Код специальности: {{selectedLessonCertification.lesson.group.speciality.code}} </p>
-                    <p>Дисципоина: {{selectedLessonCertification.lesson.discipline.name}}</p>
-                    <p>Тип аттестации: {{selectedLessonCertification.lessonCertificationType.name}}</p>
-                </div>
+       
+            <div style="margin-bottom: 2rem;">
 
-                <div class="ui-g-6">
-                    <p-table *ngIf="this.eventList" [value]="eventList">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th> Событие </th>
-                                <th> Максимальный балл </th>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-item>
-                            <tr>
-                                <td>{{item.event}}</td>
-                                <td>{{item.value}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
+                <p-accordion [activeIndex]='0'>
+
+                    <p-accordionTab header="Общая информация"  [style.padding]="'0'">
+                        <div class=ui-g>
+                            <div class=ui-g-6>
+                                <p style="margin-top: 1rem;">Группа: {{selectedLessonCertification.lesson.group.name}}</p>
+                                <p style="margin-top: 1rem;">Специльность: {{selectedLessonCertification.lesson.group.speciality.name}}</p>
+                                <p style="margin-top: 1rem;">Код специальности: {{selectedLessonCertification.lesson.group.speciality.code}}
+                                </p>
+                                <p style="margin-top: 1rem;">Дисциплина: {{selectedLessonCertification.lesson.discipline.name}}</p>
+                                <p style="margin-top: 1rem;">Тип отчетности: {{selectedLessonCertification.lessonCertificationType.name}}</p>
+                                <p style="margin-top: 1rem;">Максимальный аттестационный балл:
+                                    {{selectedLessonCertification.maxCertificationScore}}</p>
+
+                                    <p style="margin-top: 1rem;"> Вычислять общий балл только на основании текущей аттестации
+                                        <p-checkbox binary="true" [(ngModel)]="lessonCertificationCurrentOnly"
+                                            (onChange)="changeCurrentOnly()"></p-checkbox>
+                                    </p>
+
+                            </div>
+
+                            <div class="ui-g-6">
+                                <p-table *ngIf="this.eventList" [value]="eventList">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th> Событие </th>
+                                            <th> Максимальный балл </th>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-item>
+                                        <tr [ngClass]="{total: item.event=='Общий балл'}">
+                                            <td>{{item.event}}</td>
+                                            <td>{{item.value}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+
+                                <div style="margin-top:1rem;" *ngIf="!lessonCertificationCurrentOnly">
+                                    <span>Изменить макс. аттестационный балл: </span>
+                                    <br>
+                                    <input min="0" type="number" [(ngModel)]="newMaxCertificationScore" pInputText>
+                                    <button pButton type="button" label="Сохранить" (click)="setMaxScore()"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+
+                            
+
+                            
+                        </div>
+                    </p-accordionTab>
+                </p-accordion>
             </div>
 
-            <div class="ui-g">
-                <p class="ui-g-6"> Вычислять общий балл только на основании текущей аттестации
-                    <p-checkbox binary="true" [(ngModel)]="lessonCertificationCurrentOnly"></p-checkbox>
-                </p>
-                <div class="ui-inputgroup" *ngIf="!lessonCertificationCurrentOnly">
-                    <span class="ui-inputgroup-addon">Максимальный аттестационный балл:</span>
-                    <input type="number" [(ngModel)]="selectedLessonCertification.maxCertificationScore" pInputText>
-                    <button pButton type="button" label="Сохранить" (click)="setMaxScore()"></button>
-                </div>
-                
-            </div>
-            <p-table [value]="lessonCertificationResultList">
-                <ng-template pTemplate="header">
+            <p-table #dt [columns]="cols" [value]="lessonCertificationResultList" [scrollable]="true"
+                scrollHeight="400px">
+                <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th [style.width]="'28%'">Студент</th>
-                        <th [style.width]="'5%'">Текущий балл</th>
-                        <th [style.width]="'10%'" disabled="!lessonCertificationCurrentOnly" >Аттестационный балл</th>
-                        <th [style.width]="'5%'">Общий балл</th>
-                        <th [style.width]="'5%'">Неявка</th>
-                        <th [style.width]="'12%'">Дата</th>
-                        <th [style.width]="'8%'"
-                            *ngIf="selectedLessonCertification.lessonCertificationType.name==='Зачет'"> Зачет</th>
-                        <th [style.width]="'8%'"
-                            *ngIf="selectedLessonCertification.lessonCertificationType.name==='Экзамен'">Оценка</th>
+                        <th  style="text-align: center;" *ngFor="let col of columns" [ngSwitch]="col.field" [style.width]="col.width">
+                            {{col.header}}
+                            
+                            <p-dropdown appendTo='body' *ngSwitchCase="'mark'" [options]="brands"
+                                [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, col.field, 'equals')">
+                            </p-dropdown>
+                            
+                        </th>
                     </tr>
+
+                    
+
                 </ng-template>
+
                 <ng-template pTemplate="body" let-item>
-                    <tr>
-                        <td [style.width]="'28%'"> {{item.studentDTO.user.userFIO}}</td>
-                        <td [style.width]="'5%'">{{this.getCurrentScore(item.studentDTO)}}</td>
-                        <td [style.width]="'10%'" style="padding:0;">
-                            <input 
-                                listenInputCertification
+                    <tr style="text-align: center;">
+                       
+                        <td [style.width]="'30%'"> {{item.studentDTO.user.userFIO}} </td>
+                        
+                        <td [style.width]="'10%'" >
+                            <div class="ui-g">
+                                <div style="text-align: center;" class="ui-g-8">{{item.currentScore}} </div>
+                                <i class="pi pi-search" (mouseenter)="selectStudent($event,item.studentDTO,op)"
+                                    (mouseout)="selectStudent($event,item.studentDTO,op)" icon="pi pi-info"
+                                    style="font-size:20px"></i>
+                            </div>
+                        </td>
+
+                        <td [style.width]="'15%'">
+                            <input listenInputCertification (valueChange)="item.certificationScore = $event"
                                 [maxValue]="selectedLessonCertification.maxCertificationScore"
-                                [style.width]="'100%'" type="number" *ngIf="!lessonCertificationCurrentOnly"
-                                max={{selectedLessonCertification.maxCertificationScore}}
-                                pInputText
-                                min=0
-                                [(ngModel)]="item.certificationScore">
+                                *ngIf="!lessonCertificationCurrentOnly" [style.width]="'100%'" pInputText
+                                max="selectedLessonCertification.maxCertificationScore" min='0' type="number"
+                                [(ngModel)]="item.certificationScore" (keyup)="update(item)">
                         </td>
-                        <td [style.width]="'5%'">
-                            {{this.getTotalScore(item)}}
+                      
+                        <td [style.width]="'7%'">
+                            {{item.totalScore}}
                         </td>
-                        <td [style.width]="'5%'">
-                            <p-inputSwitch [(ngModel)]="item.absence"></p-inputSwitch>
-                        <td [style.width]="'12%'" style="padding:0;">
-                            <p-calendar 
-                                dateFormat="dd-mm-yy"
-                                [inputStyle]="{'width':'100%'}" 
-                                [(ngModel)]="item.ratingDate">
+                      
+                        <td [style.width]="'13%'">
+                            <p-calendar [locale]="ru" appendTo="body" [inputStyle]="{'width':'100%'}"
+                                dateFormat="dd-mm-yy" [readonlyInput]="true" [(ngModel)]="item.ratingDate">
                             </p-calendar>
                         </td>
-                        <td [style.width]="'8%'"
-                            *ngIf="selectedLessonCertification.lessonCertificationType.name==='Зачет'">
-                               <p *ngIf="this.getTotalScore(item) >= 51" >Зачтено</p>
-                               <p *ngIf="this.getTotalScore(item) < 51" >не зачтено</p>
+  
+                        <td [style.width]="'8%'">
+                            <p-inputSwitch [(ngModel)]="item.absence"></p-inputSwitch>
                         </td>
-                        <td [style.width]="'8%'"
-                            *ngIf="selectedLessonCertification.lessonCertificationType.name==='Экзамен'">
-                            <p> {{this.getMark(this.getTotalScore(item))}} </p>
-                        </td>
+                        <td [style.width]="'17%'"> {{item.mark}} </td>
+                   
                     </tr>
                 </ng-template>
             </p-table>
+
+            <div style="margin-top:2rem;width:100%;text-align:right;">
+                <button style="margin: 1rem;" pButton type="button" label="Сохранить" (click)="save()"></button>
+                <button icon="pi pi-download" iconPos="left" pButton class="ui-button-success" type="button"
+                    label="Экспорт в XLSX" (click)="excelExport()"></button>
+            </div>
+
         </div>
-        <button pButton type="button" label="Сохранить" (click)="test()"></button>
 
     </div>
-
 </div>
+
+<p-overlayPanel #op appendTo="body" [dismissable]="true">
+    <div *ngIf="selectStud">
+        <p-table [value]="selectStud.events" [style]="{width: '500px'}">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [style.textAlign]="'center'">Тип события </th>
+                    <th [style.textAlign]="'center'">Событие</th>
+                    <th [style.textAlign]="'center'">Полученный балл</th>
+                    <th [style.textAlign]="'center'">Макс.балл</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-event>
+                <tr [ngClass]="{footer: event.event.type.name=='Суммарно балов'}" [style.textAlign]="'center'">
+                    <td>{{event.event.type.name}}</td>
+                    <td>{{event.event.comment}}</td>
+                    <td>{{event.value}}</td>
+                    <td>{{event.event.maxValue}}</td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </div>
+</p-overlayPanel>
+
+<data-loader [show]="showLoader && selectedLessonCertification" [margin]="9"></data-loader>

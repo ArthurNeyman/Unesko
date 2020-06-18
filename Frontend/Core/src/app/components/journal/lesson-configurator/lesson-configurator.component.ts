@@ -96,7 +96,6 @@ export class LessonConfiguratorComponent implements OnInit {
         this.journalService.GetEvents(this.lesson.id)
             .subscribe(result => {
                 this.loadingEventList = false;
-                console.log('events = ', result.data)
                 this.events = result.data;
             });
     }

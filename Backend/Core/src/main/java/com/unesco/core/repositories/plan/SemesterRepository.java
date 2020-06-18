@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SemesterRepository extends CrudRepository<SemesterEntity, Long>, CrudPagableRepository<SemesterEntity, Long> {
+
     Page findAll(Pageable pageRequest);
     public SemesterEntity findByPlanId(Long planId);
 

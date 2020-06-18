@@ -69,14 +69,15 @@ export class JournalService {
             );
     }
 
-    public GetJournalCertificationReport(lessonId, start, end, semesterNumberYear: SemesterNumberYear): Observable<ResponseStatus> {
+    public GetJournalCertificationReport(lessonId, start, end, semesterNumberYear: SemesterNumberYear,visitationOnly:boolean): Observable<ResponseStatus> {
         let params = new HttpParams();
         params = params.set("start", start);
         params = params.set("end", end);
         params = params.set("semester", semesterNumberYear.semester.toString());
         params = params.set("year", semesterNumberYear.year.toString());
+        params = params.set("visitationOnly", visitationOnly ? "1" : "0");
 
-        return this.http.get(ApiRouteConstants.Journal.СertificationReport
+        return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.Certification.certification
             .replace(":lessonId", lessonId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
@@ -175,7 +176,7 @@ export class JournalService {
         params = params.set("semester", semesterNumberYear.semester.toString());
         params = params.set("year", semesterNumberYear.year.toString());
 
-        return this.http.get(ApiRouteConstants.Report.ReportAcademicPerfomance
+        return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.ReportOnProgress.get
             .replace(":professorId", professorId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
@@ -185,7 +186,7 @@ export class JournalService {
     //-------------------------------------------------------------------------------------------------------
     //Получить список аттестаций по предмету
     public getCertificationList(lessonId: Number) {
-        return this.http.get(ApiRouteConstants.Journal.Certification.get
+        return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.Certification.get
             .replace(":lessonId",lessonId.toString()))
             .pipe(
                 map((res: ResponseStatus) => res),
@@ -196,7 +197,7 @@ export class JournalService {
     //Сохранить сформированную аттестацию
     public saveCertification(certification):Observable<ResponseStatus> {
         let params = new HttpParams();
-        return this.http.post(ApiRouteConstants.Journal.Certification.save,certification,{ params: params })
+        return this.http.post(ApiRouteConstants.MonitoringStudentsProgress.Certification.save,certification,{ params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))
@@ -205,7 +206,7 @@ export class JournalService {
     //Удалить аттестацию
     public deleteCertification(certification) {
         let params = new HttpParams();
-        return this.http.post(ApiRouteConstants.Journal.Certification.delete,certification,{ params: params })
+        return this.http.post(ApiRouteConstants.MonitoringStudentsProgress.Certification.delete,certification,{ params: params })
         .pipe(
             map((res: ResponseStatus) => res),
             catchError(e => this.handleError.handle(e))

@@ -38,8 +38,6 @@ public class JournalDataService implements IJournalDataService {
     private IPointDataService pointDataService;
     @Autowired
     private EducationPeriodRepository educationPeriodRepository;
-
-
     @Autowired
     private LessonEventDataService lessonEventDataService;
 

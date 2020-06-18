@@ -6,7 +6,7 @@ import com.unesco.core.dto.shedule.PairDTO;
 import java.util.Date;
 import java.util.List;
 
-public class LessonEventDTO implements Cloneable {
+public class LessonEventDTO implements Cloneable,Comparable {
     private long id;
     private Date date;
     private String comment;
@@ -75,4 +75,8 @@ public class LessonEventDTO implements Cloneable {
         return (LessonEventDTO)cloned;
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }

@@ -1,0 +1,23 @@
+.total{
+    font-style: italic;
+    font-weight: bold;
+}
+
+.bad{
+    background-color: rgb(245, 139, 125) !important;
+}
+
+.normal{
+    background-color: rgb(113, 235, 97) !important;
+}
+
+.max{
+    background-color:rgb(248, 228, 114) !important;
+}
+
+.some{
+    background-color:rgb(100, 184, 209) !important;
+}
+.footer{
+    font-weight: bold !important;
+}

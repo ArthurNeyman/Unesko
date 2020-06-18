@@ -15,8 +15,5 @@ public interface IJournalManager extends IValidateManager {
     void init(JournalDTO journal, List<LessonEventDTO> lessonEvents, VisitationConfigDTO visitConfig);
     void CreateJournal();
     List<Date> GetDates();
-    CertificationReportDto CertificationReportDto(Date start, Date end);
-    CertificationReportDto CertificationReportDtoOrig(Date start, Date end);
-
     JournalDTO get();
 }

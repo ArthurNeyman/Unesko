@@ -3,9 +3,7 @@ package com.unesco.core.entities.certification;
 import com.unesco.core.entities.schedule.LessonEntity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name="un_certification")

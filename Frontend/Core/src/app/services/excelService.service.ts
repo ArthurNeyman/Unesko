@@ -7,7 +7,8 @@ const EXCEL_EXTENSION = '.xlsx';
 export class ExcelService {
   constructor() { }
 
-  public exportAsExcelFile(json: any): void {
+  public exportAsExcelFile(json: any,name?:string): void {
+    
     let nameList=[]
     let sheetList:XLSX.WorkSheet=[]
     let fileName='';
@@ -16,6 +17,9 @@ export class ExcelService {
       fileName+='_'+i.substring(0,i.indexOf('_'))
       sheetList[i.toString()]=this.getList(json[i])
     }
+    
+    fileName=name ? name : fileName;
+
     let workbook: XLSX.WorkBook = { Sheets: sheetList, SheetNames: nameList };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer,fileName);

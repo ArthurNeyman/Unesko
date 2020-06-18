@@ -32,7 +32,9 @@ public class CertificationService implements ICertificationService {
     public List<CertificationDTO> getCertificationListByLessonId(long lesson_id) {
         List<CertificationDTO> list=new ArrayList<CertificationDTO>();
 
-        for(CertificationEntity certificationEntity:certificationRepository.findByLessonId(lesson_id)) {
+        List<CertificationEntity> certificationEntities=certificationRepository.findByLessonId(lesson_id);
+
+        for(CertificationEntity certificationEntity:certificationEntities) {
             List<CertificationValueDTO> certificationValueDTOS=new ArrayList<>();
             CertificationDTO certificationDTO=(CertificationDTO)mapperService.toDto(certificationEntity);
 

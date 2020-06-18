@@ -9,11 +9,21 @@ public class LessonCertificationResultDTO {
     private long id;
     private long lessonCertificationId;
     private StudentDTO studentDTO;
-    private int certificationScore;
-    private float totalScore;
-    private boolean absence;
-    private Date ratingDate;
-    private int currentScore;
+
+    private int certificationScore;//аттестационный балл
+    private float totalScore;//общий балл
+    private boolean absence;//неяка
+    private Date ratingDate;//дата
+    private int currentScore;//текущий балл
+    private String Mark;
+
+    public String getMark() {
+        return Mark;
+    }
+
+    public void setMark(String mark) {
+        Mark = mark;
+    }
 
     public int getCurrentScore() {
         return currentScore;

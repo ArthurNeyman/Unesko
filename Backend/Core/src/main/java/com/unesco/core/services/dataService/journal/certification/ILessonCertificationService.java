@@ -26,13 +26,13 @@ public interface ILessonCertificationService {
     //Сохранить результат аттестации
     ResponseStatusDTO saveLessonCertificationResult(List<LessonCertificationResultDTO> lessonCertificationResultDTOS);
 
-    ResponseStatusDTO getLessonsByLessonIdAndProfessor(long professorId, int semester, int year);
+    ResponseStatusDTO getLessonCertificationsByProfessorIdAndSemesterAndYear(long professorId, int semester, int year);
 
     ResponseStatusDTO setMaximumCertificationScore(@RequestBody LessonCertificationDTO lessonCertificationDTO);
 
-    ResponseStatusDTO getLessonCertificationResult(LessonCertificationDTO lessonCertificationDTO);
+    ResponseStatusDTO getLessonCertificationResult(LessonCertificationDTO lessonCertificationDTO,boolean currentOnly);
     ResponseStatusDTO getLessonCertification(long lessonId);
-    public ResponseStatusDTO getLessonEvents(long lessonId);
+    public ResponseStatusDTO getLessonEvents(long lessonId,int semestr,int year);
 
 
     // Получить информацию об аттестации для студента по его id и id конкретного предмета(lesson_certification_id)

@@ -137,11 +137,6 @@ export const ApiRouteConstants = {
         }
     },
     Journal: {
-        Certification:{
-            get:"journal/report/getCertification/:lessonId",
-            save:"journal/report/saveCertification",
-            delete:"journal/report/deleteCertification"
-        },
         All: "journal/:lessonId",
         СertificationReport: "journal/report/certification/:lessonId",
         Dates: "journal/dates/:lessonId",
@@ -184,16 +179,33 @@ export const ApiRouteConstants = {
     Report:{
        ReportAcademicPerfomance:"journal/report/onProgress/:professorId"
     },
-    LessonCertification:{
-        getLessons:"journal/report/onProgress/:professorId",
-        getLessonCertificationTypes:"lessonCertification/getLessonCertificationTypes",
-        setLessonCertificationType:"lessonCertification/setLessonCertificationType",
-        getLessonCertificationList:"lessonCertification/getLessonCertificationList/:professorId",
-        setMaxScore:"lessonCertification/setMaxScore",
-        getLessonCertificationResult:"lessonCertification/getLessonCertificationResult",
-        getLessonCertification:"lessonCertification/getLessonCertification/:lessonId",
-        getLessonEvents:"lessonCertification/getLessonEvents/:lessonId",
-        getLessonListWithCertification:"Performance/student-certification-point",
-        saveLessonCertificationResult:"lessonCertification/saveLessonCertificationResult"
+    LessonCertification:{//?????????????????????????????
+        getLessonListWithCertification:"Performance/student-certification-point"
+    },
+    MonitoringStudentsProgress:{
+        Certification:{
+            certification:"monitoringStudentsProgress/certification/:lessonId",
+            get:"monitoringStudentsProgress/getCertification/:lessonId",
+            save:"monitoringStudentsProgress/saveCertification",
+            delete:"monitoringStudentsProgress/deleteCertification"
+        },
+        LessonCertification:{
+            setLessonCertificationType:"monitoringStudentsProgress/setLessonCertificationType",
+            getLessonCertificationList:"monitoringStudentsProgress/getLessonCertificationList/:professorId",
+            getLessonCertification:"monitoringStudentsProgress/getLessonCertification/:lessonId",
+            setMaxCertificationScore:"monitoringStudentsProgress/setMaxScore",
+            getLessonCertificationResult:"monitoringStudentsProgress/getLessonCertificationResult",
+            getLessonEvents:"monitoringStudentsProgress/getLessonEvents/:lessonId",
+            saveCertificationResult:"monitoringStudentsProgress/saveLessonCertificationResult",
+            getLessonCertificationTypes:"monitoringStudentsProgress/getLessonCertificationTypes",
+            saveLessonCertificationResult:"monitoringStudentsProgress/saveLessonCertificationResult",
+            getCertificationForStudent:"monitoringStudentsProgress/getStudentCertification",
+            updateTotalScor:"monitoringStudentsProgress/getNewLessonCertificationResultDTO",
+            getStudentResults:"monitoringStudentsProgress/getStudentResults/:lessonId"
+
+        },
+        ReportOnProgress:{
+            get:"monitoringStudentsProgress/onProgress/:professorId"
+        }
     }
 };

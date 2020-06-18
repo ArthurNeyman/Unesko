@@ -2,7 +2,7 @@ package com.unesco.core.dto.account;
 
 import com.unesco.core.dto.shedule.GroupDTO;
 
-public class StudentDTO {
+public class StudentDTO implements  Comparable{
 
     private long id;
     private GroupDTO group;
@@ -31,4 +31,8 @@ public class StudentDTO {
         this.user = user;
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }

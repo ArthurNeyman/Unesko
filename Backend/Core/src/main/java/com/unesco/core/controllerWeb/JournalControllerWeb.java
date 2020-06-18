@@ -90,34 +90,4 @@ public class JournalControllerWeb {
         return journalController.deleteEvent(id);
     }
 
-    @RequestMapping("/report/certification/{id}")
-    public ResponseStatusDTO getCertificationReport(@PathVariable("id") long id,
-                                                    @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
-                                                    @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
-                                                    @RequestParam int semester,
-                                                    @RequestParam int year) {
-        return journalController.getCertificationReport(id, start, end, semester, year);
-    }
-
-    @RequestMapping("report/onProgress/{professorId}")
-    public ResponseStatusDTO getReportAcademicPerfomance(@PathVariable("professorId") long professorId,
-                                                 @RequestParam int semester,
-                                                 @RequestParam int year){
-            return journalController.getReportAcademicPerformance(professorId,semester,year);
-    }
-
-    @RequestMapping("report/getCertification/{lessonId}")
-    public  ResponseStatusDTO getCertification(@PathVariable("lessonId") long lessonId){
-        return journalController.getCertification(lessonId);
-    }
-
-    @RequestMapping ("report/saveCertification")
-    public ResponseStatusDTO saveCertification(@RequestBody CertificationDTO certification){
-        return journalController.saveCertification(certification);
-    }
-
-    @RequestMapping("report/deleteCertification")
-    public ResponseStatusDTO deleteCertification(@RequestBody CertificationDTO certification){
-        return journalController.deleteCertification(certification);
-    }
 }

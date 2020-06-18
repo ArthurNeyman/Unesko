@@ -1,34 +1,48 @@
+<div class="ui-g">
+    <semester-picker style="display: inline-block" (ngModelChange)="getProfessorLessons()" class="ui-g-6"
+        [semesterNumberYear]="semesterNumberYear"></semester-picker>
 
-<semester-picker style="display: inline-block" (ngModelChange)="getProfessorLessons()"
-[semesterNumberYear]="semesterNumberYear"></semester-picker>
+    <p-autoComplete [size]="40" class="ui-g-6" id="professor" [(ngModel)]="currentProfessor" [dropdown]="true"
+        (onSelect)="GetProfessors($event)" [suggestions]="profs" (ngModelChange)="getProfessorLessons()"
+        [placeholder]="'Начните вводить имя преподавателя'" (completeMethod)="GetProfessors($event)" [multiple]="false"
+        field="user.userFIO" [emptyMessage]="'Ничего не найдено.'" [forceSelection]="true"></p-autoComplete>
 
-<p-autoComplete [size]="40"
-    id="professor"
-    [(ngModel)]="currentProfessor"
-    [dropdown]="true"
-    (onSelect)="GetProfessors($event)"
-    [suggestions]="profs"
-    (ngModelChange)="getProfessorLessons()"
-    [placeholder]="'Начните вводить имя преподавателя'"
-    (completeMethod)="GetProfessors($event)"
-    [multiple]="false" field="user.userFIO"
-    [emptyMessage]="'Ничего не найдено.'"
-    [forceSelection]="true"></p-autoComplete>
-
-    <div *ngIf="show"  >
-        <div *ngIf="lessonCertificationList.length==0">
-            расписание не заполнено
-        </div>
-        <div *ngFor="let item of lessonCertificationList" class="ui-g-12 m-10 ">
-            <p class="ui-g-6" >{{item.lesson.discipline.name}}     {{item.lesson.group.name}} </p>
-            <p-selectButton class="ui-g-2" [options]="typeList"  [(ngModel)]="item.lessonCertificationType" (onChange)="setLessonCertificationtype(item)">
-                <ng-template let-item>
-                    <span>{{item.name}}</span>
-                </ng-template>
-            </p-selectButton>
-        </div>        
 </div>
 
 
-    
-    
+
+<div *ngIf="show" style="margin-top: 2rem;">
+    <div *ngIf="lessonCertificationList.length==0">
+        <p style="width: 100%;text-align: center;margin-top: 3rem;font-size: 40px;">
+            расписание не заполнено
+        </p> 
+    </div>
+
+    <p-table [value]="lessonCertificationList"  *ngIf="lessonCertificationList.length>0" >
+        <ng-template pTemplate="header">
+            <tr>
+                <th [style.width]="'25%'" [style.textAlign]="'center'" >Группа</th>
+                <th [style.width]="'50%'" [style.textAlign]="'center'">Дисциплина</th>
+                <th [style.width]="'25%'" [style.textAlign]="'center'">Тип</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr >
+                <td  [style.textAlign]="'center'"> {{item.lesson.group.name}} </td>
+                <td  [style.textAlign]="'center'">{{item.lesson.discipline.name}}</td>
+                <td  [style.textAlign]="'center'">
+                    
+                    <p-selectButton
+                        [options]="typeList"
+                        [(ngModel)]="item.lessonCertificationType"
+                        (onChange)="setLessonCertificationtype(item)">    
+                        <ng-template let-item>
+                            <span>{{item.name}}</span>
+                        </ng-template>
+                    
+                    </p-selectButton>
+            </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

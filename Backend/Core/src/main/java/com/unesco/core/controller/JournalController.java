@@ -59,7 +59,6 @@ public class JournalController {
 
     private ProfessorDTO professor;
 
-
     public ResponseStatusDTO getJournal(long lessonId, int month, Date forDate, int semester, int year) {
 
         JournalDTO journal = journalDataService.getForMonth(lessonId, month, forDate, semester, year);
@@ -129,6 +128,7 @@ public class JournalController {
     }
 
     public ResponseStatusDTO saveEvent(LessonEventDTO event) {
+
         lessonEventManager.init(event);
         ResponseStatusDTO result = lessonEventManager.validate();
 
@@ -195,70 +195,4 @@ public class JournalController {
         return new ResponseStatusDTO(StatusTypes.OK, visitationConfig);
     }
 
-    public ResponseStatusDTO getCertificationReportOrig(long lessonId, Date start, Date end, int semester, int year) {
-
-        JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
-
-        VisitationConfigDTO visitConfig = visitationConfigDataService.getByLesson(lessonId);
-        visitationConfigManager.init(visitConfig);
-
-        List<LessonEventDTO> lessonEvents = lessonEventDataService.getAll();
-        lessonEventListManager.init(lessonEvents);
-
-        journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
-        CertificationReportDto result = journalManager.CertificationReportDto(start, end);
-
-        return new ResponseStatusDTO(StatusTypes.OK, result);
-    }
-
-    public ResponseStatusDTO getCertificationReport(long lessonId, Date start, Date end, int semester, int year) {
-
-        JournalDTO journal = journalDataService.get(lessonId, null, semester, year);
-        journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonId,start,end));
-        journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
-        CertificationReportDto result = journalManager.CertificationReportDto(start, end);
-
-        return new ResponseStatusDTO(StatusTypes.OK, result);
-    }
-
-    public ResponseStatusDTO getReportAcademicPerformance(long user_id,int semester, int year){
-
-        ReportAcademicPerformanceDto reportAcademicPerformanceDto=new ReportAcademicPerformanceDto();
-        reportAcademicPerformanceDto.setProfessor(professorDataService.getByUser(user_id));
-
-        List<CertificationReportDto>lessonList=new ArrayList<CertificationReportDto>();
-
-        Date today=new Date();
-        //что бы добавить временное ограничение нужно просто фильровать по датам котрольные точки
-        for(LessonDTO lessonDTO : lessonDataService.getByProfessorId(reportAcademicPerformanceDto.getProfessor().getId(),semester,year)){
-            JournalDTO journal = journalDataService.get(lessonDTO.getId(), null, semester, year);
-            journal.setMaxValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
-            journalManager.init(journal, lessonEventListManager.getAll(), visitationConfigManager.get());
-            CertificationReportDto result = journalManager.CertificationReportDto(educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today);
-            result.setAllEventValue(lessonEventDataService.getSumMaxValueBetweenDates(lessonDTO.getId(),educationPeriodService.getEducationPeriodForYearAndSemester(semester,year).getStartDate(), today));
-            result.setLesson(lessonDTO);
-            lessonList.add(result);
-        }
-
-        reportAcademicPerformanceDto.setLessonList(lessonList);
-
-        return new ResponseStatusDTO(StatusTypes.OK, reportAcademicPerformanceDto);
-    }
-
-    //------------------------------------------------------------------------------------------------------------------
-    public  ResponseStatusDTO getCertification(long lessonId){
-        ResponseStatusDTO answer=new ResponseStatusDTO(StatusTypes.OK);
-        answer.setData(certificationService.getCertificationListByLessonId(lessonId));
-        return  answer;
-    }
-
-    public ResponseStatusDTO saveCertification(CertificationDTO certification){
-        return this.certificationService.saveCertification(certification);
-    }
-
-    public  ResponseStatusDTO deleteCertification(CertificationDTO certification){
-        ResponseStatusDTO answer=new ResponseStatusDTO(StatusTypes.OK);
-        this.certificationService.deleteCertification(certification);
-        return answer;
-    }
 }

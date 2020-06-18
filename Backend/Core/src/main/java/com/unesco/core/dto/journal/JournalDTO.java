@@ -19,9 +19,7 @@ public class JournalDTO
       return maxValue;
    }
 
-   public JournalDTO()
-   {
-   }
+   public JournalDTO() { }
 
    public LessonDTO getLesson() {
       return lesson;
