@@ -4,21 +4,17 @@ import com.unesco.core.dto.additional.ResponseStatusDTO;
 import com.unesco.core.dto.certification.IntermediateCertificationDTO;
 import com.unesco.core.dto.certification.IntermediateCertificationResultDTO;
 import com.unesco.core.dto.certification.IntermediateCertificationTypeDTO;
-import com.unesco.core.dto.enums.PointTypes;
 import com.unesco.core.dto.enums.StatusTypes;
-import com.unesco.core.dto.journal.CurrentCertificationDto;
-import com.unesco.core.dto.journal.JournalDTO;
 import com.unesco.core.dto.shedule.LessonDTO;
-import com.unesco.core.entities.certification.LessonCertificationEntity;
-import com.unesco.core.entities.certification.LessonCertificationResultEntity;
-import com.unesco.core.entities.schedule.LessonEntity;
+import com.unesco.core.entities.certification.IntermediateCertificationEntity;
+import com.unesco.core.entities.certification.IntermediateCertificationResultEntity;
 import com.unesco.core.managers.journal.VisitationConfigManager.interfaces.IVisitationConfigManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEventList.ILessonEventListManager;
 import com.unesco.core.managers.monitoringStudentsProgress.IMonitoringStudentsManager;
 import com.unesco.core.repositories.account.StudentRepository;
-import com.unesco.core.repositories.certification.LessonCertificationRepository;
-import com.unesco.core.repositories.certification.LessonCertificationResultRepository;
-import com.unesco.core.repositories.certification.LessonCertificationTypeRepository;
+import com.unesco.core.repositories.certification.IntermediateCertificationRepository;
+import com.unesco.core.repositories.certification.IntermediateСertificationResultRepository;
+import com.unesco.core.repositories.certification.IntermediateCertificationTypeRepository;
 import com.unesco.core.repositories.journal.LessonEventRepository;
 import com.unesco.core.repositories.journal.PointTypeRepository;
 import com.unesco.core.repositories.schedule.LessonRepository;
@@ -40,13 +36,13 @@ import java.util.*;
 public class LessonCertificationService implements  ILessonCertificationService {
 
     @Autowired
-    private LessonCertificationResultRepository lessonCertificationResultRepository;
+    private IntermediateСertificationResultRepository intermediateСertificationResultRepository;
 
     @Autowired
-    private LessonCertificationTypeRepository lessonCertificationTypeRepository;
+    private IntermediateCertificationTypeRepository intermediateCertificationTypeRepository;
 
     @Autowired
-    private LessonCertificationRepository lessonCertificationRepository;
+    private IntermediateCertificationRepository intermediateCertificationRepository;
 
     @Autowired
     private PointTypeRepository pointTypeRepository;
@@ -102,8 +98,8 @@ public class LessonCertificationService implements  ILessonCertificationService 
     @Override//Назначить тип аттестации по предмету(Админ) ->DataService
     public IntermediateCertificationDTO setLessonCertificationType(IntermediateCertificationDTO intermediateCertificationDTO) {
         try{
-            LessonCertificationEntity  lessonCertificationEntity=lessonCertificationRepository.save((LessonCertificationEntity)mapperService.toEntity(intermediateCertificationDTO));
-            intermediateCertificationDTO.setId(lessonCertificationEntity.getId());
+            IntermediateCertificationEntity intermediateCertificationEntity = intermediateCertificationRepository.save((IntermediateCertificationEntity)mapperService.toEntity(intermediateCertificationDTO));
+            intermediateCertificationDTO.setId(intermediateCertificationEntity.getId());
             return   intermediateCertificationDTO;
         }catch (Exception e){
             return  null;
@@ -114,7 +110,7 @@ public class LessonCertificationService implements  ILessonCertificationService 
     public List<IntermediateCertificationTypeDTO> getLessonCertificationTypes() {
 
         List<IntermediateCertificationTypeDTO> intermediateCertificationTypeDTOS =new ArrayList<>();
-        lessonCertificationTypeRepository.findAll().forEach(el-> intermediateCertificationTypeDTOS.add((IntermediateCertificationTypeDTO) mapperService.toDto(el)));
+        intermediateCertificationTypeRepository.findAll().forEach(el-> intermediateCertificationTypeDTOS.add((IntermediateCertificationTypeDTO) mapperService.toDto(el)));
 
         return intermediateCertificationTypeDTOS;
     }
@@ -122,14 +118,14 @@ public class LessonCertificationService implements  ILessonCertificationService 
     public ResponseStatusDTO<IntermediateCertificationDTO> getLessonCertificationByLesson(LessonDTO lessonDTO) {
 
         ResponseStatusDTO result=new ResponseStatusDTO(StatusTypes.OK);
-        LessonCertificationEntity lessonCertificationEntity=new LessonCertificationEntity();
+        IntermediateCertificationEntity intermediateCertificationEntity =new IntermediateCertificationEntity();
 
         try{
-            lessonCertificationEntity=lessonCertificationRepository.getByLessonId(lessonDTO.getId());
+            intermediateCertificationEntity = intermediateCertificationRepository.getByLessonId(lessonDTO.getId());
         }catch (Exception e){
             result.setStatus(StatusTypes.ERROR);
         }
-        result.setData(mapperService.toDto(lessonCertificationEntity));
+        result.setData(mapperService.toDto(intermediateCertificationEntity));
 
         return result;
     }
@@ -137,7 +133,7 @@ public class LessonCertificationService implements  ILessonCertificationService 
     public ResponseStatusDTO setMaximumCertificationScore(IntermediateCertificationDTO intermediateCertificationDTO){
         ResponseStatusDTO responseStatusDTO=new ResponseStatusDTO(StatusTypes.OK);
         try {
-            lessonCertificationRepository.save((LessonCertificationEntity) mapperService.toEntity(intermediateCertificationDTO));
+            intermediateCertificationRepository.save((IntermediateCertificationEntity) mapperService.toEntity(intermediateCertificationDTO));
             responseStatusDTO.setData(intermediateCertificationDTO);
         }catch (Exception e){
             responseStatusDTO.setStatus(StatusTypes.ERROR);
@@ -148,14 +144,14 @@ public class LessonCertificationService implements  ILessonCertificationService 
     public ResponseStatusDTO saveLessonCertificationResult(List<IntermediateCertificationResultDTO> intermediateCertificationResultDTOS){
 
         ResponseStatusDTO responseStatusDTO=new ResponseStatusDTO(StatusTypes.OK);
-        List<LessonCertificationResultEntity> lessonCertificationResultEntities=new ArrayList<LessonCertificationResultEntity>();
+        List<IntermediateCertificationResultEntity> lessonCertificationResultEntities=new ArrayList<IntermediateCertificationResultEntity>();
         for(IntermediateCertificationResultDTO dto: intermediateCertificationResultDTOS)
-            lessonCertificationResultEntities.add((LessonCertificationResultEntity) mapperService.toEntity(dto));
+            lessonCertificationResultEntities.add((IntermediateCertificationResultEntity) mapperService.toEntity(dto));
 
         try{
             int idx = 0;
-            lessonCertificationResultEntities= (List<LessonCertificationResultEntity>)lessonCertificationResultRepository.save(lessonCertificationResultEntities);
-            for(LessonCertificationResultEntity entity:lessonCertificationResultEntities){
+            lessonCertificationResultEntities= (List<IntermediateCertificationResultEntity>) intermediateСertificationResultRepository.save(lessonCertificationResultEntities);
+            for(IntermediateCertificationResultEntity entity:lessonCertificationResultEntities){
                 intermediateCertificationResultDTOS.get(idx).setId(entity.getId());
                 idx++;
             }
@@ -178,12 +174,12 @@ public class LessonCertificationService implements  ILessonCertificationService 
                         IntermediateCertificationDTO intermediateCertificationDTO = new IntermediateCertificationDTO();
                         LessonDTO lessonDTO = (LessonDTO) mapperService.toDto(el);
                         intermediateCertificationDTO.setLesson(lessonDTO);
-                        LessonCertificationEntity lessonCertificationEntity = lessonCertificationRepository.getByLessonId(el.getId());
-                        intermediateCertificationDTO.setMaxCertificationScore(lessonCertificationEntity != null ? lessonCertificationEntity.getMaxCertificationScore() : 0);
+                        IntermediateCertificationEntity intermediateCertificationEntity = intermediateCertificationRepository.getByLessonId(el.getId());
+                        intermediateCertificationDTO.setMaxCertificationScore(intermediateCertificationEntity != null ? intermediateCertificationEntity.getMaxCertificationScore() : 0);
 
-                        intermediateCertificationDTO.setId(lessonCertificationEntity != null ? lessonCertificationEntity.getId() : 0);
-                        intermediateCertificationDTO.setLessonCertificationType(lessonCertificationEntity != null ?
-                                (IntermediateCertificationTypeDTO) mapperService.toDto(lessonCertificationRepository.getByLessonId(el.getId()).getLessonCertificationTypeEntity())
+                        intermediateCertificationDTO.setId(intermediateCertificationEntity != null ? intermediateCertificationEntity.getId() : 0);
+                        intermediateCertificationDTO.setLessonCertificationType(intermediateCertificationEntity != null ?
+                                (IntermediateCertificationTypeDTO) mapperService.toDto(intermediateCertificationRepository.getByLessonId(el.getId()).getIntermediateCertificationTypeEntity())
                                 : new IntermediateCertificationTypeDTO());
                         intermediateCertificationDTOS.add(intermediateCertificationDTO);
                     }
@@ -199,18 +195,18 @@ public class LessonCertificationService implements  ILessonCertificationService 
     //==================================================================================================================
     @Override
     public IntermediateCertificationDTO getIntermediateCertification(long lessonId){
-        return (IntermediateCertificationDTO) mapperService.toDto(this.lessonCertificationRepository.getByLessonId(lessonId));
+        return (IntermediateCertificationDTO) mapperService.toDto(this.intermediateCertificationRepository.getByLessonId(lessonId));
     }
     @Override
     public IntermediateCertificationResultDTO getIntermediateCertificationForStudent(long lessonId, long studentId) {
-        long lessonCertificationId=lessonCertificationRepository.getByLessonId(lessonId).getId();
-        IntermediateCertificationResultDTO intermediateCertificationResultDTO = (IntermediateCertificationResultDTO) mapperService.toDto(lessonCertificationResultRepository.getLessonCertificationResultByStudentEntityIdAndLessonCertificationId(studentId, lessonCertificationId));
+        long lessonCertificationId= intermediateCertificationRepository.getByLessonId(lessonId).getId();
+        IntermediateCertificationResultDTO intermediateCertificationResultDTO = (IntermediateCertificationResultDTO) mapperService.toDto(intermediateСertificationResultRepository.getLessonCertificationResultByStudentEntityIdAndLessonCertificationId(studentId, lessonCertificationId));
         intermediateCertificationResultDTO.setMark(getMarkForLessonCertificationResult(intermediateCertificationResultDTO));
         return intermediateCertificationResultDTO;
     }
     public String getMarkForLessonCertificationResult(IntermediateCertificationResultDTO intermediateCertificationResultDTO){
 
-        long typeId=lessonCertificationRepository.findOne(intermediateCertificationResultDTO.getLessonCertificationId()).getLessonCertificationTypeEntity().getId();
+        long typeId= intermediateCertificationRepository.findOne(intermediateCertificationResultDTO.getLessonCertificationId()).getIntermediateCertificationTypeEntity().getId();
 
         if(typeId==1 || typeId==3){
             if(intermediateCertificationResultDTO.getTotalScore()>50){

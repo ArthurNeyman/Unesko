@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="un_lesson_certification_value")
-public class LessonCertificationResultEntity {
+@Table(name="un_intermediate_certification_value")
+public class IntermediateCertificationResultEntity {
     @Id
     @SequenceGenerator(name = "lessonCertificationResultSequenceGen", sequenceName = "lessonCertificationResultSequenceGen", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lessonCertificationResultSequenceGen")

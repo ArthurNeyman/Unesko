@@ -157,12 +157,12 @@ public class MapperService implements IMapperService {
         if(entity instanceof CurrentCertificationValueEntity)
             return this.currentCertificationValueToDTO((CurrentCertificationValueEntity)entity);
 
-        if(entity instanceof LessonCertificationResultEntity)
-            return this.lessonCertificationResultToDTO((LessonCertificationResultEntity)entity);
-        if(entity instanceof  LessonCertificationEntity)
-            return this.lessonCertificationToDTO((LessonCertificationEntity) entity);
-        if(entity instanceof  LessonCertificationTypeEntity)
-            return this.lessonCertificationTypeToDTO((LessonCertificationTypeEntity)entity);
+        if(entity instanceof IntermediateCertificationResultEntity)
+            return this.lessonCertificationResultToDTO((IntermediateCertificationResultEntity)entity);
+        if(entity instanceof IntermediateCertificationEntity)
+            return this.lessonCertificationToDTO((IntermediateCertificationEntity) entity);
+        if(entity instanceof IntermediateCertificationTypeEntity)
+            return this.lessonCertificationTypeToDTO((IntermediateCertificationTypeEntity)entity);
 //----------------------------------------------------------------------------------------------------------------------
         if (entity instanceof LessonEventEntity)
             return lessonEventToDto((LessonEventEntity) entity);
@@ -294,58 +294,58 @@ public class MapperService implements IMapperService {
         return currentCertificationValueDTO;
     }
 
-    public IntermediateCertificationTypeDTO lessonCertificationTypeToDTO(LessonCertificationTypeEntity lessonCertificationTypeEntity){
+    public IntermediateCertificationTypeDTO lessonCertificationTypeToDTO(IntermediateCertificationTypeEntity intermediateCertificationTypeEntity){
         IntermediateCertificationTypeDTO intermediateCertificationTypeDTO =new IntermediateCertificationTypeDTO();
-        intermediateCertificationTypeDTO.setId(lessonCertificationTypeEntity.getId());
-        intermediateCertificationTypeDTO.setName(lessonCertificationTypeEntity.getName());
+        intermediateCertificationTypeDTO.setId(intermediateCertificationTypeEntity.getId());
+        intermediateCertificationTypeDTO.setName(intermediateCertificationTypeEntity.getName());
         return intermediateCertificationTypeDTO;
     }
-    public LessonCertificationTypeEntity lessonCertificationTypeToEntity(IntermediateCertificationTypeDTO intermediateCertificationTypeDTO){
-        LessonCertificationTypeEntity lessonCertificationTypeEntity=new LessonCertificationTypeEntity();
-        lessonCertificationTypeEntity.setId(intermediateCertificationTypeDTO.getId());
+    public IntermediateCertificationTypeEntity lessonCertificationTypeToEntity(IntermediateCertificationTypeDTO intermediateCertificationTypeDTO){
+        IntermediateCertificationTypeEntity intermediateCertificationTypeEntity =new IntermediateCertificationTypeEntity();
+        intermediateCertificationTypeEntity.setId(intermediateCertificationTypeDTO.getId());
         intermediateCertificationTypeDTO.setName(intermediateCertificationTypeDTO.getName());
-        return lessonCertificationTypeEntity;
+        return intermediateCertificationTypeEntity;
     }
 
-    public IntermediateCertificationDTO lessonCertificationToDTO(LessonCertificationEntity lessonCertificationEntity){
+    public IntermediateCertificationDTO lessonCertificationToDTO(IntermediateCertificationEntity intermediateCertificationEntity){
         IntermediateCertificationDTO intermediateCertificationDTO =new IntermediateCertificationDTO();
-        intermediateCertificationDTO.setId(lessonCertificationEntity.getId());
-        intermediateCertificationDTO.setLesson(this.lessonToDto(lessonCertificationEntity.getLesson()));
-        intermediateCertificationDTO.setLessonCertificationType(this.lessonCertificationTypeToDTO(lessonCertificationEntity.getLessonCertificationTypeEntity()));
-        intermediateCertificationDTO.setMaxCertificationScore(lessonCertificationEntity.getMaxCertificationScore());
+        intermediateCertificationDTO.setId(intermediateCertificationEntity.getId());
+        intermediateCertificationDTO.setLesson(this.lessonToDto(intermediateCertificationEntity.getLesson()));
+        intermediateCertificationDTO.setLessonCertificationType(this.lessonCertificationTypeToDTO(intermediateCertificationEntity.getIntermediateCertificationTypeEntity()));
+        intermediateCertificationDTO.setMaxCertificationScore(intermediateCertificationEntity.getMaxCertificationScore());
         return intermediateCertificationDTO;
     }
 
-    public LessonCertificationEntity lessonCertificationToEntity(IntermediateCertificationDTO intermediateCertificationDTO){
-        LessonCertificationEntity lessonCertificationEntity=new LessonCertificationEntity();
-        lessonCertificationEntity.setId(intermediateCertificationDTO.getId());
-        lessonCertificationEntity.setLesson(this.lessonToEntity(intermediateCertificationDTO.getLesson()));
-        lessonCertificationEntity.setLessonCertificationTypeEntity(this.lessonCertificationTypeToEntity(intermediateCertificationDTO.getLessonCertificationType()));
-        lessonCertificationEntity.setMaxCertificationScore(intermediateCertificationDTO.getMaxCertificationScore());
-        return lessonCertificationEntity;
+    public IntermediateCertificationEntity lessonCertificationToEntity(IntermediateCertificationDTO intermediateCertificationDTO){
+        IntermediateCertificationEntity intermediateCertificationEntity =new IntermediateCertificationEntity();
+        intermediateCertificationEntity.setId(intermediateCertificationDTO.getId());
+        intermediateCertificationEntity.setLesson(this.lessonToEntity(intermediateCertificationDTO.getLesson()));
+        intermediateCertificationEntity.setIntermediateCertificationTypeEntity(this.lessonCertificationTypeToEntity(intermediateCertificationDTO.getLessonCertificationType()));
+        intermediateCertificationEntity.setMaxCertificationScore(intermediateCertificationDTO.getMaxCertificationScore());
+        return intermediateCertificationEntity;
     }
 
-    public IntermediateCertificationResultDTO lessonCertificationResultToDTO(LessonCertificationResultEntity lessonCertificationResultEntity){
+    public IntermediateCertificationResultDTO lessonCertificationResultToDTO(IntermediateCertificationResultEntity intermediateCertificationResultEntity){
         IntermediateCertificationResultDTO intermediateCertificationResultDTO =new IntermediateCertificationResultDTO();
-        intermediateCertificationResultDTO.setId(lessonCertificationResultEntity.getId());
-        intermediateCertificationResultDTO.setAbsence(lessonCertificationResultEntity.isAbsence());
-        intermediateCertificationResultDTO.setCertificationScore(lessonCertificationResultEntity.getCertificationScore());
-        intermediateCertificationResultDTO.setLessonCertificationId(lessonCertificationResultEntity.getLessonCertificationId());
-        intermediateCertificationResultDTO.setRatingDate(lessonCertificationResultEntity.getRatingDate());
-        intermediateCertificationResultDTO.setTotalScore(lessonCertificationResultEntity.getTotalScore());
-        intermediateCertificationResultDTO.setStudentDTO(this.studentToDto(lessonCertificationResultEntity.getStudentEntity()));
+        intermediateCertificationResultDTO.setId(intermediateCertificationResultEntity.getId());
+        intermediateCertificationResultDTO.setAbsence(intermediateCertificationResultEntity.isAbsence());
+        intermediateCertificationResultDTO.setCertificationScore(intermediateCertificationResultEntity.getCertificationScore());
+        intermediateCertificationResultDTO.setLessonCertificationId(intermediateCertificationResultEntity.getLessonCertificationId());
+        intermediateCertificationResultDTO.setRatingDate(intermediateCertificationResultEntity.getRatingDate());
+        intermediateCertificationResultDTO.setTotalScore(intermediateCertificationResultEntity.getTotalScore());
+        intermediateCertificationResultDTO.setStudentDTO(this.studentToDto(intermediateCertificationResultEntity.getStudentEntity()));
         return intermediateCertificationResultDTO;
     }
-    public LessonCertificationResultEntity lessonCertificationResultToEntity(IntermediateCertificationResultDTO intermediateCertificationResultDTO){
-        LessonCertificationResultEntity lessonCertificationResultEntity=new LessonCertificationResultEntity();
-        lessonCertificationResultEntity.setId(intermediateCertificationResultDTO.getId());
-        lessonCertificationResultEntity.setAbsence(intermediateCertificationResultDTO.isAbsence());
-        lessonCertificationResultEntity.setCertificationScore(intermediateCertificationResultDTO.getCertificationScore());
-        lessonCertificationResultEntity.setLessonCertificationId(intermediateCertificationResultDTO.getLessonCertificationId());
-        lessonCertificationResultEntity.setRatingDate(intermediateCertificationResultDTO.getRatingDate());
-        lessonCertificationResultEntity.setTotalScore(intermediateCertificationResultDTO.getTotalScore());
-        lessonCertificationResultEntity.setStudentEntity(this.studentToEntity(intermediateCertificationResultDTO.getStudentDTO()));
-        return  lessonCertificationResultEntity;
+    public IntermediateCertificationResultEntity lessonCertificationResultToEntity(IntermediateCertificationResultDTO intermediateCertificationResultDTO){
+        IntermediateCertificationResultEntity intermediateCertificationResultEntity =new IntermediateCertificationResultEntity();
+        intermediateCertificationResultEntity.setId(intermediateCertificationResultDTO.getId());
+        intermediateCertificationResultEntity.setAbsence(intermediateCertificationResultDTO.isAbsence());
+        intermediateCertificationResultEntity.setCertificationScore(intermediateCertificationResultDTO.getCertificationScore());
+        intermediateCertificationResultEntity.setLessonCertificationId(intermediateCertificationResultDTO.getLessonCertificationId());
+        intermediateCertificationResultEntity.setRatingDate(intermediateCertificationResultDTO.getRatingDate());
+        intermediateCertificationResultEntity.setTotalScore(intermediateCertificationResultDTO.getTotalScore());
+        intermediateCertificationResultEntity.setStudentEntity(this.studentToEntity(intermediateCertificationResultDTO.getStudentDTO()));
+        return intermediateCertificationResultEntity;
     }
 //----------------------------------------------------------------------------------------------------------------------
 

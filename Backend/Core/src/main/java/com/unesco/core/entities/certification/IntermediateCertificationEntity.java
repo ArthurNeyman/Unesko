@@ -5,8 +5,8 @@ import com.unesco.core.entities.schedule.LessonEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="un_lesson_certification")
-public class LessonCertificationEntity {
+@Table(name="un_intermediate_certification")
+public class IntermediateCertificationEntity {
 
     @Id
         @SequenceGenerator(name = "lessonCertificationSequenceGen", sequenceName = "lessonCertificationSequenceGen", allocationSize = 1)
@@ -19,7 +19,7 @@ public class LessonCertificationEntity {
 
     @ManyToOne
     @JoinColumn(name="lesson_certification_type_id",referencedColumnName = "id")
-    LessonCertificationTypeEntity lessonCertificationTypeEntity;
+    IntermediateCertificationTypeEntity intermediateCertificationTypeEntity;
 
     @Column(name="max_certification_score")
     int maxCertificationScore;
@@ -40,12 +40,12 @@ public class LessonCertificationEntity {
         this.lesson = lesson;
     }
 
-    public LessonCertificationTypeEntity getLessonCertificationTypeEntity() {
-        return lessonCertificationTypeEntity;
+    public IntermediateCertificationTypeEntity getIntermediateCertificationTypeEntity() {
+        return intermediateCertificationTypeEntity;
     }
 
-    public void setLessonCertificationTypeEntity(LessonCertificationTypeEntity lessonCertificationTypeEntity) {
-        this.lessonCertificationTypeEntity = lessonCertificationTypeEntity;
+    public void setIntermediateCertificationTypeEntity(IntermediateCertificationTypeEntity intermediateCertificationTypeEntity) {
+        this.intermediateCertificationTypeEntity = intermediateCertificationTypeEntity;
     }
 
     public int getMaxCertificationScore() {

@@ -3,8 +3,8 @@ package com.unesco.core.entities.certification;
 import javax.persistence.*;
 
 @Entity
-@Table(name="un_lesson_certification_type")
-public class LessonCertificationTypeEntity {
+@Table(name="un_intermediate_certification_type")
+public class IntermediateCertificationTypeEntity {
 
     @Id
     private long id;
