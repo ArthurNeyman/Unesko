@@ -1,3 +1,5 @@
+import { User } from './../models/account/user.model';
+import { Professor } from './../models/account/professor';
 import { Lesson } from './../models/shedule/lesson';
 import { SemesterNumberYear } from './../models/semesterNumberYear.model';
 import { LessonCertificationValue } from './../models/journal/certification.model';
@@ -133,6 +135,14 @@ export class LessonCertificationService {
     //-------------------------------------------------------------------------------------------------
     public getStudResults(lesson: Lesson) {
         return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.LessonCertification.getStudentResults
+            .replace(":lessonId", lesson.id.toString()), { params: new HttpParams() })
+            .pipe(
+                map((res: ResponseStatus) => res)
+            );
+    }
+
+    public getIntermadiateCertification(lesson: Lesson){
+        return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.IntermadiateCertification.get
             .replace(":lessonId", lesson.id.toString()), { params: new HttpParams() })
             .pipe(
                 map((res: ResponseStatus) => res)

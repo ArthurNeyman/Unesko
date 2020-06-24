@@ -1,6 +1,6 @@
 package com.unesco.core.dto.certification;
 
-public class LessonCertificationTypeDTO {
+public class IntermediateCertificationTypeDTO {
 
     private long id;
     private String name;

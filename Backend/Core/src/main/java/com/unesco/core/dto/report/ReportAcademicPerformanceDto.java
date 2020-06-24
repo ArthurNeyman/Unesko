@@ -1,24 +1,24 @@
 package com.unesco.core.dto.report;
 
 import com.unesco.core.dto.account.ProfessorDTO;
-import com.unesco.core.dto.journal.CertificationReportDto;
+import com.unesco.core.dto.journal.CurrentCertificationDto;
 
 import java.util.List;
 
 public class ReportAcademicPerformanceDto {
 
     private ProfessorDTO professor;
-    private List<CertificationReportDto> lessonList;
+    private List<CurrentCertificationDto> lessonList;
 
     public ProfessorDTO getProfessor() {
         return professor;
     }
 
-    public void setLessonList(List<CertificationReportDto> lessonList) {
+    public void setLessonList(List<CurrentCertificationDto> lessonList) {
         this.lessonList = lessonList;
     }
 
-    public List<CertificationReportDto> getLessonList() {
+    public List<CurrentCertificationDto> getLessonList() {
         return lessonList;
     }
 

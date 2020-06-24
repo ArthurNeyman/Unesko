@@ -4,10 +4,10 @@ import com.unesco.core.dto.shedule.LessonDTO;
 
 import java.util.List;
 
-public class CertificationReportDto {
+public class CurrentCertificationDto {
 
     private LessonDTO lesson;
-    private List<CertificationStudentDto> studentCertification;
+    private List<CurrentCertificationValueDto> studentCertification;
     private double allHours;
     private int allEventValue;
 
@@ -25,10 +25,10 @@ public class CertificationReportDto {
         this.lesson = lesson;
     }
 
-    public List<CertificationStudentDto> getStudentCertification() {
+    public List<CurrentCertificationValueDto> getStudentCertification() {
         return studentCertification;
     }
-    public void setStudentCertification(List<CertificationStudentDto> studentCertification) {
+    public void setStudentCertification(List<CurrentCertificationValueDto> studentCertification) {
         this.studentCertification = studentCertification;
     }
 

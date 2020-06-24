@@ -1,8 +1,8 @@
 package com.unesco.core.controller;
 
 import com.unesco.core.dto.additional.ResponseStatusDTO;
-import com.unesco.core.dto.certification.LessonCertificationDTO;
-import com.unesco.core.dto.certification.LessonCertificationResultDTO;
+import com.unesco.core.dto.certification.IntermediateCertificationDTO;
+import com.unesco.core.dto.certification.IntermediateCertificationResultDTO;
 import com.unesco.core.dto.enums.StatusTypes;
 
 
@@ -24,7 +24,6 @@ import com.unesco.core.services.dataService.journal.certification.ILessonCertifi
 import com.unesco.core.services.dataService.journal.journal.IJournalDataService;
 import com.unesco.core.services.dataService.journal.lessonEvent.ILessonEventDataService;
 import com.unesco.core.services.dataService.journal.point.IPointDataService;
-import com.unesco.core.services.dataService.schedule.lessonService.ILessonDataService;
 import com.unesco.core.services.dataService.schedule.pairService.IPairDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,12 +132,12 @@ public class StudentPerformanceController {
 
             try {
                 // lessonCertification
-                LessonCertificationDTO lessonCertification = (LessonCertificationDTO) (lessonCertificationService.getLessonCertification(lesson.getLesson().getId())).getData();
+                IntermediateCertificationDTO lessonCertification = lessonCertificationService.getIntermediateCertification(lesson.getLesson().getId());
                 int  maxCertificationPoints = lessonCertification.getMaxCertificationScore();
                 long certificationTypeId = lessonCertification.getLessonCertificationType().getId();
 
                 // lessonCertificationResult
-                LessonCertificationResultDTO lessonCertificationResult = lessonCertificationService.getLessonCertificationResultByStudentIdAndLessonCertificationId(student.getId(), lessonCertification.getId());
+                IntermediateCertificationResultDTO lessonCertificationResult = lessonCertificationService.getIntermediateCertificationForStudent(student.getId(), lessonCertification.getId());
                 int currentCertificationPoints = lessonCertificationResult.getCertificationScore();
                 boolean absence = lessonCertificationResult.isAbsence();
                 String date = lessonCertificationResult.getRatingDate() != null ? formatter.format(lessonCertificationResult.getRatingDate()) : "";

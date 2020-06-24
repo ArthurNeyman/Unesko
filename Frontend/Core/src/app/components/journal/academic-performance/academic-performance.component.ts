@@ -12,7 +12,7 @@ export class AcademicPerformanceComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
+        
     }
 
 }

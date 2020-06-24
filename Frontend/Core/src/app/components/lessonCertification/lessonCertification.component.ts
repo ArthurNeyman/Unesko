@@ -1,14 +1,16 @@
+import { forEach } from '@angular/router/src/utils/collection';
+import { Lesson } from './../../models/shedule/lesson';
 import { SemesterNumberYear } from './../../models/semesterNumberYear.model';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Student } from './../../models/account/student';
-import { LessonCertification, LessonCertificationValue } from './../../models/journal/certification.model';
+import { LessonCertification, LessonCertificationValue, IntermadiateCertification, IntermadiateCertificationStudentEvent, IntermadiateCertificationStudentValue } from './../../models/journal/certification.model';
 import { Component, OnInit, Input, Directive, HostListener, ElementRef, Output, EventEmitter } from '@angular/core';
 import { User } from '../../models/account/user.model';
 import { LessonCertificationService } from '../../services/lessonCertification.service';
 import { AccountService } from '../../services/account.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { ExcelService } from '../../services/excelService.service';
-import { isNumber } from 'util';
+import { emitKeypressEvents } from 'readline';
 
 @Directive({
     selector: '[listenInputCertification]',
@@ -51,10 +53,10 @@ export class LessonCertificationComponent implements OnInit {
     public showLoader: boolean = true;
     public lessonCertificationCurrentOnly: boolean = false;
     public semesterNumberYear: SemesterNumberYear = new SemesterNumberYear();
-    public selectedLessonCertification: LessonCertification;
     public lessonCertificationList: LessonCertification[];
     public lessonCertificationListForMenu: SelectItem[];
-    public eventList: any[];
+    
+    
     public maxVisitValue: number;
 
     public ru: any; //руссификатор календаря
@@ -63,6 +65,11 @@ export class LessonCertificationComponent implements OnInit {
 
     public cols: any[];
     public brands : any[]
+
+    public intermadiateCertification : IntermadiateCertification
+    public selectedLessonCertification: IntermadiateCertification
+    public eventsStudList:IntermadiateCertificationStudentEvent[]
+    public eventList: any[];
 
     ngOnInit(): void {
 
@@ -107,9 +114,9 @@ export class LessonCertificationComponent implements OnInit {
             result => {
                 return this.service.getLessonCertificationList(this.semesterNumberYear, result.data.id.toString()).subscribe(
                     res => {
-                        console.log(res);
                         this.lessonCertificationList = res.data;
-                        this.lessonCertificationListForMenu = [];
+                        this.lessonCertificationListForMenu = []
+                        if(this.lessonCertificationList)
                         this.lessonCertificationList.forEach(el => {
                             this.lessonCertificationListForMenu.push(
                                 {
@@ -146,11 +153,19 @@ export class LessonCertificationComponent implements OnInit {
     }
 
     //Получить данные аттестации для конкретной дисциплины-группы
-    public loadData(item: LessonCertification) {
+    public loadData(item: IntermadiateCertification) {
 
         this.showLoader = true;
         this.selectedLessonCertification = item;
 
+        this.service.getIntermadiateCertification(this.selectedLessonCertification.lesson).subscribe(
+            res=>{                
+                this.intermadiateCertification=res.data                
+                this.showLoader = false;
+            },error=>{
+
+            }
+        )
         this.brands = this.selectedLessonCertification.lessonCertificationType.id == 2 ?  [
             { label: 'Все оценки', value: null },
             { label: 'Зачтено', value: 'Зачтено' },
@@ -164,48 +179,11 @@ export class LessonCertificationComponent implements OnInit {
 
     ]
         this.newMaxCertificationScore = item.maxCertificationScore
-        this.getEvents();
-        this.getLessonCertificationResults()
-
-    }
-
-    public getLessonCertificationResults() {
-        this.showLoader = true;
-        this.service.getLessonCertificationResult(this.selectedLessonCertification, this.semesterNumberYear, this.lessonCertificationCurrentOnly).subscribe(
-            res => {               
-                this.lessonCertificationResultList = res.data;
-                this.showLoader = false;
-            }
-        )
-    }
-    //Получить список событий(посещаемость,лабы и тд)
-    public getEvents() {
-        this.service.getLessonEvents(this.selectedLessonCertification.lesson.id, this.semesterNumberYear).subscribe(
-            res => {
-                this.eventList = [];
-                let total
-                for (let key in res.data) {
-                    if (key != "Общий балл")
-                        this.eventList.push({
-                            "event": key,
-                            "value": res.data[key]
-                        });
-                    if (key == "Посещение") {
-                        this.maxVisitValue = res.data[key]
-                    }
-                    else
-                        total = {
-                            "event": key,
-                            "value": res.data[key]
-                        }
-                }
-                this.eventList.push(total)
-            });
     }
 
     //Сохранение текущей аттестации
     public save() {
-        this.service.saveLessonCertificationResult(this.lessonCertificationResultList).subscribe(
+        this.service.saveLessonCertificationResult(this.intermadiateCertification.studList).subscribe(
             res => {
                 if (res.status === "OK") {
                     this.lessonCertificationResultList = res.data;
@@ -218,34 +196,30 @@ export class LessonCertificationComponent implements OnInit {
     }
 
     //Выбор и загрузка данных студента при наведении на лупу
-    public selectStudent(event, student: Student, overlaypanel: OverlayPanel) {
-        this.service.getStudentCertification(this.selectedLessonCertification.lesson.id, student.id, this.lessonCertificationCurrentOnly).subscribe(
-            res => {
-                this.selectStud = res.data;
-                overlaypanel.toggle(event);
-            }
-        );
+    public selectStudent(event, events:IntermadiateCertificationStudentEvent[], overlaypanel: OverlayPanel) {
+        this.eventsStudList=events
+        overlaypanel.toggle(event)
     }
 
     //Действие при изменение параметра расчета аттестации (только по текущему баллу)
     public changeCurrentOnly() {
-        this.lessonCertificationResultList.map(el => {
+        this.intermadiateCertification.studList.map(el => {
             this.update(el);
         })
     }
 
     //Обновление аттестации конкретного студента
-    public update(lessonCertificationResult: LessonCertificationValue) {
+    public update(value: IntermadiateCertificationStudentValue) {
 
-        lessonCertificationResult.certificationScore =
-            lessonCertificationResult.certificationScore <= this.selectedLessonCertification.maxCertificationScore ?
-                lessonCertificationResult.certificationScore : this.selectedLessonCertification.maxCertificationScore;
+        value.certificationScore =
+        value.certificationScore <= this.selectedLessonCertification.maxCertificationScore ?
+        value.certificationScore : this.selectedLessonCertification.maxCertificationScore;
 
-        this.service.UpdateTotalScore(lessonCertificationResult, this.selectedLessonCertification.lesson.id,
+        this.service.UpdateTotalScore(value, this.selectedLessonCertification.lesson.id,
             this.semesterNumberYear, this.lessonCertificationCurrentOnly).subscribe(
                 res => {
-                    lessonCertificationResult.totalScore = res.data.totalScore
-                    lessonCertificationResult.mark = res.data.mark
+                    value.totalScore = res.data.totalScore
+                    value.mark = res.data.mark
                 }
             )
     }
@@ -256,12 +230,14 @@ export class LessonCertificationComponent implements OnInit {
         let list = []
         let resultListForExcel: any = []
         
-        this.lessonCertificationResultList.forEach(el => {
+        this.intermadiateCertification.studList.forEach(el => {
             resultListForExcel.push({
                 "Студент": el.studentDTO.user.userFIO,
                 "Текущий балл": el.currentScore,
                 "Аттестационный балл": el.certificationScore,
                 "Общий балл": el.totalScore,
+                "Дата":el.ratingDate,
+                "Неявка": !el.absence ? "явился" : "не явился",
                 "Оценка": el.mark
             })
         })
@@ -270,33 +246,6 @@ export class LessonCertificationComponent implements OnInit {
 
         this.excelService.exportAsExcelFile(list, this.selectedLessonCertification.lesson.group.name + "_|_" + this.selectedLessonCertification.lesson.professor.user.userFIO + "_|_" + this.selectedLessonCertification.lesson.discipline.name)
     }
+    
 
-    public excelExport2() {
-        let data = [];
-        let ar = []
-
-        this.lessonCertificationResultList.forEach(el => {
-            this.service.getStudentCertification(this.selectedLessonCertification.lesson.id, el.studentDTO.id, this.lessonCertificationCurrentOnly).subscribe(
-                res => {
-                    let obg: any = {}
-            
-                    obg["Студент"] = el.studentDTO.user.userFIO
-                    
-                    for (let k in res.data){       
-                        for(let i in res.data[k])                                                               
-                           obg[res.data[k][i].event.comment] = res.data[k][i].value
-                    }
-                    ar.push(obg)
-                }
-            );
-        })    
-        let list = []
-        
-        list[this.selectedLessonCertification.lesson.group.name + "_|_" + this.selectedLessonCertification.lesson.discipline.name] = ar
-
-        console.log(list);
-        
-        this.excelService.exportAsExcelFile(list, this.selectedLessonCertification.lesson.group.name + "_|_" + this.selectedLessonCertification.lesson.professor.user.userFIO + "_|_" + this.selectedLessonCertification.lesson.discipline.name)
-               
-    }
 }

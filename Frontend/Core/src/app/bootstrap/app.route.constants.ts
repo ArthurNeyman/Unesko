@@ -183,13 +183,13 @@ export const ApiRouteConstants = {
         getLessonListWithCertification:"Performance/student-certification-point"
     },
     MonitoringStudentsProgress:{
-        Certification:{
+        Certification:{//current
             certification:"monitoringStudentsProgress/certification/:lessonId",
             get:"monitoringStudentsProgress/getCertification/:lessonId",
             save:"monitoringStudentsProgress/saveCertification",
             delete:"monitoringStudentsProgress/deleteCertification"
         },
-        LessonCertification:{
+        LessonCertification:{//intermidiate
             setLessonCertificationType:"monitoringStudentsProgress/setLessonCertificationType",
             getLessonCertificationList:"monitoringStudentsProgress/getLessonCertificationList/:professorId",
             getLessonCertification:"monitoringStudentsProgress/getLessonCertification/:lessonId",
@@ -202,10 +202,12 @@ export const ApiRouteConstants = {
             getCertificationForStudent:"monitoringStudentsProgress/getStudentCertification",
             updateTotalScor:"monitoringStudentsProgress/getNewLessonCertificationResultDTO",
             getStudentResults:"monitoringStudentsProgress/getStudentResults/:lessonId"
-
         },
         ReportOnProgress:{
-            get:"monitoringStudentsProgress/onProgress/:professorId"
+            get:"monitoringStudentsProgress/onProgress/:userId"
+        },
+        IntermadiateCertification:{
+            get:"monitoringStudentsProgress/getIntermediateCertification/:lessonId"
         }
     }
 };

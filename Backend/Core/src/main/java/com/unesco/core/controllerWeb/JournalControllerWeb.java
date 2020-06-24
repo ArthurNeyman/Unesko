@@ -2,12 +2,10 @@ package com.unesco.core.controllerWeb;
 
 import com.unesco.core.controller.JournalController;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
-import com.unesco.core.dto.certification.CertificationDTO;
 import com.unesco.core.dto.journal.JournalDTO;
 import com.unesco.core.dto.journal.LessonEventDTO;
 import com.unesco.core.dto.journal.VisitationConfigDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;

@@ -129,8 +129,10 @@ import {AcademicPerformanceReportComponent} from "../components/academiPerforman
 
 import {LessonCertificationSettingsComponent} from "../components.page/adminPanel/lessonCertificationSettings/lessonCertificationSettings.component";
 import {LessonCertificationComponent, ListenInputCertification} from "../components/lessonCertification/lessonCertification.component"
-import { TeacherProfileComponent } from '../components/studentInterface/teacherProfile/teacherProfile.component';
+import {TeacherProfileComponent } from '../components/StudentInterface/teacherProfile/teacherProfile.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+
+import {MonitoringStudentsProgress} from "../services/monitoringStudentsProgress.service"
 
 registerLocaleData(localeRu);
 
@@ -264,7 +266,8 @@ registerLocaleData(localeRu);
         PluginService,
         FileService,
         ExcelService,
-        LessonCertificationService
+        LessonCertificationService,
+        MonitoringStudentsProgress
     ],
     bootstrap: [
         AppComponent

@@ -27,14 +27,9 @@ export class JournalComponent implements OnInit {
                 this.activeItem=this.items[0];
             }        
         },{
-            label: 'Успеваемость',
-            command: (event) => {
-                this.activeItem=this.items[1];
-            }
-        },{
             label: 'Текущая аттестация',
             command: (event) => {
-                this.activeItem=this.items[2];
+                this.activeItem=this.items[1];
             }
         }]
 

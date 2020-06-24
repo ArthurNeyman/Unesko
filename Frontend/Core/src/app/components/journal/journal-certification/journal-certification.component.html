@@ -12,9 +12,6 @@
                     <p-calendar  dateFormat="dd.mm.yy" [locale]="ru" appendTo="body" placeholder="Конец" [(ngModel)]="reportEndDate">
                     </p-calendar>
                 </div>
-                <!-- <div style="margin-top: 2rem;width: 100%;text-align: center;">
-                    <p-checkbox binary="true" label="По посещаемости" [(ngModel)]="onlyVisitation"> </p-checkbox>
-                </div> -->
 
                 <div class="text-center" style="margin-top: 1em;">
                     <button (click)="getCertification()" class="btn btn-default btn-sm">Создать</button>
@@ -37,7 +34,7 @@
 
         <div *ngIf="selectedCertification" class="ui-g-9">
            
-            <p-table scrollHeight="330px" [scrollable]="true" [value]="selectedCertification.certificationValueDTOList">
+            <p-table scrollHeight="330px" [scrollable]="true" [value]="selectedCertification.currentCertificationValueDTOList">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Студент</th>

@@ -1,21 +1,20 @@
 package com.unesco.core.dto.certification;
 
-import com.unesco.core.dto.plan.EducationPeriodDTO;
-import com.unesco.core.dto.shedule.GroupDTO;
 import com.unesco.core.dto.shedule.LessonDTO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-public class CertificationDTO {
+public class CurrentCertificationDTO {
 
     private long id;
     private Date startDate;
     private Date endDate;
     private LessonDTO lesson;
-    private List<CertificationValueDTO> certificationValueDTOList;
+    private List<CurrentCertificationValueDTO> currentCertificationValueDTOList;
 
-    public CertificationDTO() {
+    public CurrentCertificationDTO() {
     }
 
     public long getId() {
@@ -50,11 +49,11 @@ public class CertificationDTO {
         this.lesson = lesson;
     }
 
-    public List<CertificationValueDTO> getCertificationValueDTOList() {
-        return certificationValueDTOList;
+    public List<CurrentCertificationValueDTO> getCurrentCertificationValueDTOList() {
+        return this.currentCertificationValueDTOList;
     }
 
-    public void setCertificationValueDTOList(List<CertificationValueDTO> certificationValueDTOList) {
-        this.certificationValueDTOList = certificationValueDTOList;
+    public void setCurrentCertificationValueDTOList(List<CurrentCertificationValueDTO> currentCertificationValueDTOList) {
+        this.currentCertificationValueDTOList = currentCertificationValueDTOList;
     }
 }

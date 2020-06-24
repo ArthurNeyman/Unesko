@@ -5,15 +5,17 @@ import com.unesco.core.entities.account.StudentEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="un_certification_value")
-public class CertificationValueEntity {
+@Table(name="un_current_certification_value")
+public class CurrentCertificationValueEntity {
+
     @Id
     @SequenceGenerator(name = "certificationValueSequenceGen", sequenceName = "certificationValueSequenceGen", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "certificationValueSequenceGen")
     private long id;
 
-    @Column(name = "certification_id")
-    private long certificationId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "current_certification_id")
+    private CurrentCertificationEntity currentCertification;
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
@@ -24,6 +26,14 @@ public class CertificationValueEntity {
 
     @Column(name ="missed_academic_hours")
     private int missedAcademicHours;
+
+    public CurrentCertificationEntity getCurrentCertification() {
+        return currentCertification;
+    }
+
+    public void setCurrentCertification(CurrentCertificationEntity currentCertification) {
+        this.currentCertification = currentCertification;
+    }
 
     public long getId() {
         return id;
@@ -43,14 +53,6 @@ public class CertificationValueEntity {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getCertificationId() {
-        return certificationId;
-    }
-
-    public void setCertificationId(long certificationId) {
-        this.certificationId = certificationId;
     }
 
     public void setStudent(StudentEntity student) {

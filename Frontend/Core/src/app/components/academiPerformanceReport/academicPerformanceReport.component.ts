@@ -45,8 +45,8 @@ export class AcademicPerformanceReportComponent implements OnInit{
 
     load(){
         this.show=false;
-        this.journalService.getAcademiPerformanceReport(this.semesterNumberYear, this.user.id.toString()).subscribe(
-            result=>{
+        this.journalService.getAcademiPerformanceReport(this.semesterNumberYear, this.user.id).subscribe(
+            result=>{        
                 this.data=result.data;
                 this.show=true;
                 this.selectedLessons=new Array(result.data.lessonList.length).fill(false)                
@@ -58,14 +58,13 @@ export class AcademicPerformanceReportComponent implements OnInit{
 
     public exportAsXLSX(){    
 
-        // this.excelService.exportAsExcelFile(this.getLessonsForExcelTest(this.testData))
-
        this.excelService.exportAsExcelFile(this.getLessonsForExcel(
         this.data.lessonList.filter((element)=>{
             return this.selectedLessons[this.data.lessonList.indexOf(element)]})))
     }
 
     public exportOneAsXLSX(lesson){
+
        this.excelService.exportAsExcelFile(this.getLessonsForExcel(lesson));
     }
 
@@ -75,17 +74,17 @@ export class AcademicPerformanceReportComponent implements OnInit{
         
         for(let k=0;k<lesson.length;k++){
             ar=[]
-            for (let i=0;i<lesson[k].studentCertification.length;i++)
+            for (let i=0;i<lesson[k].infoList.length;i++)
             {
                 ar.push({
-                    "Студент":lesson[k].studentCertification[i].student.user.userFIO,
-                    "Посещено занятий": lesson[k].studentCertification[i].visitationValue/2,
-                    "Макс. занятий":(lesson[k].studentCertification[i].missingHours+lesson[k].studentCertification[i].visitationValue)/2,
-                    "Получено баллов":this.getSumValue(lesson[k].studentCertification[i]),
-                    "Макс. баллов":lesson[k].allEventValue
+                    "Студент":lesson[k].infoList[i].student.user.userFIO,
+                    "Посещено занятий": lesson[k].infoList[i].visitationValue,
+                    "Пропущено занятий":lesson[k].maxVisitationValue-lesson[k].infoList[i].visitationValue,
+                    "Получено баллов":lesson[k].infoList[i].eventValue,
+                    "Макс. баллов":lesson[k].maxEventValue
                 })
             }
-            list[lesson[k].lesson.group.name+'_'+lesson[k].lesson.discipline.name]=ar
+            list[lesson[k].lessonDTO.group.name+'_'+lesson[k].lessonDTO.discipline.name]=ar
         }
         return list
     }
@@ -96,14 +95,11 @@ export class AcademicPerformanceReportComponent implements OnInit{
 
     private changeField(value){        
                 
-         this.selectedLessons.filter(el=>el).forEach(el=>{
-            this.service.getStudResults(this.data.lessonList[this.selectedLessons.indexOf(el)].lesson).subscribe(
-                res=>{
-                    this.testData.push(res.data);
-                }
-            )
-        })
-       
+        for(let i in this.selectedLessons){
+            if(this.selectedLessons[i])
+                this.testData.push(this.data[i])
+        }
+              
         switch(value){
             case("create-online-report"):{
                 if(this.selectedLessons.indexOf(true)==-1)
@@ -120,36 +116,5 @@ export class AcademicPerformanceReportComponent implements OnInit{
             }
         }
     }
-
-    private getSumValue(cert){
-        let sum=0;
-        for(let i=0;i<cert.eventValue.length;i++)
-            sum+=Number(cert.eventValue[i].value)
-        return sum;
-    }
-
-    // private getLessonsForExcelTest(lesson){
-    //     let ar:any=[];
-    //     let list=[];
-    //     let obj:any=[];
-    //     let names:any
-
-    //     names={ "Студент":[]}
-
-    //     for(let k=0;k<lesson.length;k++){
-    //         ar=[]
-    //         let array=lesson[k]
-    //         for(let i=0;i<array.length;i++){
-                
-    //             names={ ...names,
-    //                [array[i].lessonEventDTO.comment] : [] 
-    //             }
-    //         }
-    //         }
-    //         list["test"]=ar        
-    //         console.log(names);
-            
-    //     return list
-    // }
 }
 

@@ -6,6 +6,7 @@ import { CertificationReport, CertificationStudent } from '../../../models/journ
 import { DatePipe } from "@angular/common";
 import { MessageService } from 'primeng/api';
 import { Certification, CertificationValue } from '../../../models/journal/certification.model';
+import { MonitoringStudentsProgress } from '../../../services/monitoringStudentsProgress.service';
 
 
 @Component({
@@ -27,9 +28,8 @@ export class JournalCertificationComponent implements OnInit {
     public ru: any;
     public certificationList: Certification[]
     public selectedCertification: Certification
-    public onlyVisitation:boolean=false;
 
-    constructor(private messageService: MessageService, private journalService: JournalService) {
+    constructor(private messageService: MessageService, private monitoringService: MonitoringStudentsProgress) {
     }
 
     ngOnInit(): void {
@@ -51,10 +51,9 @@ export class JournalCertificationComponent implements OnInit {
         if (this.reportStartDate && this.reportEndDate) {
             let start = this.datePipe.transform(this.reportStartDate, "yyyy-MM-dd");
             let end = this.datePipe.transform(this.reportEndDate, "yyyy-MM-dd");
-            this.journalService.GetJournalCertificationReport(this.lesson.id, start, end, this.lesson.semesterNumberYear,this.onlyVisitation).subscribe(
-                result => {
-                    console.log(result.data);
-                    
+            
+            this.monitoringService.GetJournalCertificationReport(this.lesson.id, start, end).subscribe(
+                result => {                   
                     this.selectedCertification = this.getCertificationForSave(result.data)
                 }, error => {
 
@@ -65,9 +64,10 @@ export class JournalCertificationComponent implements OnInit {
     }
 
     getCertificationList() {
-        this.journalService.getCertificationList(this.lesson.id).subscribe(
+        this.monitoringService.getCertificationList(this.lesson.id).subscribe(
             result => {
                 this.certificationList = result.data
+
                 this.certificationList = [...this.certificationList.map((el): Certification => {
                     el['name'] = this.datePipe.transform(el.startDate, "dd.MM.yyyy") + "-" + this.datePipe.transform(el.endDate, "dd.MM.yyyy");
                     return el
@@ -92,11 +92,13 @@ export class JournalCertificationComponent implements OnInit {
             this.lesson)
     }
 
-    saveCertification() {                  
-        this.journalService.saveCertification(this.selectedCertification).subscribe(
+    saveCertification() {              
+        console.log(this.selectedCertification);
+            
+        this.monitoringService.saveCertification(this.selectedCertification).subscribe(
             (result) => {                
-                this.selectedCertification = result.data
-                if (result.status == "OK") {
+                this.selectedCertification = result.data                
+                if (result.status == "OK") {                    
                     this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Аттестация сохранена' });
                     this.getCertificationList()
                 }
@@ -105,7 +107,7 @@ export class JournalCertificationComponent implements OnInit {
     }
 
     deleteCertification() {
-        this.journalService.deleteCertification(this.selectedCertification).subscribe(result => {
+        this.monitoringService.deleteCertification(this.selectedCertification).subscribe(result => {
             if (result.status == "OK") {
                 this.getCertificationList();
                 this.selectedCertification = null

@@ -39,10 +39,10 @@
             <div class="ui-g-12 ui-card" *ngFor="let lesson of data.lessonList;let i=index" style="height:70px;margin:0.2%;">
                 <div class="ui-g">
                     <div class="ui-g-2" style="text-align:center; font-size:20px;">
-                        {{lesson.lesson.group.name}}
+                        {{lesson.lessonDTO.group.name}}
                     </div>
                     <div class="ui-g-8" style="font-size:20px;">
-                        {{lesson.lesson.discipline.name}}  
+                        {{lesson.lessonDTO.discipline.name}}  
                     </div>
                     <div class="ui-g-2" >
                         <div class="ui-g" >
@@ -69,14 +69,14 @@
         <p-accordion [multiple]="true">
                 <div  *ngFor="let lesson of data.lessonList;let i=index" style="margin-top:1%;" >
                            
-                    <p-accordionTab   *ngIf="selectedLessons[i]" header="{{lesson.lesson.group.name}} {{lesson.lesson.discipline.name}}">
+                    <p-accordionTab   *ngIf="selectedLessons[i]" header="{{lesson.lessonDTO.group.name}} {{lesson.lessonDTO.discipline.name}}">
                        
-                        <p-table  scrollHeight="320px" [scrollable]="true" [value]="lesson.studentCertification">
+                        <p-table  scrollHeight="320px" [scrollable]="true" [value]="lesson.infoList">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>Студент</th>
                                     <th>Посещено занятий</th>
-                                    <th>Макс. занятий</th>
+                                    <th>Пропущено занятий</th>
                                     <th>Получено баллов</th>
                                     <th>Макс. баллов</th>
                                 </tr>
@@ -84,10 +84,10 @@
                             <ng-template pTemplate="body" let-cert>
                                 <tr>
                                     <td>{{cert.student.user.userFIO}}</td>
-                                    <td>{{cert.visitationValue/2}}</td>
-                                    <td>{{(cert.missingHours+cert.visitationValue)/2}}</td>
-                                    <td>{{getSumValue(cert)}}</td> 
-                                    <td>{{lesson.allEventValue}}</td>
+                                    <td>{{cert.visitationValue}}</td>
+                                    <td>{{lesson.maxVisitationValue - cert.visitationValue}}</td>
+                                    <td>{{cert.eventValue}}</td> 
+                                    <td>{{lesson.maxEventValue}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>

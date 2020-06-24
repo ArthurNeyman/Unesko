@@ -5,6 +5,7 @@ import com.unesco.core.dto.shedule.PairDTO;
 import java.util.List;
 
 public class ComparisonPointDTO {
+
     private PointTypeDTO type;
     private PairDTO pair;
 

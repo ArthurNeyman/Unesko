@@ -2,20 +2,16 @@ package com.unesco.core.controller;
 
 import com.unesco.core.dto.account.ProfessorDTO;
 import com.unesco.core.dto.additional.ResponseStatusDTO;
-import com.unesco.core.dto.certification.CertificationDTO;
 import com.unesco.core.dto.enums.StatusTypes;
-import com.unesco.core.dto.journal.CertificationReportDto;
 import com.unesco.core.dto.journal.JournalDTO;
 import com.unesco.core.dto.journal.LessonEventDTO;
 import com.unesco.core.dto.journal.VisitationConfigDTO;
-import com.unesco.core.dto.report.ReportAcademicPerformanceDto;
-import com.unesco.core.dto.shedule.LessonDTO;
 import com.unesco.core.managers.journal.VisitationConfigManager.interfaces.IVisitationConfigManager;
 import com.unesco.core.managers.journal.journalManager.interfaces.journal.IJournalManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEvent.ILessonEventManager;
 import com.unesco.core.managers.journal.lessonEvent.interfaces.lessonEventList.ILessonEventListManager;
 import com.unesco.core.services.dataService.account.professorService.ProfessorDataService;
-import com.unesco.core.services.dataService.journal.certification.ICertificationService;
+import com.unesco.core.services.dataService.journal.certification.ICurrentCertificationDataService;
 import com.unesco.core.services.dataService.journal.journal.IJournalDataService;
 import com.unesco.core.services.dataService.journal.lessonEvent.ILessonEventDataService;
 import com.unesco.core.services.dataService.journal.visitation.IVisitationConfigDataService;
@@ -24,7 +20,6 @@ import com.unesco.core.services.dataService.schedule.lessonService.ILessonDataSe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,8 +49,6 @@ public class JournalController {
     @Autowired
     private EducationPeriodService educationPeriodService;
 
-    @Autowired
-    private ICertificationService certificationService;
 
     private ProfessorDTO professor;
 

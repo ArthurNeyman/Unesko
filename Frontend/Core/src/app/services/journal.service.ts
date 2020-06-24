@@ -69,22 +69,6 @@ export class JournalService {
             );
     }
 
-    public GetJournalCertificationReport(lessonId, start, end, semesterNumberYear: SemesterNumberYear,visitationOnly:boolean): Observable<ResponseStatus> {
-        let params = new HttpParams();
-        params = params.set("start", start);
-        params = params.set("end", end);
-        params = params.set("semester", semesterNumberYear.semester.toString());
-        params = params.set("year", semesterNumberYear.year.toString());
-        params = params.set("visitationOnly", visitationOnly ? "1" : "0");
-
-        return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.Certification.certification
-            .replace(":lessonId", lessonId), { params: params })
-            .pipe(
-                map((res: ResponseStatus) => res),
-                catchError(e => this.handleError.handle(e))
-            );
-    }
-
     public GetJournalDates(lessonId, semesterNumberYear: SemesterNumberYear): Observable<ResponseStatus> {
         let params = new HttpParams();
         params = params.set("semester", semesterNumberYear.semester.toString());
@@ -171,13 +155,27 @@ export class JournalService {
     }
 
     //Получить отчет по профессору
-    public getAcademiPerformanceReport(semesterNumberYear: SemesterNumberYear, professorId: string) {
+    public getAcademiPerformanceReport(semesterNumberYear: SemesterNumberYear, userId) {
         let params = new HttpParams();
         params = params.set("semester", semesterNumberYear.semester.toString());
         params = params.set("year", semesterNumberYear.year.toString());
 
         return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.ReportOnProgress.get
-            .replace(":professorId", professorId), { params: params })
+            .replace(":userId", userId), { params: params })
+            .pipe(
+                map((res: ResponseStatus) => res),
+                catchError(e => this.handleError.handle(e))
+            );
+    }
+
+    
+    public GetJournalCertificationReport(lessonId, start, end): Observable<ResponseStatus> {
+        let params = new HttpParams();
+        params = params.set("start", start);
+        params = params.set("end", end);
+
+        return this.http.get(ApiRouteConstants.MonitoringStudentsProgress.Certification.certification
+            .replace(":lessonId", lessonId), { params: params })
             .pipe(
                 map((res: ResponseStatus) => res),
                 catchError(e => this.handleError.handle(e))

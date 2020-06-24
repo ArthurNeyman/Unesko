@@ -3,11 +3,11 @@ package com.unesco.core.entities.certification;
 import com.unesco.core.entities.schedule.LessonEntity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
-@Table(name="un_certification")
-public class CertificationEntity {
+@Table(name="un_current_certification")
+public class CurrentCertificationEntity {
 
     @Id
     @SequenceGenerator(name = "certificationSequenceGen", sequenceName = "certificationSequenceGen", allocationSize = 1)
@@ -24,7 +24,10 @@ public class CertificationEntity {
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private LessonEntity lesson;
 
-    public CertificationEntity() {
+    @OneToMany(mappedBy = "currentCertification",cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    private List<CurrentCertificationValueEntity> currentCertificationValueEntities=new ArrayList<>();
+
+    public CurrentCertificationEntity() {
     }
 
     public long getId() {
@@ -57,5 +60,13 @@ public class CertificationEntity {
 
     public LessonEntity getLesson() {
         return lesson;
+    }
+
+    public List<CurrentCertificationValueEntity> getCurrentCertificationValueEntities() {
+        return currentCertificationValueEntities;
+    }
+
+    public void setCurrentCertificationValueEntities(List<CurrentCertificationValueEntity> currentCertificationValueEntities) {
+        this.currentCertificationValueEntities = currentCertificationValueEntities;
     }
 }

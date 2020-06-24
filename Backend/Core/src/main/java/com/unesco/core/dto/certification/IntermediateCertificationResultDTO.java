@@ -3,19 +3,29 @@ package com.unesco.core.dto.certification;
 import com.unesco.core.dto.account.StudentDTO;
 
 import java.util.Date;
+import java.util.List;
 
-public class LessonCertificationResultDTO {
+
+public class IntermediateCertificationResultDTO {
 
     private long id;
     private long lessonCertificationId;
     private StudentDTO studentDTO;
-
     private int certificationScore;//аттестационный балл
     private float totalScore;//общий балл
     private boolean absence;//неяка
     private Date ratingDate;//дата
     private int currentScore;//текущий балл
     private String Mark;
+    private List<IntermediateCertificationEventDTO> events;
+
+    public List<IntermediateCertificationEventDTO> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<IntermediateCertificationEventDTO> events) {
+        this.events = events;
+    }
 
     public String getMark() {
         return Mark;

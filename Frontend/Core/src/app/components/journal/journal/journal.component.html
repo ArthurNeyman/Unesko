@@ -7,13 +7,8 @@
             [semesterNumberYear]="this.semesterNumberYear">
 </journal-fill>
 
-<!-- Компонент успеваемости группы -->
-<lesson-certification *ngIf="this.activeItem==this.items[1]"
-                        [user]="this.lesson.professor.user">
-</lesson-certification>
-
 <!-- Компонент формирования и отображения аттестации -->
-<journal-certification *ngIf="this.activeItem==this.items[2]"
+<journal-certification *ngIf="this.activeItem==this.items[1]"
                         [lesson]="this.lesson" 
                         [semesterNumberYear]="this.semesterNumberYear">
 </journal-certification>
